@@ -1,0 +1,35 @@
+<resources>
+
+    <style name="Base.Theme.LeafIDE" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">#FF4D5C92</item>
+        <item name="colorOnPrimary">#FFFFFFFF</item>
+        <item name="colorPrimaryContainer">#FFDCE1FF</item>
+        <item name="colorOnPrimaryContainer">#FF03174B</item>
+        <item name="colorPrimaryInverse">#FFB6C4FF</item>
+        <item name="colorSecondary">#FF595D72</item>
+        <item name="colorOnSecondary">#FFFFFFFF</item>
+        <item name="colorSecondaryContainer">#FFDEE1F9</item>
+        <item name="colorOnSecondaryContainer">#FF161B2C</item>
+        <item name="colorTertiary">#FF75546F</item>
+        <item name="colorOnTertiary">#FFFFFFFF</item>
+        <item name="colorTertiaryContainer">#FFFFD7F6</item>
+        <item name="colorOnTertiaryContainer">#FF2C122A</item>
+        <item name="android:colorBackground">#FFFEFBFF</item>
+        <item name="colorOnBackground">#FF1B1B1F</item>
+        <item name="colorSurface">#FFFEFBFF</item>
+        <item name="colorOnSurface">#FF1B1B1F</item>
+        <item name="colorSurfaceVariant">#FFE2E1EC</item>
+        <item name="colorOnSurfaceVariant">#FF45464F</item>
+        <item name="colorSurfaceInverse">#FF303034</item>
+        <item name="colorOnSurfaceInverse">#FFF2F0F4</item>
+        <item name="colorError">#FFB3261E</item>
+        <item name="colorOnError">#FFFFFFFF</item>
+        <item name="colorErrorContainer">#FFF9DEDC</item>
+        <item name="colorOnErrorContainer">#FF410E0B</item>
+        <item name="colorOutline">#FF75757F</item>
+        <item name="colorOutlineVariant">#FFCAC4D0</item>
+    </style>
+
+    <style name="Theme.LeafIDE" parent="Base.Theme.LeafIDE" />
+
+</resources>
