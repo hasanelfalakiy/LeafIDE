@@ -1,0 +1,4 @@
+<resources>
+    <string name="is_ui_dark" translatable="false">false</string>
+    <string name="language">en</string>
+</resources>

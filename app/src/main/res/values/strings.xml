@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">Leaf IDE</string>
+    <string name="app_name" translatable="false">Leaf IDE</string>
+    <string name="privacy_policy">Privacy Policy</string>
 </resources>

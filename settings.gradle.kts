@@ -1,5 +1,8 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":plugin-api")
+
+
 pluginManagement {
     includeBuild("build-logic")
     repositories {
@@ -18,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "LeafIDE"
 include(":app")
+include(":common")

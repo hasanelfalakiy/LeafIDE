@@ -11,5 +11,4 @@ object Versions {
     val javaVersion = JavaVersion.VERSION_17
     const val jvmToolchainVersion = 17
 
-
 }
