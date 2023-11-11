@@ -1,0 +1,27 @@
+<Introduction>
+    The "User Agreement" {hereinafter referred to as "this Agreement"} is a legal agreement between the user {hereinafter referred to as "you"} and the developer {hereinafter referred to as "us"} regarding the use of various services. If you do not agree, we will not be able to provide you with services. By clicking the button with the "←" icon at the bottom, you reject this agreement, and by clicking the button with the "→" icon at the bottom, you agree to this agreement.
+<About This Software>
+    This software {Leaf IDE} is an integrated development environment software, pursuing the completion of project development on mobile phones. Support plugins for multi-project environment support. Use Leaf Flow to complete project sharing, collaborative development, and plugin downloads.
+<Service And Usage>
+    The services we provide require you to comply with the following regulations:
+
+    (1. Do not oppose the basic principles established by the Constitution. Do not endanger national security, leak state secrets, subvert state power, or undermine national unity. Do not damage national honor and interests. Do not incite ethnic hatred, ethnic discrimination, or undermine ethnic unity.)
+
+    (2. Do not undermine national religious policies, promote cults and feudal superstitions. Do not spread rumors, disrupt social order, or undermine social stability. Do not spread obscenity, pornography, gambling, violence, murder, terror, or instigate crimes. Do not insult or slander others, infringe upon the legal rights of others.)
+
+    (3. Other content prohibited by laws and administrative regulations shall not be violated.)
+
+    (4. Reverse engineering such as packet capture and decompilation is not allowed on the software. Copyright information and secondary packaging are not allowed.)
+
+    (For users who violate the agreement, we will pursue legal responsibility {including but not limited to litigation}).
+<Privacy Policy>
+    (See previous page for details on the Privacy Policy.)
+<Disclaimer>
+    We are not responsible for any consequences caused by the user's use of the software, and all responsibilities are borne by the user, and we have the right to unilaterally terminate the service.
+<Interpretation>
+    All interpretation rights belong to us.
+<Copyright Notice>
+    (Copyright © 2023 SuMuCheng{苏沐橙} All Rights Reserved.)
+<Release Date>
+    (This agreement was released on: 2023/8/27)
+    (This agreement was updated on: 2023/8/27)

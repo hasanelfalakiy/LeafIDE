@@ -1,0 +1,23 @@
+<Introduction>
+    When users {hereinafter referred to as "you"} use the services provided by developers {hereinafter referred to as "we"}, we may collect and use your relevant information. According to regulations, we need to explain to you the relevant information that may be collected and its use. If you do not agree, we will not be able to provide you with services. We will keep the relevant information collected strictly confidential. Please read the following content carefully before you use it. Clicking the button with the "X" icon at the bottom means you reject this policy, and clicking the button with the "→" icon at the bottom means you agree to this policy.
+<How To Collect And Use Relevant Information>
+    (1.Device information and log information)
+
+    (Purpose of use: )In order to ensure the normal use and operation of the service, provide users with a personalized experience, and send log data for repair when the software crashes.
+
+    (Information description: )The information we collect includes device model, operating system, system version, unique device identifier {IMEI}, device or LAN IP address, kernel version, etc.
+
+    (2.External storage)
+
+    (Purpose of use: )When you use this software to import external files, we need to access your external storage. When you use this software to create a project, you will use persistent storage, and we will store it in the sdcard directory.
+
+    (Information description: )The external storage sdcard stores photos, audio, video and other media files, and the files will not be affected after the software is deleted. In order not to delete project files by mistake when you delete the software, we will need relevant storage permissions.
+
+    (3.Engineering data)
+
+    (Purpose of use: )In order to ensure the normal use and operation of plugin services, self-check and repair, error reporting and use of Leaf Flow services, etc.
+
+    (Information description: )We will collect your project data, including cache files, logs, plugin information, project information {such as project name, project size, number of files, project type, etc.}, internal project information of plugins, etc.
+<Release Date>
+    (This policy was published on: 2023/8/27)
+    (This policy was updated on: 2023/8/27)

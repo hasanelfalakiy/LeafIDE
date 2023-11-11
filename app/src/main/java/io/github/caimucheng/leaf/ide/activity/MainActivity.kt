@@ -1,6 +1,8 @@
 package io.github.caimucheng.leaf.ide.activity
 
 import android.os.Bundle
+import android.widget.EditText
+import android.widget.TextView
 import io.github.caimucheng.leaf.ide.databinding.ActivityMainBinding
 
 class MainActivity : BaseActivity() {

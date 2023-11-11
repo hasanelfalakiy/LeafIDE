@@ -2,6 +2,8 @@
 
     <style name="Base.Theme.LeafIDE" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:statusBarColor">#FF1B1B1F</item>
+        <item name="colorAccent">#FFB6C4FF</item>
+        <item name="android:textColorHighlight">#66B6C4FF</item>
         <item name="colorPrimary">#FFB6C4FF</item>
         <item name="colorOnPrimary">#FF1D2D61</item>
         <item name="colorPrimaryContainer">#FF354479</item>
