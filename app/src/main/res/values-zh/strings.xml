@@ -3,4 +3,11 @@
     <string name="privacy_policy">隐私政策</string>
     <string name="user_agreement">用户协议</string>
     <string name="launch_mode">启动模式</string>
+    <string name="launch_from_external_storage">从外部存储启动</string>
+    <string name="launch_from_external_storage_summary">将工程文件存放到外部存储</string>
+    <string name="launch_from_internal_storage">从内部存储启动</string>
+    <string name="launch_from_internal_storage_summary">将工程文件存放到内部存储</string>
+    <string name="no_writable_and_readable">读写权限被拒绝</string>
+    <string name="no_writable">写入权限被拒绝</string>
+    <string name="no_readable">读取权限被拒绝</string>
 </resources>

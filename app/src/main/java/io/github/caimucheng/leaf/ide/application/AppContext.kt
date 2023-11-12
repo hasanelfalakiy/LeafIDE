@@ -1,6 +1,7 @@
 package io.github.caimucheng.leaf.ide.application
 
 import android.app.Application
+import es.dmoral.toasty.Toasty
 
 class AppContext : Application() {
 
@@ -14,6 +15,11 @@ class AppContext : Application() {
     override fun onCreate() {
         super.onCreate()
         current = this
+
+        Toasty.Config.getInstance()
+            .allowQueue(false)
+            .supportDarkTheme(true)
+            .apply()
     }
 
 }

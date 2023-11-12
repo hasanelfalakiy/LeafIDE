@@ -3,13 +3,13 @@ package io.github.caimucheng.leaf.ide.depository
 import android.graphics.Typeface
 import android.text.Spannable
 import android.text.SpannedString
-import android.text.style.AbsoluteSizeSpan
-import android.text.style.LeadingMarginSpan
-import android.text.style.LineHeightSpan
 import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
+import androidx.core.content.edit
 import androidx.core.text.buildSpannedString
 import io.github.caimucheng.leaf.ide.application.AppContext
+import io.github.caimucheng.leaf.ide.util.launchModeSharedPreferences
+import io.github.caimucheng.leaf.ide.viewmodel.LaunchMode
 import io.github.caimucheng.leaf.ide.viewmodel.SplashPage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -152,10 +152,18 @@ class SplashDepository {
                     else -> {
                         append(
                             token.text,
-//                                SpanStyle(color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.9f))
                         )
                     }
                 }
+            }
+        }
+    }
+
+    suspend fun initializeLaunchMode(launchMode: LaunchMode) {
+        return withContext(Dispatchers.IO) {
+            val sharedPreferences = AppContext.current.launchModeSharedPreferences
+            sharedPreferences.edit {
+                putString("launchMode", launchMode.name)
             }
         }
     }

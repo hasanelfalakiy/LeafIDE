@@ -1,8 +1,6 @@
 package io.github.caimucheng.leaf.ide.viewmodel
 
-import android.text.SpannableString
 import android.text.SpannedString
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewModelScope
 import io.github.caimucheng.leaf.common.mvi.MVIViewModel
 import io.github.caimucheng.leaf.common.mvi.UiIntent
@@ -19,18 +17,29 @@ enum class SplashPage {
     LaunchMode
 }
 
+enum class LaunchMode {
+    LaunchFromExteralStorage,
+    LaunchFromInternalStorage
+}
+
 data class SplashUiState(
     val titleResId: Int = R.string.privacy_policy,
     val content: SpannedString? = null,
     val page: SplashPage = SplashPage.PrivacyPolicy,
-    val previousState: SplashUiState? = null
+    val previousState: SplashUiState? = null,
+    val selectedLaunchMode: LaunchMode = LaunchMode.LaunchFromExteralStorage,
+    val initializedLaunchMode: Boolean = false
 ) : UiState()
 
 sealed class SplashUiIntent : UiIntent() {
     data object NextPage : SplashUiIntent()
     data object PreviousPage : SplashUiIntent()
 
+    data object InitializeLaunchMode : SplashUiIntent()
+
     data class GetContent(val page: SplashPage) : SplashUiIntent()
+
+    data class SelectLaunchMode(val launchMode: LaunchMode) : SplashUiIntent()
 }
 
 class SplashViewModel : MVIViewModel<SplashUiState, SplashUiIntent>() {
@@ -39,12 +48,6 @@ class SplashViewModel : MVIViewModel<SplashUiState, SplashUiIntent>() {
 
     override fun initialValue(): SplashUiState {
         return SplashUiState()
-    }
-
-    init {
-        viewModelScope.launch {
-            intent.send(SplashUiIntent.GetContent(state.value.page))
-        }
     }
 
     override fun handleIntent(intent: SplashUiIntent, currentState: SplashUiState) {
@@ -60,15 +63,34 @@ class SplashViewModel : MVIViewModel<SplashUiState, SplashUiIntent>() {
             SplashUiIntent.PreviousPage -> {
                 previousPage()
             }
+
+            is SplashUiIntent.SelectLaunchMode -> {
+                selectLaunchMode(intent.launchMode)
+            }
+
+            SplashUiIntent.InitializeLaunchMode -> {
+                initializeLaunchMode(state.value.selectedLaunchMode)
+            }
+        }
+    }
+
+    private fun initializeLaunchMode(launchMode: LaunchMode) {
+        viewModelScope.launch {
+            splashDepository.initializeLaunchMode(launchMode)
+            setState(state.value.copy(previousState = state.value, initializedLaunchMode = true))
+        }
+    }
+
+    private fun selectLaunchMode(launchMode: LaunchMode) {
+        viewModelScope.launch {
+            setState(state.value.copy(previousState = state.value, selectedLaunchMode = launchMode))
         }
     }
 
     private fun previousPage() {
         viewModelScope.launch {
-            when (val currentPage = state.value.page) {
-                SplashPage.PrivacyPolicy -> {
-
-                }
+            when (state.value.page) {
+                SplashPage.PrivacyPolicy -> {}
 
                 SplashPage.UserAgreement -> {
                     val content =
@@ -109,7 +131,7 @@ class SplashViewModel : MVIViewModel<SplashUiState, SplashUiIntent>() {
 
     private fun nextPage() {
         viewModelScope.launch {
-            when (val currentPage = state.value.page) {
+            when (state.value.page) {
                 SplashPage.PrivacyPolicy -> {
                     val content =
                         splashDepository.getContent(
@@ -144,9 +166,7 @@ class SplashViewModel : MVIViewModel<SplashUiState, SplashUiIntent>() {
                     )
                 }
 
-                SplashPage.LaunchMode -> {
-
-                }
+                SplashPage.LaunchMode -> {}
             }
         }
     }

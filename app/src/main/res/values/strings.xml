@@ -3,4 +3,11 @@
     <string name="privacy_policy">Privacy Policy</string>
     <string name="user_agreement">User Agreement</string>
     <string name="launch_mode">Launch Mode</string>
+    <string name="launch_from_external_storage">Launch From External Storage</string>
+    <string name="launch_from_external_storage_summary">Save project files to external storage</string>
+    <string name="launch_from_internal_storage">Launch From Internal Storage</string>
+    <string name="launch_from_internal_storage_summary">Save project files to internal storage</string>
+    <string name="no_writable_and_readable">Read and write permission denied</string>
+    <string name="no_writable">Write permission denied</string>
+    <string name="no_readable">Read permission denied</string>
 </resources>
