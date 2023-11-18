@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/baseline_home_24"
+        android:title="@string/home" />
+
+    <item
+        android:id="@+id/nav_plugin"
+        android:icon="@drawable/baseline_needle_24"
+        android:title="@string/plugin" />
+
+    <item
+        android:id="@+id/nav_leaf_flow"
+        android:icon="@drawable/baseline_energy_savings_leaf_24"
+        android:title="@string/leaf_flow" />
+
+    <item
+        android:id="@+id/nav_settings"
+        android:icon="@drawable/baseline_settings_24"
+        android:title="@string/settings" />
+
+</menu>

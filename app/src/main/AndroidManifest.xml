@@ -14,6 +14,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LeafIDE">
 
+        <receiver
+            android:name=".broadcast.PluginBroadcastReceiver"
+            android:enabled="true"
+            android:exported="false">
+
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <action android:name="android.intent.action.PACKAGE_REPLACED" />
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
+                <data android:scheme="package" />
+            </intent-filter>
+
+        </receiver>
+
         <activity
             android:name=".activity.MainActivity"
             android:exported="true">
@@ -22,6 +37,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".activity.CrashHandlerActivity" />
 
     </application>
 

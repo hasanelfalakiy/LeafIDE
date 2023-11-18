@@ -18,6 +18,8 @@ import es.dmoral.toasty.Toasty
 import io.github.caimucheng.leaf.ide.R
 import io.github.caimucheng.leaf.ide.application.AppContext
 import io.github.caimucheng.leaf.ide.databinding.FragmentSplashBinding
+import io.github.caimucheng.leaf.ide.util.isInitializedLaunchMode
+import io.github.caimucheng.leaf.ide.util.launchMode
 import io.github.caimucheng.leaf.ide.util.launchModeSharedPreferences
 import io.github.caimucheng.leaf.ide.viewmodel.LaunchMode
 import io.github.caimucheng.leaf.ide.viewmodel.SplashPage
@@ -77,10 +79,8 @@ class SplashFragment : Fragment() {
                 }
             }
 
-        val launchModeSharedPreferences = AppContext.current.launchModeSharedPreferences
-        val settedLaunchMode = launchModeSharedPreferences.getString("launchMode", null)
-        if (settedLaunchMode != null) {
-            when (LaunchMode.valueOf(settedLaunchMode)) {
+        if (AppContext.current.isInitializedLaunchMode) {
+            when (AppContext.current.launchMode) {
                 LaunchMode.LaunchFromExteralStorage -> {
                     val writable = ContextCompat.checkSelfPermission(
                         requireContext(),
@@ -164,7 +164,6 @@ class SplashFragment : Fragment() {
                     }
                     if (it.initializedLaunchMode) {
                         navController.navigate(R.id.action_splashFragment_to_mainFragment)
-                        cancel()
                     }
                 }
             }

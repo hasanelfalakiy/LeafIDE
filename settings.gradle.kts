@@ -1,5 +1,8 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":plugin-nodejs")
+
+
 include(":plugin-api")
 
 

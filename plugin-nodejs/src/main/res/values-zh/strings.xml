@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">适用于 Leaf IDE 的 NodeJS 插件</string>
+    <string name="plugin_description">支持创建、运行 nodejs 工程，且附带 npm、npx、corepack 等包管理器，以及默认的全局 node_modules</string>
+    <string name="plugin_author">苏沐橙</string>
+</resources>
