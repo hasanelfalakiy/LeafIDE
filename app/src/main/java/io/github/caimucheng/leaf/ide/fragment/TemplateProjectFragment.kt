@@ -1,38 +1,36 @@
-package io.github.caimucheng.leaf.ide.fragment.main
+package io.github.caimucheng.leaf.ide.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.github.caimucheng.leaf.ide.adapter.MainPluginAdapter
-import io.github.caimucheng.leaf.ide.databinding.FragmentMainPluginBinding
+import io.github.caimucheng.leaf.ide.adapter.TemplateAdapter
+import io.github.caimucheng.leaf.ide.databinding.FragmentTemplateProjectBinding
 import io.github.caimucheng.leaf.ide.model.Plugin
-import io.github.caimucheng.leaf.ide.viewmodel.AppIntent
+import io.github.caimucheng.leaf.ide.model.isEnabled
+import io.github.caimucheng.leaf.ide.model.isSupported
 import io.github.caimucheng.leaf.ide.viewmodel.AppViewModel
-import io.github.caimucheng.leaf.ide.viewmodel.MainViewModel
 import io.github.caimucheng.leaf.ide.viewmodel.PluginState
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
-class MainPluginFragment : Fragment() {
+class TemplateProjectFragment : Fragment() {
 
-    private lateinit var viewBinding: FragmentMainPluginBinding
-
-    private val mainViewModel: MainViewModel by viewModels()
+    private lateinit var viewBinding: FragmentTemplateProjectBinding
 
     private val plugins by lazy {
-        ArrayList<Plugin>(AppViewModel.state.value.plugins)
+        ArrayList<Plugin>(AppViewModel.state.value.plugins.filter { it.isSupported && it.isEnabled })
     }
 
     private val adapter by lazy {
-        MainPluginAdapter(
-            requireContext(),
-            plugins
+        TemplateAdapter(
+            requireContext()
         )
     }
 
@@ -41,7 +39,7 @@ class MainPluginFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewBinding = FragmentMainPluginBinding.inflate(inflater, container, false)
+        viewBinding = FragmentTemplateProjectBinding.inflate(inflater, container, false)
         return viewBinding.root
     }
 
@@ -50,7 +48,11 @@ class MainPluginFragment : Fragment() {
         setupRecyclerView()
 
         viewLifecycleOwner.lifecycleScope.launch {
-            AppViewModel.state.collectLatest {
+            AppViewModel.state.map {
+                it.copy(
+                    plugins = it.plugins.filter { plugin -> plugin.isSupported && plugin.isEnabled }
+                )
+            }.collectLatest {
                 when (it.pluginState) {
                     PluginState.Loading -> {
                         viewBinding.content.visibility = View.GONE
@@ -80,11 +82,12 @@ class MainPluginFragment : Fragment() {
                 }
             }
         }
+
     }
 
     private fun setupRecyclerView() {
         viewBinding.recyclerView.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
         viewBinding.recyclerView.adapter = adapter
     }
 

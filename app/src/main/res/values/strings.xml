@@ -27,4 +27,13 @@
     <string name="unsupported">Unsupported</string>
     <string name="no_project_or_plugins_for_projects">There is no project or plugin for the project</string>
     <string name="click_to_create_project">Click the floating button to create a project</string>
+    <string name="no_implementation">Not implemented here yet</string>
+    <string name="enable">Enable</string>
+    <string name="disable">Disable</string>
+    <string name="uninstall">Uninstall</string>
+    <string name="project_description">Project Description: %s</string>
+    <string name="plugin_support">Plugin Support: %s</string>
+    <string name="create_project">Create Project</string>
+    <string name="no_supported_plugin_project">No applicable plugin project</string>
+    <string name="download_from_leaf_flow">Available for download from Leaf Flow</string>
 </resources>

@@ -1,18 +1,21 @@
 package io.github.caimucheng.leaf.ide.adapter
 
-import android.animation.ObjectAnimator
 import android.content.Context
-import android.util.Log
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
+import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import io.github.caimucheng.leaf.ide.R
-import io.github.caimucheng.leaf.ide.application.AppContext
 import io.github.caimucheng.leaf.ide.databinding.LayoutMainPluginBinding
 import io.github.caimucheng.leaf.ide.model.Plugin
 import io.github.caimucheng.leaf.ide.model.description
+import io.github.caimucheng.leaf.ide.model.isEnabled
+import io.github.caimucheng.leaf.ide.model.isSupported
 import io.github.caimucheng.leaf.ide.model.name
+import io.github.caimucheng.leaf.ide.model.toggle
 
 class MainPluginAdapter(
     private val context: Context,
@@ -45,18 +48,58 @@ class MainPluginAdapter(
                 viewBinding.expand.setOnClickListener {
                     isExpanded = !isExpanded
                     if (isExpanded) {
-                        viewBinding.constraintLayout.visibility = View.INVISIBLE
                         viewBinding.expand.text = context.getString(R.string.collapse)
                         viewBinding.description.maxLines = Int.MAX_VALUE
-                        viewBinding.constraintLayout.visibility = View.VISIBLE
                     } else {
-                        viewBinding.constraintLayout.visibility = View.INVISIBLE
                         viewBinding.expand.text = context.getString(R.string.expand)
                         viewBinding.description.maxLines = 2
-                        viewBinding.constraintLayout.visibility = View.VISIBLE
                     }
                 }
             }
+        }
+        viewBinding.root.setOnCreateContextMenuListener { menu, _, _ ->
+            val menuInflater = MenuInflater(context)
+            menu.setHeaderTitle(plugin.name)
+            menuInflater.inflate(R.menu.menu_main_plugin, menu)
+
+            val titleResId = if (plugin.isEnabled) R.string.disable else R.string.enable
+            val enableItem = menu.findItem(R.id.enable)
+            enableItem.title = context.getString(titleResId)
+            enableItem.setOnMenuItemClickListener {
+                plugin.toggle()
+                val isEnabled = plugin.isEnabled
+                val newTitleResId = if (isEnabled) R.string.disable else R.string.enable
+                enableItem.title = context.getString(newTitleResId)
+                if (isEnabled) {
+                    viewBinding.constraintLayout.animate()
+                        .alpha(1f)
+                        .setDuration(200L)
+                        .start()
+                } else {
+                    viewBinding.constraintLayout.animate()
+                        .alpha(0.6f)
+                        .setDuration(200L)
+                        .start()
+                }
+                false
+            }
+
+            val uninstallItem = menu.findItem(R.id.uninstall)
+            uninstallItem.setOnMenuItemClickListener {
+                val uri = Uri.fromParts("package", plugin.packageName, null)
+                context.startActivity(Intent(Intent.ACTION_DELETE, uri))
+                false
+            }
+        }
+
+        if (plugin.isEnabled && plugin.isSupported) {
+            viewBinding.constraintLayout.alpha = 1f
+        } else {
+            viewBinding.constraintLayout.alpha = 0.6f
+        }
+
+        if (!plugin.isSupported) {
+            viewBinding.unsupported.visibility = View.VISIBLE
         }
     }
 

@@ -26,7 +26,6 @@ data class SplashUiState(
     val titleResId: Int = R.string.privacy_policy,
     val content: SpannedString? = null,
     val page: SplashPage = SplashPage.PrivacyPolicy,
-    val previousState: SplashUiState? = null,
     val selectedLaunchMode: LaunchMode = LaunchMode.LaunchFromExteralStorage,
     val initializedLaunchMode: Boolean = false
 ) : UiState()
@@ -77,13 +76,13 @@ class SplashViewModel : MVIViewModel<SplashUiState, SplashUiIntent>() {
     private fun initializeLaunchMode(launchMode: LaunchMode) {
         viewModelScope.launch {
             splashDepository.initializeLaunchMode(launchMode)
-            setState(state.value.copy(previousState = state.value, initializedLaunchMode = true))
+            setState(state.value.copy(initializedLaunchMode = true))
         }
     }
 
     private fun selectLaunchMode(launchMode: LaunchMode) {
         viewModelScope.launch {
-            setState(state.value.copy(previousState = state.value, selectedLaunchMode = launchMode))
+            setState(state.value.copy(selectedLaunchMode = launchMode))
         }
     }
 
@@ -103,8 +102,7 @@ class SplashViewModel : MVIViewModel<SplashUiState, SplashUiIntent>() {
                         state.value.copy(
                             titleResId = R.string.privacy_policy,
                             content = content,
-                            page = SplashPage.PrivacyPolicy,
-                            previousState = state.value
+                            page = SplashPage.PrivacyPolicy
                         )
                     )
                 }
@@ -120,8 +118,7 @@ class SplashViewModel : MVIViewModel<SplashUiState, SplashUiIntent>() {
                         state.value.copy(
                             titleResId = R.string.user_agreement,
                             content = content,
-                            page = SplashPage.UserAgreement,
-                            previousState = state.value
+                            page = SplashPage.UserAgreement
                         )
                     )
                 }
@@ -143,8 +140,7 @@ class SplashViewModel : MVIViewModel<SplashUiState, SplashUiIntent>() {
                         state.value.copy(
                             titleResId = R.string.user_agreement,
                             content = content,
-                            page = SplashPage.UserAgreement,
-                            previousState = state.value
+                            page = SplashPage.UserAgreement
                         )
                     )
                 }
@@ -160,8 +156,7 @@ class SplashViewModel : MVIViewModel<SplashUiState, SplashUiIntent>() {
                         state.value.copy(
                             titleResId = R.string.launch_mode,
                             content = content,
-                            page = SplashPage.LaunchMode,
-                            previousState = state.value
+                            page = SplashPage.LaunchMode
                         )
                     )
                 }
@@ -174,7 +169,7 @@ class SplashViewModel : MVIViewModel<SplashUiState, SplashUiIntent>() {
     private fun getContent(language: String, page: SplashPage) {
         viewModelScope.launch {
             val content = splashDepository.getContent(language, page)
-            setState(state.value.copy(content = content, previousState = state.value))
+            setState(state.value.copy(content = content))
         }
     }
 

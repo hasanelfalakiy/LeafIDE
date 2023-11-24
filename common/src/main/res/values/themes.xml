@@ -35,4 +35,9 @@
 
     <style name="Theme.LeafIDE" parent="Base.Theme.LeafIDE" />
 
+    <style name="RoundedFloatingActionButtonStyle">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerRadius">48dp</item>
+    </style>
+
 </resources>

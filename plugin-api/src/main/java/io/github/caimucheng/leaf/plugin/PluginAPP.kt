@@ -2,6 +2,7 @@ package io.github.caimucheng.leaf.plugin
 
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.drawable.Drawable
 
 abstract class PluginAPP(protected val context: Context) {
 
@@ -17,5 +18,9 @@ abstract class PluginAPP(protected val context: Context) {
     abstract fun getPluginDescription(): String
 
     abstract fun getPluginAuthor(): String
+
+    abstract fun getSmallIcon(): Drawable
+
+    abstract fun getSubscript(): String
 
 }

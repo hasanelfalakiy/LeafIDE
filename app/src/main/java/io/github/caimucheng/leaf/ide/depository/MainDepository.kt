@@ -10,12 +10,9 @@ import java.io.File
 
 class MainDepository {
 
-    suspend fun initialize() {
-        return withContext(Dispatchers.IO) {
-            createLeafIDERoot()
-            createLeafIDEProject()
-            loadPlugins()
-        }
+    fun initialize() {
+        createLeafIDERoot()
+        createLeafIDEProject()
     }
 
     private fun createLeafIDERoot() {
@@ -29,10 +26,6 @@ class MainDepository {
             File(LeafIDERootPath, ".nomedia")
                 .createNewFile()
         }
-    }
-
-    private suspend fun loadPlugins() {
-        AppViewModel.intent.send(AppIntent.Refresh)
     }
 
 }

@@ -14,7 +14,7 @@ enum class PluginState {
 data class AppState(
     val pluginState: PluginState = PluginState.Done,
     val plugins: List<Plugin> = emptyList(),
-    val previousState: AppState? = null
+    val isRefreshed: Boolean = false
 ) : UiState()
 
 sealed class AppIntent : UiIntent() {
@@ -39,16 +39,15 @@ object AppViewModel : MVIAppViewModel<AppState, AppIntent>() {
         viewModelScope.launch {
             setState(
                 state.value.copy(
-                    pluginState = PluginState.Loading,
-                    previousState = state.value
+                    pluginState = PluginState.Loading
                 )
             )
             val plugins = appDepository.refreshPlugins()
             setState(
                 state.value.copy(
                     pluginState = PluginState.Done,
-                    previousState = state.value,
-                    plugins = plugins
+                    plugins = plugins,
+                    isRefreshed = true
                 )
             )
         }

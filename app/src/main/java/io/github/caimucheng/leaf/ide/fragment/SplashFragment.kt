@@ -108,10 +108,10 @@ class SplashFragment : Fragment() {
                 splashViewModel.intent.send(SplashUiIntent.GetContent(splashViewModel.state.value.page))
                 splashViewModel.state.collectLatest {
                     val newTitle = getString(it.titleResId)
-                    if (viewBinding.toolbarLayout.title != newTitle) {
-                        viewBinding.toolbarLayout.visibility = View.INVISIBLE
-                        viewBinding.toolbarLayout.title = newTitle
-                        viewBinding.toolbarLayout.visibility = View.VISIBLE
+                    if (viewBinding.toolbar.title != newTitle) {
+                        viewBinding.toolbar.visibility = View.INVISIBLE
+                        viewBinding.toolbar.title = newTitle
+                        viewBinding.toolbar.visibility = View.VISIBLE
                     }
                     when (it.page) {
                         SplashPage.PrivacyPolicy -> {

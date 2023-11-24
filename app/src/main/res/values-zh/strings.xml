@@ -26,4 +26,13 @@
     <string name="unsupported">不支持</string>
     <string name="no_project_or_plugins_for_projects">没有工程或适用于工程的插件</string>
     <string name="click_to_create_project">点击悬浮按钮以创建工程</string>
+    <string name="no_implementation">此处还没有实现</string>
+    <string name="enable">启用</string>
+    <string name="disable">禁用</string>
+    <string name="uninstall">卸载</string>
+    <string name="project_description">工程描述：%s</string>
+    <string name="plugin_support">插件支持：%s</string>
+    <string name="create_project">创建工程</string>
+    <string name="no_supported_plugin_project">没有适用的插件工程</string>
+    <string name="download_from_leaf_flow">可从 Leaf Flow 中下载</string>
 </resources>

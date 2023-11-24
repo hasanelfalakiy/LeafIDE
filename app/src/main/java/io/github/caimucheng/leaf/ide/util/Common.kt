@@ -8,9 +8,16 @@ import io.github.caimucheng.leaf.ide.viewmodel.LaunchMode
 
 const val LAUNCH_MODE_KEY = "launch_mode"
 
+const val PLUGIN_KEY = "plugin"
+
 inline val AppContext.launchModeSharedPreferences: SharedPreferences
     get() {
         return getSharedPreferences(LAUNCH_MODE_KEY, Context.MODE_PRIVATE)
+    }
+
+inline val AppContext.pluginSharedPreferences: SharedPreferences
+    get() {
+        return getSharedPreferences(PLUGIN_KEY, Context.MODE_PRIVATE)
     }
 
 inline val AppContext.isInitializedLaunchMode: Boolean
