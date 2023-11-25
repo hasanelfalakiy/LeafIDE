@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/materialToolbar"
@@ -11,6 +12,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/baseline_arrow_back_24"
         app:title="@string/create_project" />
 
     <LinearLayout

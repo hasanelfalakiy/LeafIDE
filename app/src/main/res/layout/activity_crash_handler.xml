@@ -137,7 +137,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/baseline_arrow_forward_24"
+                    android:src="@drawable/baseline_restart_alt_24"
                     app:tint="?attr/colorSurface" />
 
                 <com.google.android.material.imageview.ShapeableImageView

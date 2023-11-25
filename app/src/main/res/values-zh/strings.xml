@@ -35,4 +35,8 @@
     <string name="create_project">创建工程</string>
     <string name="no_supported_plugin_project">没有适用的插件工程</string>
     <string name="download_from_leaf_flow">可从 Leaf Flow 中下载</string>
+    <string name="unable_to_load_ui">无法加载 UI：插件状态被更新</string>
+    <string name="install_from_local">从本地安装</string>
+    <string name="copy_failure">复制失败：%s</string>
+    <string name="copy_success">复制成功</string>
 </resources>

@@ -16,6 +16,8 @@ import io.github.caimucheng.leaf.ide.model.isEnabled
 import io.github.caimucheng.leaf.ide.model.isSupported
 import io.github.caimucheng.leaf.ide.model.name
 import io.github.caimucheng.leaf.ide.model.toggle
+import io.github.caimucheng.leaf.ide.viewmodel.AppIntent
+import io.github.caimucheng.leaf.ide.viewmodel.AppViewModel
 
 class MainPluginAdapter(
     private val context: Context,
@@ -60,27 +62,14 @@ class MainPluginAdapter(
         viewBinding.root.setOnCreateContextMenuListener { menu, _, _ ->
             val menuInflater = MenuInflater(context)
             menu.setHeaderTitle(plugin.name)
-            menuInflater.inflate(R.menu.menu_main_plugin, menu)
+            menuInflater.inflate(R.menu.menu_main_plugin_popup, menu)
 
             val titleResId = if (plugin.isEnabled) R.string.disable else R.string.enable
             val enableItem = menu.findItem(R.id.enable)
             enableItem.title = context.getString(titleResId)
             enableItem.setOnMenuItemClickListener {
                 plugin.toggle()
-                val isEnabled = plugin.isEnabled
-                val newTitleResId = if (isEnabled) R.string.disable else R.string.enable
-                enableItem.title = context.getString(newTitleResId)
-                if (isEnabled) {
-                    viewBinding.constraintLayout.animate()
-                        .alpha(1f)
-                        .setDuration(200L)
-                        .start()
-                } else {
-                    viewBinding.constraintLayout.animate()
-                        .alpha(0.6f)
-                        .setDuration(200L)
-                        .start()
-                }
+                AppViewModel.intent.trySend(AppIntent.Refresh)
                 false
             }
 

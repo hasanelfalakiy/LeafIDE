@@ -31,8 +31,7 @@
                 android:id="@+id/icon"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerInside"
-                android:src="@mipmap/displayed_nodejs_picture" />
+                android:scaleType="centerInside" />
 
         </com.google.android.material.card.MaterialCardView>
 
@@ -41,7 +40,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="NodeJS 工程"
             android:textAlignment="center"
             android:textColor="?attr/colorOnSurface"
             android:textSize="14sp" />

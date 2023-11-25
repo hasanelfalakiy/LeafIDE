@@ -6,6 +6,10 @@ plugins {
 
 android {
     namespace = "io.github.caimucheng.leaf.common"
+
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {

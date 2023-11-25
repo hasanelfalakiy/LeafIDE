@@ -2,34 +2,55 @@ package leaf.plugin.nodejs
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import io.github.caimucheng.leaf.plugin.PluginAPP
+import io.github.caimucheng.leaf.plugin.creator.FragmentCreator
+import leaf.plugin.nodejs.creator.APPFragmentCreator
 
-class APP(context: Context) : PluginAPP(context) {
+class APP : PluginAPP() {
 
-    override fun onCreate() {
+    private lateinit var hostContext: Context
 
+    private lateinit var selfResources: Resources
+
+    override fun onCreate(hostContext: Context, selfResources: Resources) {
+        this.hostContext = hostContext
+        this.selfResources = selfResources
+    }
+
+    override fun getFragmentCreator(): FragmentCreator {
+        return APPFragmentCreator
     }
 
     override fun getPluginName(): String {
-        return resources.getString(R.string.app_name)
+        return selfResources.getString(R.string.app_name)
     }
 
     override fun getPluginDescription(): String {
-        return resources.getString(R.string.plugin_description)
+        return selfResources.getString(R.string.plugin_description)
     }
 
     override fun getPluginAuthor(): String {
-        return resources.getString(R.string.plugin_author)
+        return selfResources.getString(R.string.plugin_author)
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
-    override fun getSmallIcon(): Drawable {
-        return resources.getDrawable(R.drawable.nodejs_logo, context.theme)
+    override fun getProjectCardIcon(): Drawable {
+        return selfResources.getDrawable(R.drawable.nodejs_logo, hostContext.theme)
     }
 
-    override fun getSubscript(): String {
-        return resources.getString(R.string.subscript)
+    override fun getProjectCardSubscript(): String {
+        return selfResources.getString(R.string.project_card_subscript)
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    override fun getTemplateIcon(): Drawable {
+        return selfResources.getDrawable(R.mipmap.template_icon, hostContext.theme)
+    }
+
+    override fun getTemplateTitle(): String {
+        return selfResources.getString(R.string.template_title)
     }
 
 }

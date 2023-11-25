@@ -5,15 +5,24 @@ import io.github.caimucheng.leaf.common.mvi.UiIntent
 import io.github.caimucheng.leaf.common.mvi.UiState
 import io.github.caimucheng.leaf.ide.depository.AppDepository
 import io.github.caimucheng.leaf.ide.model.Plugin
+import io.github.caimucheng.leaf.ide.model.Project
+import io.github.caimucheng.leaf.ide.model.isEnabled
+import io.github.caimucheng.leaf.ide.model.isSupported
 import kotlinx.coroutines.launch
 
 enum class PluginState {
     Loading, Done
 }
 
+enum class ProjectState {
+    Loading, Done
+}
+
 data class AppState(
     val pluginState: PluginState = PluginState.Done,
     val plugins: List<Plugin> = emptyList(),
+    val projectState: ProjectState = ProjectState.Done,
+    val projects: List<Project> = emptyList(),
     val isRefreshed: Boolean = false
 ) : UiState()
 
@@ -39,14 +48,19 @@ object AppViewModel : MVIAppViewModel<AppState, AppIntent>() {
         viewModelScope.launch {
             setState(
                 state.value.copy(
-                    pluginState = PluginState.Loading
+                    pluginState = PluginState.Loading,
+                    projectState = ProjectState.Loading
                 )
             )
             val plugins = appDepository.refreshPlugins()
+            val projects =
+                appDepository.refreshProjects(plugins.filter { it.isSupported && it.isEnabled })
             setState(
                 state.value.copy(
                     pluginState = PluginState.Done,
                     plugins = plugins,
+                    projectState = ProjectState.Done,
+                    projects = projects,
                     isRefreshed = true
                 )
             )

@@ -1,44 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:orientation="vertical"
     tools:context=".activity.MainActivity">
 
-    <LinearLayout
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/home" />
+
+    <FrameLayout
         android:id="@+id/placeholder"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@string/no_project_or_plugins_for_projects"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="16sp" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@string/click_to_create_project"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="15dp"
+            android:src="@drawable/baseline_add_24"
+            app:backgroundTint="?attr/colorPrimary"
+            app:elevation="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:shapeAppearance="@style/RoundedFloatingActionButtonStyle"
+            app:tint="@android:color/white" />
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:gravity="center"
-        android:orientation="vertical"
-        android:padding="20dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:visibility="visible">
 
-        <TextView
+        <com.google.android.material.progressindicator.CircularProgressIndicator
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="@string/no_project_or_plugins_for_projects"
-            android:textColor="?attr/colorOnSurface"
-            android:textSize="16sp" />
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="10dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="@string/click_to_create_project"
-            android:textSize="14sp" />
+            android:indeterminate="true" />
 
     </LinearLayout>
 
@@ -46,20 +84,28 @@
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible">
+        android:visibility="gone">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+        <io.github.caimucheng.leaf.common.view.springback.SpringBackLayout
+            android:id="@+id/springBackLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:listitem="@layout/layout_main_home" />
+            app:scrollableView="@id/recyclerView">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:listitem="@layout/layout_main_home" />
+
+        </io.github.caimucheng.leaf.common.view.springback.SpringBackLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
+            android:id="@+id/fab1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
@@ -73,4 +119,4 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/enable"
-        android:title="@string/enable" />
-
-    <item
-        android:id="@+id/uninstall"
-        android:title="@string/uninstall" />
+        android:id="@+id/installFromLocal"
+        android:icon="@drawable/baseline_install_desktop_24"
+        android:title="@string/install_from_local"
+        app:showAsAction="always" />
 
 </menu>

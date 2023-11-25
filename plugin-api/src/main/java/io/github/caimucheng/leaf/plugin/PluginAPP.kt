@@ -3,15 +3,17 @@ package io.github.caimucheng.leaf.plugin
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
+import io.github.caimucheng.leaf.plugin.creator.FragmentCreator
 
-abstract class PluginAPP(protected val context: Context) {
+abstract class PluginAPP {
 
-    protected inline val resources: Resources
-        get() {
-            return context.resources
-        }
+    open fun onCreate(hostContext: Context, selfResources: Resources) {}
 
-    abstract fun onCreate()
+    open fun onInstall(activityContext: Context) {}
+
+    open fun onUninstall(activityContext: Context) {}
+
+    abstract fun getFragmentCreator(): FragmentCreator
 
     abstract fun getPluginName(): String
 
@@ -19,8 +21,12 @@ abstract class PluginAPP(protected val context: Context) {
 
     abstract fun getPluginAuthor(): String
 
-    abstract fun getSmallIcon(): Drawable
+    abstract fun getProjectCardIcon(): Drawable
 
-    abstract fun getSubscript(): String
+    abstract fun getProjectCardSubscript(): String
+
+    abstract fun getTemplateIcon(): Drawable
+
+    abstract fun getTemplateTitle(): String
 
 }

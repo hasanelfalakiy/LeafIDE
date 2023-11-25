@@ -12,6 +12,7 @@ android {
         versionCode = NodeJSPluginVersions.VERSION_CODE
         versionName = NodeJSPluginVersions.VERSION_NAME
     }
+
 }
 
 dependencies {

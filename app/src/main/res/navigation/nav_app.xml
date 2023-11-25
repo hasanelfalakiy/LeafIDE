@@ -34,6 +34,18 @@
     <fragment
         android:id="@+id/templateProjectFragment"
         android:name="io.github.caimucheng.leaf.ide.fragment.TemplateProjectFragment"
-        android:label="TemplateProjectFragment" />
+        android:label="TemplateProjectFragment" >
+        <action
+            android:id="@+id/action_templateProjectFragment_to_newProjectFragment"
+            app:destination="@id/newProjectFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/newProjectFragment"
+        android:name="io.github.caimucheng.leaf.ide.fragment.NewProjectFragment"
+        android:label="NewProjectFragment" />
 
 </navigation>

@@ -33,8 +33,8 @@ class MainHomeAdapter(
         viewBinding.projectName.text = project.name
         viewBinding.projectDescription.text = context.getString(R.string.project_description, project.description)
         viewBinding.pluginSupport.text = context.getString(R.string.plugin_support, project.plugin.packageName)
-        viewBinding.icon.background = project.plugin.pluginAPP.getSmallIcon()
-        viewBinding.subscript.text = project.plugin.pluginAPP.getSubscript()
+        viewBinding.icon.background = project.plugin.pluginAPP.getProjectCardIcon()
+        viewBinding.subscript.text = project.plugin.pluginAPP.getProjectCardSubscript()
     }
 
 }

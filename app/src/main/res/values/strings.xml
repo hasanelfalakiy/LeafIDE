@@ -36,4 +36,8 @@
     <string name="create_project">Create Project</string>
     <string name="no_supported_plugin_project">No applicable plugin project</string>
     <string name="download_from_leaf_flow">Available for download from Leaf Flow</string>
+    <string name="unable_to_load_ui">Unable to load UI: Plugin status was updated</string>
+    <string name="install_from_local">Install from local</string>
+    <string name="copy_failure">Copy Failure: %s</string>
+    <string name="copy_success">Copy Success</string>
 </resources>

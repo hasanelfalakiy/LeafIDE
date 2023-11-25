@@ -2,5 +2,6 @@
     <string name="app_name">NodeJS Plugin For Leaf IDE</string>
     <string name="plugin_description">Supports creating and running nodejs projects, and comes with package managers such as npm, npx, corepack, and the default global node_modules</string>
     <string name="plugin_author">SuMuCheng</string>
-    <string name="subscript" translatable="false">NodeJS</string>
+    <string name="template_title">NodeJS Project</string>
+    <string name="project_card_subscript" translatable="false">NodeJS</string>
 </resources>

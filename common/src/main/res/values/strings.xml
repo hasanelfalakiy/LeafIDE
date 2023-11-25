@@ -1,4 +1,14 @@
 <resources>
     <string name="is_ui_dark" translatable="false">false</string>
     <string name="language">en</string>
+    <string name="select_a_file">Select A File</string>
+    <string name="empty_directory">Empty Directory</string>
+    <string name="nothing_here">Nothing here</string>
+    <string name="cancel">Cancel</string>
+    <string name="up">Up</string>
+    <string name="copy_file">Copying File...</string>
+    <string name="name">Name: %s</string>
+    <string name="from">From: %s</string>
+    <string name="to">To: %s</string>
+    <string name="progress">Progress: %d</string>
 </resources>

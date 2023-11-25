@@ -1,9 +1,10 @@
 package io.github.caimucheng.leaf.ide.model
 
+import org.json.JSONObject
+
 data class Project(
     val name: String,
     val description: String,
-    val relativePath: String,
     val plugin: Plugin,
-    val extraData: Map<String, String>
+    val workspace: JSONObject
 )

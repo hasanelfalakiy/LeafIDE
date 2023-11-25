@@ -4,10 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import io.github.caimucheng.leaf.ide.R
 import io.github.caimucheng.leaf.ide.adapter.MainPluginAdapter
 import io.github.caimucheng.leaf.ide.adapter.TemplateAdapter
 import io.github.caimucheng.leaf.ide.databinding.FragmentTemplateProjectBinding
@@ -30,7 +35,17 @@ class TemplateProjectFragment : Fragment() {
 
     private val adapter by lazy {
         TemplateAdapter(
-            requireContext()
+            context = requireContext(),
+            plugins = plugins,
+            onItemClick = { plugin ->
+                findNavController()
+                    .navigate(
+                        R.id.action_templateProjectFragment_to_newProjectFragment,
+                        bundleOf(
+                            "packageName" to plugin.packageName
+                        )
+                    )
+            }
         )
     }
 
@@ -45,44 +60,45 @@ class TemplateProjectFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupToolbar()
         setupRecyclerView()
 
         viewLifecycleOwner.lifecycleScope.launch {
-            AppViewModel.state.map {
-                it.copy(
-                    plugins = it.plugins.filter { plugin -> plugin.isSupported && plugin.isEnabled }
-                )
-            }.collectLatest {
-                when (it.pluginState) {
-                    PluginState.Loading -> {
-                        viewBinding.content.visibility = View.GONE
-                        viewBinding.placeholder.visibility = View.GONE
-                        viewBinding.loading.visibility = View.VISIBLE
-                    }
-
-                    PluginState.Done -> {
-                        viewBinding.loading.visibility = View.GONE
-                        if (plugins.isNotEmpty()) {
-                            val itemCount = plugins.size
-                            plugins.clear()
-                            adapter.notifyItemRangeRemoved(0, itemCount)
-                        }
-                        if (it.plugins.isNotEmpty()) {
-                            plugins.addAll(it.plugins)
-                            adapter.notifyItemRangeInserted(0, it.plugins.size)
-                        }
-                        if (plugins.isNotEmpty()) {
-                            viewBinding.placeholder.visibility = View.GONE
-                            viewBinding.content.visibility = View.VISIBLE
-                        } else {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                AppViewModel.state.map {
+                    it.copy(
+                        plugins = it.plugins.filter { plugin -> plugin.isSupported && plugin.isEnabled }
+                    )
+                }.collectLatest {
+                    when (it.pluginState) {
+                        PluginState.Loading -> {
                             viewBinding.content.visibility = View.GONE
-                            viewBinding.placeholder.visibility = View.VISIBLE
+                            viewBinding.placeholder.visibility = View.GONE
+                            viewBinding.loading.visibility = View.VISIBLE
+                        }
+
+                        PluginState.Done -> {
+                            viewBinding.loading.visibility = View.GONE
+                            plugins.clear()
+                            plugins.addAll(it.plugins)
+                            if (plugins.isNotEmpty()) {
+                                viewBinding.placeholder.visibility = View.GONE
+                                viewBinding.content.visibility = View.VISIBLE
+                            } else {
+                                viewBinding.content.visibility = View.GONE
+                                viewBinding.placeholder.visibility = View.VISIBLE
+                            }
                         }
                     }
                 }
             }
         }
+    }
 
+    private fun setupToolbar() {
+        viewBinding.materialToolbar.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     private fun setupRecyclerView() {
