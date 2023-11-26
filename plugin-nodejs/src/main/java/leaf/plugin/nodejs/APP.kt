@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
+import androidx.fragment.app.FragmentManager
 import io.github.caimucheng.leaf.plugin.PluginAPP
 import io.github.caimucheng.leaf.plugin.creator.FragmentCreator
 import leaf.plugin.nodejs.creator.APPFragmentCreator
@@ -12,11 +13,21 @@ class APP : PluginAPP() {
 
     private lateinit var hostContext: Context
 
-    private lateinit var selfResources: Resources
+    companion object {
 
-    override fun onCreate(hostContext: Context, selfResources: Resources) {
-        this.hostContext = hostContext
-        this.selfResources = selfResources
+        lateinit var selfResources: Resources
+            private set
+
+    }
+
+    override fun onCreate(hostApplicationContext: Context, myselfResources: Resources) {
+        this.hostContext = hostApplicationContext
+        selfResources = myselfResources
+    }
+
+    override suspend fun onInstall(activityContext: Context, fragmentManager: FragmentManager) {
+        super.onInstall(activityContext, fragmentManager)
+
     }
 
     override fun getFragmentCreator(): FragmentCreator {

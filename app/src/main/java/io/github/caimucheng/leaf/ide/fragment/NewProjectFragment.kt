@@ -1,19 +1,18 @@
 package io.github.caimucheng.leaf.ide.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import io.github.caimucheng.leaf.ide.R
 import io.github.caimucheng.leaf.ide.databinding.FragmentNewProjectBinding
 import io.github.caimucheng.leaf.ide.viewmodel.AppViewModel
 import io.github.caimucheng.leaf.ide.viewmodel.PluginState
+import io.github.caimucheng.leaf.plugin.action.ActionHolder
+import io.github.caimucheng.leaf.plugin.fragment.PluginFragment
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -54,9 +53,19 @@ class NewProjectFragment : Fragment() {
                             viewBinding.content.visibility = View.VISIBLE
 
                             val fragmentCreator = plugin.pluginAPP.getFragmentCreator()
-                            childFragmentManager.beginTransaction()
-                                .replace(R.id.content, fragmentCreator.onNewProject())
-                                .commit()
+                            if (childFragmentManager.findFragmentById(R.id.content) == null) {
+                                val onNewProjectFragment = fragmentCreator.onNewProject()
+                                setupFragment(onNewProjectFragment)
+                                childFragmentManager.beginTransaction()
+                                    .setCustomAnimations(
+                                        androidx.navigation.ui.R.anim.nav_default_enter_anim,
+                                        androidx.navigation.ui.R.anim.nav_default_exit_anim,
+                                        androidx.navigation.ui.R.anim.nav_default_pop_enter_anim,
+                                        androidx.navigation.ui.R.anim.nav_default_pop_exit_anim
+                                    )
+                                    .replace(R.id.content, onNewProjectFragment)
+                                    .commit()
+                            }
                         } else {
                             viewBinding.content.visibility = View.GONE
                             viewBinding.placeholder.visibility = View.VISIBLE
@@ -65,6 +74,38 @@ class NewProjectFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun setupFragment(onNewProjectFragment: PluginFragment) {
+        val actionHolder = ActionHolder(
+            onPopBackStack = { findNavController().popBackStack() },
+            onStartFragment = {
+                setupFragment(it)
+                childFragmentManager.beginTransaction()
+                    .setCustomAnimations(
+                        androidx.navigation.ui.R.anim.nav_default_enter_anim,
+                        androidx.navigation.ui.R.anim.nav_default_exit_anim,
+                        androidx.navigation.ui.R.anim.nav_default_pop_enter_anim,
+                        androidx.navigation.ui.R.anim.nav_default_pop_exit_anim
+                    )
+                    .replace(R.id.content, it)
+                    .addToBackStack(null)
+                    .commit()
+            },
+            onReplaceFragment = {
+                setupFragment(it)
+                childFragmentManager.beginTransaction()
+                    .setCustomAnimations(
+                        androidx.navigation.ui.R.anim.nav_default_enter_anim,
+                        androidx.navigation.ui.R.anim.nav_default_exit_anim,
+                        androidx.navigation.ui.R.anim.nav_default_pop_enter_anim,
+                        androidx.navigation.ui.R.anim.nav_default_pop_exit_anim
+                    )
+                    .replace(R.id.content, it)
+                    .commit()
+            }
+        )
+        onNewProjectFragment.onPrepareActionHolder(actionHolder)
     }
 
     private fun setupIconButton() {

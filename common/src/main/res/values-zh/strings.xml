@@ -11,4 +11,6 @@
     <string name="from">从：%s</string>
     <string name="to">到：%s</string>
     <string name="progress">进度：%d</string>
+    <string name="copy_folder">复制目录...</string>
+    <string name="unzip_file">解压文件...</string>
 </resources>

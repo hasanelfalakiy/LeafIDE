@@ -63,6 +63,11 @@ class FileCopyFragment : DialogFragment() {
                 fileCopyViewModel.state.collectLatest {
                     val fromFile = File(it.from)
                     val toFile = File(it.to)
+                    if (fromFile.isFile) {
+                        viewBinding.title.title = getString(R.string.copy_file)
+                    } else {
+                        viewBinding.title.title = getString(R.string.copy_folder)
+                    }
                     viewBinding.name.text = getString(R.string.name, fromFile.name)
                     viewBinding.from.text = getString(R.string.from, fromFile.absolutePath)
                     viewBinding.to.text = getString(R.string.to, toFile.absolutePath)

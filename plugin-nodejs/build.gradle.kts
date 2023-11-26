@@ -13,6 +13,9 @@ android {
         versionName = NodeJSPluginVersions.VERSION_NAME
     }
 
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {

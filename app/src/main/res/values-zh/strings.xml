@@ -39,4 +39,8 @@
     <string name="install_from_local">从本地安装</string>
     <string name="copy_failure">复制失败：%s</string>
     <string name="copy_success">复制成功</string>
+    <string name="unable_to_resolve_plugin">无法解析插件</string>
+    <string name="uninstall_plugin">你确定要卸载这个插件吗？</string>
+    <string name="cancel">取消</string>
+    <string name="sure">确定</string>
 </resources>

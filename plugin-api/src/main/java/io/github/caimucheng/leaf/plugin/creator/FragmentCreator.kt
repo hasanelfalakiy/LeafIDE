@@ -1,9 +1,9 @@
 package io.github.caimucheng.leaf.plugin.creator
 
-import androidx.fragment.app.Fragment
+import io.github.caimucheng.leaf.plugin.fragment.PluginFragment
 
 interface FragmentCreator {
 
-    fun onNewProject(): Fragment
+    fun onNewProject(): PluginFragment
 
 }

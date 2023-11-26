@@ -4,4 +4,5 @@
     <string name="plugin_author">SuMuCheng</string>
     <string name="template_title">NodeJS Project</string>
     <string name="project_card_subscript" translatable="false">NodeJS</string>
+    <string name="create">Create</string>
 </resources>

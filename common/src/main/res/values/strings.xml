@@ -11,4 +11,6 @@
     <string name="from">From: %s</string>
     <string name="to">To: %s</string>
     <string name="progress">Progress: %d</string>
+    <string name="copy_folder">Copy Folder...</string>
+    <string name="unzip_file">Unzip File...</string>
 </resources>

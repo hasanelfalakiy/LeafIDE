@@ -21,7 +21,9 @@ import io.github.caimucheng.leaf.ide.viewmodel.AppViewModel
 
 class MainPluginAdapter(
     private val context: Context,
-    private val plugins: List<Plugin>
+    private val plugins: List<Plugin>,
+    private val onToggle: (plugin: Plugin) -> Unit,
+    private val onUninstall: (plugin: Plugin) -> Unit
 ) : RecyclerView.Adapter<MainPluginAdapter.ViewHolder>() {
 
     private val inflater by lazy { LayoutInflater.from(context) }
@@ -69,14 +71,16 @@ class MainPluginAdapter(
             enableItem.title = context.getString(titleResId)
             enableItem.setOnMenuItemClickListener {
                 plugin.toggle()
-                AppViewModel.intent.trySend(AppIntent.Refresh)
+                enableItem.title =
+                    context.getString(if (plugin.isEnabled) R.string.disable else R.string.enable)
+
+                onToggle(plugin)
                 false
             }
 
             val uninstallItem = menu.findItem(R.id.uninstall)
             uninstallItem.setOnMenuItemClickListener {
-                val uri = Uri.fromParts("package", plugin.packageName, null)
-                context.startActivity(Intent(Intent.ACTION_DELETE, uri))
+                onUninstall(plugin)
                 false
             }
         }

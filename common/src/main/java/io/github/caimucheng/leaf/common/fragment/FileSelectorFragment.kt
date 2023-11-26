@@ -97,6 +97,7 @@ class FileSelectorFragment : DialogFragment() {
 
                         FileState.Done -> {
                             viewBinding.loading.visibility = View.GONE
+                            viewBinding.toolbar.subtitle = it.currentDirectory.absolutePath
                             files.clear()
                             files.addAll(it.files)
                             adapter.notifyDataSetChanged()
@@ -128,7 +129,6 @@ class FileSelectorFragment : DialogFragment() {
                 if (menuItem.itemId == R.id.up) {
                     if (fileSelectorViewModel.state.value.currentDirectory.absolutePath != Environment.getExternalStorageDirectory().absolutePath) {
                         viewLifecycleOwner.lifecycleScope.launch {
-
                             fileSelectorViewModel.intent.send(
                                 FileSelectorIntent.Enter(
                                     fileSelectorViewModel.state.value.currentDirectory.parentFile

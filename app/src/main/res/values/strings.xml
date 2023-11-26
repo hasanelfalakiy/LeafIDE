@@ -40,4 +40,8 @@
     <string name="install_from_local">Install from local</string>
     <string name="copy_failure">Copy Failure: %s</string>
     <string name="copy_success">Copy Success</string>
+    <string name="unable_to_resolve_plugin">Unable to resolve plugin</string>
+    <string name="uninstall_plugin">Are you sure you want to uninstall this plugin?</string>
+    <string name="cancel">Cancel</string>
+    <string name="sure">Sure</string>
 </resources>

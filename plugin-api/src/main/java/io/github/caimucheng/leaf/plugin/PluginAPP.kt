@@ -3,15 +3,16 @@ package io.github.caimucheng.leaf.plugin
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
+import androidx.fragment.app.FragmentManager
 import io.github.caimucheng.leaf.plugin.creator.FragmentCreator
 
 abstract class PluginAPP {
 
-    open fun onCreate(hostContext: Context, selfResources: Resources) {}
+    open fun onCreate(hostApplicationContext: Context, selfResources: Resources) {}
 
-    open fun onInstall(activityContext: Context) {}
+    open suspend fun onInstall(activityContext: Context, fragmentManager: FragmentManager) {}
 
-    open fun onUninstall(activityContext: Context) {}
+    open suspend fun onUninstall(activityContext: Context, fragmentManager: FragmentManager) {}
 
     abstract fun getFragmentCreator(): FragmentCreator
 

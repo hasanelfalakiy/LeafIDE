@@ -1,17 +1,14 @@
 package io.github.caimucheng.leaf.ide.depository
 
-import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import dalvik.system.DexClassLoader
-import dalvik.system.PathClassLoader
 import io.github.caimucheng.leaf.ide.application.AppContext
 import io.github.caimucheng.leaf.ide.model.Plugin
 import io.github.caimucheng.leaf.ide.model.Project
 import io.github.caimucheng.leaf.ide.util.LeafIDEPluginRootPath
 import io.github.caimucheng.leaf.ide.util.LeafIDEProjectPath
 import io.github.caimucheng.leaf.plugin.PluginAPP
-import io.github.caimucheng.leaf.plugin.PluginContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.supervisorScope
 import kotlinx.coroutines.withContext
@@ -53,13 +50,19 @@ class AppDepository {
         }
     }
 
-    suspend fun refreshPlugins(): List<Plugin> {
+    suspend fun refreshPlugins(loadedPlugins: List<Plugin>): List<Plugin> {
         return withContext(Dispatchers.IO) {
             val plugins: MutableList<Plugin> = ArrayList()
             val context = AppContext.current
             val children = LeafIDEPluginRootPath.listFiles() ?: emptyArray()
             for (child in children) {
                 if (child.isDirectory || !child.name.endsWith(".apk")) {
+                    continue
+                }
+
+                val loadedPlugin = loadedPlugins.find { plugin -> plugin.packageName == child.name }
+                if (loadedPlugin != null) {
+                    plugins.add(loadedPlugin)
                     continue
                 }
 
@@ -115,7 +118,7 @@ class AppDepository {
                             pluginAPP = pluginAPP
                         )
                     )
-                }
+                }.exceptionOrNull()?.printStackTrace()
             }
 
             plugins.toList()

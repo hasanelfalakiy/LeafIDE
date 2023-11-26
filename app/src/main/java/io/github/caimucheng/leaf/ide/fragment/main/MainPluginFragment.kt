@@ -1,6 +1,7 @@
 package io.github.caimucheng.leaf.ide.fragment.main
 
 import android.annotation.SuppressLint
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -15,6 +16,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import es.dmoral.toasty.Toasty
 import io.github.caimucheng.leaf.common.callback.FileCopyCallback
 import io.github.caimucheng.leaf.common.callback.FileSelectorCallback
@@ -24,7 +26,9 @@ import io.github.caimucheng.leaf.ide.R
 import io.github.caimucheng.leaf.ide.adapter.MainPluginAdapter
 import io.github.caimucheng.leaf.ide.databinding.FragmentMainPluginBinding
 import io.github.caimucheng.leaf.ide.model.Plugin
+import io.github.caimucheng.leaf.ide.model.name
 import io.github.caimucheng.leaf.ide.util.LeafIDEPluginRootPath
+import io.github.caimucheng.leaf.ide.viewmodel.AppIntent
 import io.github.caimucheng.leaf.ide.viewmodel.AppViewModel
 import io.github.caimucheng.leaf.ide.viewmodel.PluginState
 import kotlinx.coroutines.flow.collectLatest
@@ -41,9 +45,36 @@ class MainPluginFragment : Fragment() {
 
     private val adapter by lazy {
         MainPluginAdapter(
-            requireContext(),
-            plugins
+            context = requireContext(),
+            plugins = plugins,
+            onToggle = {
+                viewLifecycleOwner.lifecycleScope.launch {
+                    AppViewModel.intent.send(AppIntent.Refresh)
+                }
+            },
+            onUninstall = {
+                showUninstallDialog(it)
+            }
         )
+    }
+
+    private fun showUninstallDialog(plugin: Plugin) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(plugin.name)
+            .setIcon(plugin.icon)
+            .setMessage(R.string.uninstall_plugin)
+            .setNeutralButton(R.string.cancel, null)
+            .setPositiveButton(R.string.sure) { _, _ ->
+                viewLifecycleOwner.lifecycleScope.launch {
+                    AppViewModel.intent.send(
+                        AppIntent.Uninstall(
+                            plugin.packageName,
+                            requireContext(),
+                            childFragmentManager
+                        )
+                    )
+                }
+            }.show()
     }
 
     override fun onCreateView(
@@ -116,36 +147,68 @@ class MainPluginFragment : Fragment() {
 
             override fun onFileSelected(file: File) {
                 fileSelectorFragment.dismiss()
-                showFileCopyDialog(file)
+                parsePluginDialog(file)
             }
 
         })
         fileSelectorFragment.show(childFragmentManager, "installFromLocal")
     }
 
-    private fun showFileCopyDialog(file: File) {
+    private fun parsePluginDialog(file: File) {
+        val packageManager = requireContext().packageManager
+        val packageInfo = packageManager.getPackageArchiveInfo(
+            file.absolutePath, PackageManager.GET_META_DATA
+        )
+        if (packageInfo != null) {
+            val application = packageInfo.applicationInfo
+            application.sourceDir = file.absolutePath
+            application.publicSourceDir = file.absolutePath
+
+            val packageName = application.packageName
+            showFileCopyDialog(file, packageName)
+        } else {
+            Toasty.error(requireContext(), R.string.unable_to_resolve_plugin, Toasty.LENGTH_LONG)
+                .show()
+        }
+    }
+
+    private fun showFileCopyDialog(file: File, packageName: String) {
         val fileCopyFragment = FileCopyFragment()
         fileCopyFragment.isCancelable = false
         fileCopyFragment.arguments = bundleOf(
             "from" to file.absolutePath,
-            "to" to File(LeafIDEPluginRootPath, file.name).absolutePath,
+            "to" to File(LeafIDEPluginRootPath, "${packageName}.apk").absolutePath,
         )
         fileCopyFragment.setFileCopyCallback(object : FileCopyCallback {
             override fun onCopySuccess() {
                 fileCopyFragment.dismiss()
                 Toasty.success(requireContext(), R.string.copy_success, Toasty.LENGTH_SHORT)
                     .show()
+                installPlugin(packageName)
             }
 
             override fun onCopyFailed(e: Exception) {
                 fileCopyFragment.dismiss()
                 Toasty.error(
                     requireContext(),
-                    getString(R.string.copy_failure, e.message, Toasty.LENGTH_LONG)
+                    getString(R.string.copy_failure, e.message),
+                    Toasty.LENGTH_LONG
                 ).show()
             }
         })
         fileCopyFragment.show(childFragmentManager, "fileCopy")
+    }
+
+    private fun installPlugin(packageName: String) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            AppViewModel.intent.send(
+                AppIntent.Install(
+                    packageName,
+                    requireActivity(),
+                    childFragmentManager
+                )
+            )
+        }
     }
 
     private fun setupRecyclerView() {

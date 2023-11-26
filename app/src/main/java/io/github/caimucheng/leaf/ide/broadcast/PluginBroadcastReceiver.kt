@@ -14,17 +14,14 @@ class PluginBroadcastReceiver : BroadcastReceiver() {
         when {
             !extraReplacing && intent.action == Intent.ACTION_PACKAGE_ADDED -> {
                 Log.e("Broadcast", "App added")
-                AppViewModel.intent.trySend(AppIntent.Refresh)
             }
 
             !extraReplacing && intent.action == Intent.ACTION_PACKAGE_REMOVED -> {
                 Log.e("Broadcast", "App removed")
-                AppViewModel.intent.trySend(AppIntent.Refresh)
             }
 
             intent.action == Intent.ACTION_PACKAGE_REPLACED -> {
                 Log.e("Broadcast", "App replaced")
-                AppViewModel.intent.trySend(AppIntent.Refresh)
             }
         }
     }
