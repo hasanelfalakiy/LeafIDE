@@ -17,7 +17,6 @@ import io.github.caimucheng.leaf.ide.databinding.FragmentMainHomeBinding
 import io.github.caimucheng.leaf.ide.fragment.MainFragment
 import io.github.caimucheng.leaf.ide.model.Project
 import io.github.caimucheng.leaf.ide.viewmodel.AppViewModel
-import io.github.caimucheng.leaf.ide.viewmodel.PluginState
 import io.github.caimucheng.leaf.ide.viewmodel.ProjectState
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
