@@ -16,7 +16,7 @@ class NewProjectFragment : PluginFragment() {
 
     private inline val mResources: Resources
         get() {
-            return APP.selfResources
+            return APP.currentResources
         }
 
     override fun onCreateView(

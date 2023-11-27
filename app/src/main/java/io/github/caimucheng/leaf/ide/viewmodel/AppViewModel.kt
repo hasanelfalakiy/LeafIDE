@@ -14,7 +14,6 @@ import io.github.caimucheng.leaf.ide.model.isSupported
 import io.github.caimucheng.leaf.ide.util.LeafIDEPluginRootPath
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -50,6 +49,12 @@ sealed class AppIntent : UiIntent() {
         val fragmentManager: FragmentManager
     ) : AppIntent()
 
+    data class Update(
+        val packageName: String,
+        val context: Context,
+        val fragmentManager: FragmentManager
+    ) : AppIntent()
+
 }
 
 object AppViewModel : MVIAppViewModel<AppState, AppIntent>() {
@@ -74,6 +79,50 @@ object AppViewModel : MVIAppViewModel<AppState, AppIntent>() {
                 intent.packageName,
                 intent.context,
                 intent.fragmentManager
+            )
+
+            is AppIntent.Update -> update(
+                intent.packageName,
+                intent.context,
+                intent.fragmentManager
+            )
+        }
+    }
+
+    private fun update(packageName: String, context: Context, fragmentManager: FragmentManager) {
+        viewModelScope.launch {
+            setState(
+                state.value.copy(
+                    pluginState = PluginState.Loading,
+                    projectState = ProjectState.Loading
+                )
+            )
+            val plugins =
+                appDepository.refreshPlugins(state.value.plugins.filter { it.packageName != packageName })
+            val updatedPlugin = plugins.find { it.packageName == packageName }
+            if (updatedPlugin != null) {
+                try {
+                    withContext(Dispatchers.Main) {
+                        updatedPlugin.pluginAPP.onUpdate(context, fragmentManager)
+                    }
+                } catch (e: Exception) {
+                    if (e is CancellationException) throw e
+                    e.printStackTrace()
+                    Log.e("AppViewModel", "Update plugin failed: " + e.message)
+                }
+            }
+
+            val projects =
+                appDepository.refreshProjects(plugins.filter { it.isSupported && it.isEnabled })
+
+            setState(
+                state.value.copy(
+                    pluginState = PluginState.Done,
+                    plugins = plugins,
+                    projectState = ProjectState.Done,
+                    projects = projects,
+                    isRefreshed = true
+                )
             )
         }
     }
@@ -102,7 +151,7 @@ object AppViewModel : MVIAppViewModel<AppState, AppIntent>() {
                 } catch (e: Exception) {
                     if (e is CancellationException) throw e
                     e.printStackTrace()
-                    Log.e("AppViewModel", "Install plugin failed: " + e.message)
+                    Log.e("AppViewModel", "Uninstall plugin failed: " + e.message)
                 }
             }
 

@@ -6,11 +6,10 @@
     <string name="nothing_here">Nothing here</string>
     <string name="cancel">Cancel</string>
     <string name="up">Up</string>
-    <string name="copy_file">Copying File...</string>
+    <string name="copy_file">Copying File / Folder...</string>
     <string name="name">Name: %s</string>
     <string name="from">From: %s</string>
     <string name="to">To: %s</string>
     <string name="progress">Progress: %d</string>
-    <string name="copy_folder">Copy Folder...</string>
     <string name="unzip_file">Unzip File...</string>
 </resources>

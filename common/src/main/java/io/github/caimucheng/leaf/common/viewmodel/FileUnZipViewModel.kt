@@ -1,6 +1,8 @@
 package io.github.caimucheng.leaf.common.viewmodel
 
 import android.content.res.AssetManager
+import android.system.Os
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import io.github.caimucheng.leaf.common.mvi.MVIViewModel
 import io.github.caimucheng.leaf.common.mvi.UiIntent
@@ -10,17 +12,20 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.apache.commons.compress.archivers.ArchiveStreamFactory
+import org.apache.commons.compress.archivers.tar.TarArchiveEntry
+import org.apache.commons.compress.archivers.tar.TarArchiveInputStream
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry
 import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream
+import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream
 import java.io.File
 import java.io.FileInputStream
-import java.io.InputStream
 
 enum class FileUnZipTotalState {
     UNSTARTED, PROCESSING, DONE, FAILED
 }
 
 data class FileUnZipState(
+    val name: String = "",
     val from: String = "",
     val to: String = "",
     val progress: Int = 0,
@@ -30,12 +35,15 @@ data class FileUnZipState(
 
 sealed class FileUnZipIntent : UiIntent() {
 
-    data class Start(val from: String, val to: String) : FileUnZipIntent()
+    data class Start(val name: String, val from: String, val to: String, val type: String) :
+        FileUnZipIntent()
 
     data class StartFromAssets(
         val assets: AssetManager,
+        val name: String,
         val from: String,
         val to: String,
+        val type: String,
     ) : FileUnZipIntent()
 
 }
@@ -48,30 +56,35 @@ class FileUnZipViewModel : MVIViewModel<FileUnZipState, FileUnZipIntent>() {
 
     override fun handleIntent(intent: FileUnZipIntent, currentState: FileUnZipState) {
         when (intent) {
-            is FileUnZipIntent.Start -> start(intent.from, intent.to)
+            is FileUnZipIntent.Start -> start(intent.name, intent.from, intent.to, intent.type)
             is FileUnZipIntent.StartFromAssets -> startFromInputStream(
                 intent.assets,
+                intent.name,
+                intent.from,
                 intent.to,
-                intent.from
+                intent.type
             )
         }
     }
 
     private fun startFromInputStream(
         assets: AssetManager,
+        name: String,
         from: String,
-        to: String
+        to: String,
+        type: String
     ) {
         viewModelScope.launch {
             setState(
                 state.value.copy(
+                    name = name,
                     from = from,
                     to = to,
                     totalState = FileUnZipTotalState.PROCESSING
                 )
             )
             try {
-                startFromInputStreamSuspend(assets, from, to)
+                startFromInputStreamSuspend(assets, from, to, type)
                 setState(
                     state.value.copy(
                         totalState = FileUnZipTotalState.DONE
@@ -84,17 +97,18 @@ class FileUnZipViewModel : MVIViewModel<FileUnZipState, FileUnZipIntent>() {
         }
     }
 
-    private fun start(from: String, to: String) {
+    private fun start(name: String, from: String, to: String, type: String) {
         viewModelScope.launch {
             setState(
                 state.value.copy(
+                    name = name,
                     from = from,
                     to = to,
                     totalState = FileUnZipTotalState.PROCESSING
                 )
             )
             try {
-                startSuspend(from, to)
+                startSuspend(from, to, type)
                 setState(
                     state.value.copy(
                         totalState = FileUnZipTotalState.DONE
@@ -110,49 +124,75 @@ class FileUnZipViewModel : MVIViewModel<FileUnZipState, FileUnZipIntent>() {
     private suspend fun startFromInputStreamSuspend(
         assets: AssetManager,
         from: String,
-        to: String
+        to: String,
+        type: String
     ) {
         return withContext(Dispatchers.IO) {
-            decompress(assets, from, File(to))
+            val toFile = File(to)
+            when (type) {
+                "zip" -> decompressZip(assets, from, toFile)
+                "gz" -> decompressTarGz(assets, from, toFile)
+                else -> throw IllegalArgumentException("Unknown type")
+            }
         }
     }
 
-    private suspend fun startSuspend(from: String, to: String) {
+    private suspend fun startSuspend(from: String, to: String, type: String) {
         return withContext(Dispatchers.IO) {
             val fromFile = File(from)
             val toFile = File(to)
-            decompress(fromFile, toFile)
+            when (type) {
+                "zip" -> decompressZip(fromFile, toFile)
+                "gz" -> decompressTarGz(fromFile, toFile)
+                else -> throw IllegalArgumentException("Unknown type")
+            }
         }
     }
 
     @Suppress("BlockingMethodInNonBlockingContext")
-    private suspend fun decompress(fromFile: File, toFile: File) {
+    private suspend fun decompressTarGz(fromFile: File, toFile: File) {
+        toFile.mkdirs()
+
         val buffer = ByteArray(8192)
         val archiveStreamFactory = ArchiveStreamFactory("UTF-8")
         var transferred: Long = 0
         var decompressedSize: Long = 0
         FileInputStream(fromFile).buffered().use {
             val archiveInputStream =
-                archiveStreamFactory.createArchiveInputStream<ZipArchiveInputStream>(
-                    ArchiveStreamFactory.ZIP,
-                    it
+                archiveStreamFactory.createArchiveInputStream<TarArchiveInputStream>(
+                    ArchiveStreamFactory.TAR,
+                    GzipCompressorInputStream(it)
                 )
-            var archiveEntry: ZipArchiveEntry
+            var archiveEntry: TarArchiveEntry
             while (archiveInputStream.nextEntry.also { entry -> archiveEntry = entry } != null) {
                 decompressedSize += archiveEntry.size
             }
         }
-        FileInputStream(fromFile).buffered().use {
+        FileInputStream(fromFile).use {
             val archiveInputStream =
-                archiveStreamFactory.createArchiveInputStream<ZipArchiveInputStream>(
-                    ArchiveStreamFactory.ZIP,
-                    it
+                archiveStreamFactory.createArchiveInputStream<TarArchiveInputStream>(
+                    ArchiveStreamFactory.TAR,
+                    GzipCompressorInputStream(it)
                 )
-            var archiveEntry: ZipArchiveEntry
+            var archiveEntry: TarArchiveEntry
             while (archiveInputStream.nextEntry.also { entry -> archiveEntry = entry } != null) {
-                val outputFile = File(toFile, archiveEntry.name)
-                if (outputFile.parentFile?.exists() == false) {
-                    outputFile.parentFile?.mkdirs()
+                val outputFile =
+                    File(toFile, archiveEntry.name)
+
+                if (archiveEntry.isSymbolicLink) {
+                    Os.symlink(
+                        relativeTo(
+                            outputFile.parentFile ?: outputFile,
+                            archiveEntry.linkName
+                        ).absolutePath,
+                        outputFile.absolutePath
+                    )
+                    continue
+                }
+
+                if (archiveEntry.isDirectory) {
+                    outputFile.mkdirs()
+                    continue
                 }
 
                 val output = outputFile.outputStream().buffered()
@@ -180,7 +220,151 @@ class FileUnZipViewModel : MVIViewModel<FileUnZipState, FileUnZipIntent>() {
         }
     }
 
-    private suspend fun decompress(assets: AssetManager, from: String, toFile: File) {
+    private suspend fun decompressTarGz(assets: AssetManager, from: String, toFile: File) {
+        toFile.mkdirs()
+
+        val buffer = ByteArray(8192)
+        val archiveStreamFactory = ArchiveStreamFactory("UTF-8")
+        var transferred: Long = 0
+        var decompressedSize: Long = 0
+        assets.open(from).buffered().use {
+            val archiveInputStream =
+                archiveStreamFactory.createArchiveInputStream<TarArchiveInputStream>(
+                    ArchiveStreamFactory.TAR,
+                    GzipCompressorInputStream(it)
+                )
+            var archiveEntry: TarArchiveEntry
+            while (archiveInputStream.nextEntry.also { entry -> archiveEntry = entry } != null) {
+                decompressedSize += archiveEntry.size
+            }
+        }
+        assets.open(from).use {
+            val archiveInputStream =
+                archiveStreamFactory.createArchiveInputStream<TarArchiveInputStream>(
+                    ArchiveStreamFactory.TAR,
+                    GzipCompressorInputStream(it)
+                )
+            var archiveEntry: TarArchiveEntry
+            while (archiveInputStream.nextEntry.also { entry -> archiveEntry = entry } != null) {
+                val outputFile =
+                    File(toFile, archiveEntry.name)
+
+                if (archiveEntry.isSymbolicLink) {
+                    Os.symlink(
+                        relativeTo(
+                            outputFile.parentFile ?: outputFile,
+                            archiveEntry.linkName
+                        ).absolutePath,
+                        outputFile.absolutePath
+                    )
+                    continue
+                }
+
+                if (archiveEntry.isDirectory) {
+                    outputFile.mkdirs()
+                    continue
+                }
+
+                val output = outputFile.outputStream().buffered()
+                output.use {
+                    var nRead: Int
+                    var tempProgress = 0
+                    var progress: Int
+                    while (archiveInputStream.read(buffer, 0, buffer.size)
+                            .also { bytes -> nRead = bytes } >= 0
+                    ) {
+                        output.write(buffer, 0, nRead)
+                        output.flush()
+                        transferred += nRead.toLong()
+                        progress = (transferred * 100L / decompressedSize).toInt()
+                        if (progress > tempProgress) {
+                            tempProgress = progress
+                            withContext(Dispatchers.Main) {
+                                setState(state.value.copy(progress = progress))
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+
+    private fun relativeTo(baseFile: File, name: String): File {
+        val paths = name.split("/")
+        var currentBaseFile = baseFile
+        for (path in paths) {
+            currentBaseFile = if (path == "..") {
+                currentBaseFile.parentFile ?: currentBaseFile
+            } else {
+                File(currentBaseFile, path)
+            }
+        }
+        return currentBaseFile
+    }
+
+    @Suppress("BlockingMethodInNonBlockingContext")
+    private suspend fun decompressZip(fromFile: File, toFile: File) {
+        toFile.mkdirs()
+
+        val buffer = ByteArray(8192)
+        val archiveStreamFactory = ArchiveStreamFactory("UTF-8")
+        var transferred: Long = 0
+        var decompressedSize: Long = 0
+        FileInputStream(fromFile).buffered().use {
+            val archiveInputStream =
+                archiveStreamFactory.createArchiveInputStream<ZipArchiveInputStream>(
+                    ArchiveStreamFactory.ZIP,
+                    it
+                )
+            var archiveEntry: ZipArchiveEntry
+            while (archiveInputStream.nextEntry.also { entry -> archiveEntry = entry } != null) {
+                decompressedSize += archiveEntry.size
+            }
+        }
+        FileInputStream(fromFile).buffered().use {
+            val archiveInputStream =
+                archiveStreamFactory.createArchiveInputStream<ZipArchiveInputStream>(
+                    ArchiveStreamFactory.ZIP,
+                    it
+                )
+            var archiveEntry: ZipArchiveEntry
+            while (archiveInputStream.nextEntry.also { entry -> archiveEntry = entry } != null) {
+                val outputFile = File(toFile, archiveEntry.name)
+
+                if (archiveEntry.isDirectory) {
+                    outputFile.mkdirs()
+                    continue
+                }
+
+                val output = outputFile.outputStream().buffered()
+                output.use {
+                    var nRead: Int
+                    var tempProgress = 0
+                    var progress: Int
+                    while (archiveInputStream.read(buffer, 0, buffer.size)
+                            .also { bytes -> nRead = bytes } >= 0
+                    ) {
+                        output.write(buffer, 0, nRead)
+                        output.flush()
+                        transferred += nRead.toLong()
+                        progress = (transferred * 100L / decompressedSize).toInt()
+                        if (progress > tempProgress) {
+                            tempProgress = progress
+                            withContext(Dispatchers.Main) {
+                                setState(state.value.copy(progress = progress))
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+
+    private suspend fun decompressZip(assets: AssetManager, from: String, toFile: File) {
+        toFile.mkdirs()
+
         val buffer = ByteArray(8192)
         val archiveStreamFactory = ArchiveStreamFactory("UTF-8")
         var transferred: Long = 0
@@ -205,8 +389,10 @@ class FileUnZipViewModel : MVIViewModel<FileUnZipState, FileUnZipIntent>() {
             var archiveEntry: ZipArchiveEntry
             while (archiveInputStream.nextEntry.also { entry -> archiveEntry = entry } != null) {
                 val outputFile = File(toFile, archiveEntry.name)
-                if (outputFile.parentFile?.exists() == false) {
-                    outputFile.parentFile?.mkdirs()
+
+                if (archiveEntry.isDirectory) {
+                    outputFile.mkdirs()
+                    continue
                 }
 
                 val output = outputFile.outputStream().buffered()

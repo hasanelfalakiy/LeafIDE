@@ -3,6 +3,7 @@ package io.github.caimucheng.leaf.ide.fragment.main
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -31,8 +32,10 @@ import io.github.caimucheng.leaf.ide.util.LeafIDEPluginRootPath
 import io.github.caimucheng.leaf.ide.viewmodel.AppIntent
 import io.github.caimucheng.leaf.ide.viewmodel.AppViewModel
 import io.github.caimucheng.leaf.ide.viewmodel.PluginState
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 
 class MainPluginFragment : Fragment() {
@@ -176,6 +179,7 @@ class MainPluginFragment : Fragment() {
         val fileCopyFragment = FileCopyFragment()
         fileCopyFragment.isCancelable = false
         fileCopyFragment.arguments = bundleOf(
+            "name" to file.name,
             "from" to file.absolutePath,
             "to" to File(LeafIDEPluginRootPath, "${packageName}.apk").absolutePath,
         )
@@ -201,13 +205,26 @@ class MainPluginFragment : Fragment() {
 
     private fun installPlugin(packageName: String) {
         viewLifecycleOwner.lifecycleScope.launch {
-            AppViewModel.intent.send(
-                AppIntent.Install(
-                    packageName,
-                    requireActivity(),
-                    childFragmentManager
+            val plugin = withContext(Dispatchers.IO) {
+                AppViewModel.state.value.plugins.find { it.packageName == packageName }
+            }
+            if (plugin != null) {
+                AppViewModel.intent.send(
+                    AppIntent.Update(
+                        packageName,
+                        requireActivity(),
+                        childFragmentManager
+                    )
                 )
-            )
+            } else {
+                AppViewModel.intent.send(
+                    AppIntent.Install(
+                        packageName,
+                        requireActivity(),
+                        childFragmentManager
+                    )
+                )
+            }
         }
     }
 

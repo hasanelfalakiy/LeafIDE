@@ -1,6 +1,6 @@
 package io.github.caimucheng.leaf.common.viewmodel
 
-import android.util.Log
+import android.content.res.AssetManager
 import androidx.lifecycle.viewModelScope
 import io.github.caimucheng.leaf.common.mvi.MVIViewModel
 import io.github.caimucheng.leaf.common.mvi.UiIntent
@@ -10,14 +10,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
-import java.util.LinkedList
-import java.util.Stack
 
 enum class FileCopyTotalState {
     UNSTARTED, PROCESSING, DONE, FAILED
 }
 
 data class FileCopyState(
+    val name: String = "",
     val from: String = "",
     val to: String = "",
     val progress: Int = 0,
@@ -27,7 +26,14 @@ data class FileCopyState(
 
 sealed class FileCopyIntent : UiIntent() {
 
-    data class Start(val from: String, val to: String) : FileCopyIntent()
+    data class Start(val name: String, val from: String, val to: String) : FileCopyIntent()
+
+    data class StartFromAssets(
+        val assets: AssetManager,
+        val name: String,
+        val from: String,
+        val to: String,
+    ) : FileCopyIntent()
 
 }
 
@@ -39,14 +45,51 @@ class FileCopyViewModel : MVIViewModel<FileCopyState, FileCopyIntent>() {
 
     override fun handleIntent(intent: FileCopyIntent, currentState: FileCopyState) {
         when (intent) {
-            is FileCopyIntent.Start -> start(intent.from, intent.to)
+            is FileCopyIntent.Start -> start(intent.name, intent.from, intent.to)
+            is FileCopyIntent.StartFromAssets -> startFromAssets(
+                intent.assets,
+                intent.name,
+                intent.from,
+                intent.to
+            )
         }
     }
 
-    private fun start(from: String, to: String) {
+    private fun startFromAssets(assets: AssetManager, name: String, from: String, to: String) {
         viewModelScope.launch {
             setState(
                 state.value.copy(
+                    name = name,
+                    from = from,
+                    to = to,
+                    totalState = FileCopyTotalState.PROCESSING
+                )
+            )
+            try {
+                startFromAssetsSuspend(assets, from, to)
+                setState(
+                    state.value.copy(
+                        totalState = FileCopyTotalState.DONE
+                    )
+                )
+            } catch (e: Exception) {
+                if (e is CancellationException) throw e
+                setState(state.value.copy(totalState = FileCopyTotalState.FAILED, exception = e))
+            }
+        }
+    }
+
+    private suspend fun startFromAssetsSuspend(assets: AssetManager, from: String, to: String) {
+        return withContext(Dispatchers.IO) {
+            processFile(assets, from, File(to))
+        }
+    }
+
+    private fun start(name: String, from: String, to: String) {
+        viewModelScope.launch {
+            setState(
+                state.value.copy(
+                    name = name,
                     from = from,
                     to = to,
                     totalState = FileCopyTotalState.PROCESSING
@@ -153,6 +196,38 @@ class FileCopyViewModel : MVIViewModel<FileCopyState, FileCopyIntent>() {
             output.use { _ ->
                 val fileSize = fromFile.length()
                 val buffer = ByteArray(8192)
+                var nRead: Int
+                var transferred: Long = 0
+                var tempProgress = 0
+                var progress: Int
+                while (input.read(buffer, 0, buffer.size).also { nRead = it } >= 0) {
+                    output.write(buffer, 0, nRead)
+                    output.flush()
+                    transferred += nRead.toLong()
+                    progress = (transferred * 100L / fileSize).toInt()
+                    if (progress > tempProgress) {
+                        tempProgress = progress
+                        withContext(Dispatchers.Main) {
+                            setState(state.value.copy(progress = progress))
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private suspend fun processFile(assets: AssetManager, from: String, toFile: File) {
+        val output = toFile.outputStream().buffered()
+        val buffer = ByteArray(8192)
+        var fileSize: Long = 0
+        assets.open(from).buffered().use {
+            var nRead: Int
+            while (it.read(buffer, 0, buffer.size).also { nRead = it } >= 0) {
+                fileSize += nRead
+            }
+        }
+        assets.open(from).buffered().use { input ->
+            output.use { _ ->
                 var nRead: Int
                 var transferred: Long = 0
                 var tempProgress = 0

@@ -2,6 +2,7 @@ package io.github.caimucheng.leaf.common.fragment
 
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.res.AssetManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -30,6 +31,8 @@ class FileCopyFragment : DialogFragment() {
 
     private var fileCopyCallback: FileCopyCallback? = null
 
+    private var assets: AssetManager? = null
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return MaterialAlertDialogBuilder(requireContext())
             .show()
@@ -48,29 +51,38 @@ class FileCopyFragment : DialogFragment() {
         this.fileCopyCallback = fileCopyCallback
     }
 
+    fun setAssets(assets: AssetManager) {
+        this.assets = assets
+    }
+
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val name = arguments?.getString("name") ?: return dismiss()
         val from = arguments?.getString("from") ?: return dismiss()
         val to = arguments?.getString("to") ?: return dismiss()
 
         viewLifecycleOwner.lifecycleScope.launch {
             if (fileCopyViewModel.state.value.totalState == FileCopyTotalState.UNSTARTED) {
-                fileCopyViewModel.intent.send(FileCopyIntent.Start(from, to))
+                if (assets != null) {
+                    fileCopyViewModel.intent.send(
+                        FileCopyIntent.StartFromAssets(
+                            assets!!,
+                            name,
+                            from,
+                            to
+                        )
+                    )
+                } else {
+                    fileCopyViewModel.intent.send(FileCopyIntent.Start(name, from, to))
+                }
             }
 
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 fileCopyViewModel.state.collectLatest {
-                    val fromFile = File(it.from)
-                    val toFile = File(it.to)
-                    if (fromFile.isFile) {
-                        viewBinding.title.title = getString(R.string.copy_file)
-                    } else {
-                        viewBinding.title.title = getString(R.string.copy_folder)
-                    }
-                    viewBinding.name.text = getString(R.string.name, fromFile.name)
-                    viewBinding.from.text = getString(R.string.from, fromFile.absolutePath)
-                    viewBinding.to.text = getString(R.string.to, toFile.absolutePath)
+                    viewBinding.name.text = getString(R.string.name, name)
+                    viewBinding.from.text = getString(R.string.from, it.from)
+                    viewBinding.to.text = getString(R.string.to, it.to)
                     viewBinding.progress.text = getString(R.string.progress, it.progress) + "%"
                     viewBinding.indicator.progress = it.progress
                     if (it.totalState == FileCopyTotalState.DONE) {

@@ -2,6 +2,7 @@ package io.github.caimucheng.leaf.common.fragment
 
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.res.AssetManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,7 +21,6 @@ import io.github.caimucheng.leaf.common.viewmodel.FileUnZipTotalState
 import io.github.caimucheng.leaf.common.viewmodel.FileUnZipViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.io.File
 
 class FileUnZipFragment : DialogFragment() {
 
@@ -29,6 +29,8 @@ class FileUnZipFragment : DialogFragment() {
     private val fileUnZipViewModel: FileUnZipViewModel by viewModels()
 
     private var fileUnZipCallback: FileUnZipCallback? = null
+
+    private var assets: AssetManager? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return MaterialAlertDialogBuilder(requireContext())
@@ -48,25 +50,40 @@ class FileUnZipFragment : DialogFragment() {
         this.fileUnZipCallback = fileUnZipCallback
     }
 
+    fun setAssets(assets: AssetManager) {
+        this.assets = assets
+    }
+
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val name = arguments?.getString("name") ?: return dismiss()
         val from = arguments?.getString("from") ?: return dismiss()
         val to = arguments?.getString("to") ?: return dismiss()
+        val type = arguments?.getString("type") ?: "zip"
 
         viewLifecycleOwner.lifecycleScope.launch {
             if (fileUnZipViewModel.state.value.totalState == FileUnZipTotalState.UNSTARTED) {
-                fileUnZipViewModel.intent.send(FileUnZipIntent.Start(from, to))
+                if (assets != null) {
+                    fileUnZipViewModel.intent.send(
+                        FileUnZipIntent.StartFromAssets(
+                            assets!!,
+                            name,
+                            from,
+                            to,
+                            type
+                        )
+                    )
+                } else {
+                    fileUnZipViewModel.intent.send(FileUnZipIntent.Start(name, from, to, type))
+                }
             }
 
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 fileUnZipViewModel.state.collectLatest {
-                    val fromFile = File(it.from)
-                    val toFile = File(it.to)
-
-                    viewBinding.name.text = getString(R.string.name, fromFile.name)
-                    viewBinding.from.text = getString(R.string.from, fromFile.absolutePath)
-                    viewBinding.to.text = getString(R.string.to, toFile.absolutePath)
+                    viewBinding.name.text = getString(R.string.name, it.name)
+                    viewBinding.from.text = getString(R.string.from, it.from)
+                    viewBinding.to.text = getString(R.string.to, it.to)
                     viewBinding.progress.text = getString(R.string.progress, it.progress) + "%"
                     viewBinding.indicator.progress = it.progress
                     if (it.totalState == FileUnZipTotalState.DONE) {

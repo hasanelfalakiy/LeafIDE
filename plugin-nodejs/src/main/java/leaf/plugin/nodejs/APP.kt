@@ -15,14 +15,14 @@ class APP : PluginAPP() {
 
     companion object {
 
-        lateinit var selfResources: Resources
+        lateinit var currentResources: Resources
             private set
 
     }
 
-    override fun onCreate(hostApplicationContext: Context, myselfResources: Resources) {
+    override fun onCreate(hostApplicationContext: Context, resources: Resources) {
         this.hostContext = hostApplicationContext
-        selfResources = myselfResources
+        currentResources = resources
     }
 
     override suspend fun onInstall(activityContext: Context, fragmentManager: FragmentManager) {
@@ -35,33 +35,33 @@ class APP : PluginAPP() {
     }
 
     override fun getPluginName(): String {
-        return selfResources.getString(R.string.app_name)
+        return currentResources.getString(R.string.app_name)
     }
 
     override fun getPluginDescription(): String {
-        return selfResources.getString(R.string.plugin_description)
+        return currentResources.getString(R.string.plugin_description)
     }
 
     override fun getPluginAuthor(): String {
-        return selfResources.getString(R.string.plugin_author)
+        return currentResources.getString(R.string.plugin_author)
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun getProjectCardIcon(): Drawable {
-        return selfResources.getDrawable(R.drawable.nodejs_logo, hostContext.theme)
+        return currentResources.getDrawable(R.drawable.nodejs_logo, hostContext.theme)
     }
 
     override fun getProjectCardSubscript(): String {
-        return selfResources.getString(R.string.project_card_subscript)
+        return currentResources.getString(R.string.project_card_subscript)
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun getTemplateIcon(): Drawable {
-        return selfResources.getDrawable(R.mipmap.template_icon, hostContext.theme)
+        return currentResources.getDrawable(R.mipmap.template_icon, hostContext.theme)
     }
 
     override fun getTemplateTitle(): String {
-        return selfResources.getString(R.string.template_title)
+        return currentResources.getString(R.string.template_title)
     }
 
 }

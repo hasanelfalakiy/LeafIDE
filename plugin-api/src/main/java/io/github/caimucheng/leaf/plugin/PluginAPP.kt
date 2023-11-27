@@ -8,11 +8,13 @@ import io.github.caimucheng.leaf.plugin.creator.FragmentCreator
 
 abstract class PluginAPP {
 
-    open fun onCreate(hostApplicationContext: Context, selfResources: Resources) {}
+    open fun onCreate(hostApplicationContext: Context, resources: Resources) {}
 
     open suspend fun onInstall(activityContext: Context, fragmentManager: FragmentManager) {}
 
     open suspend fun onUninstall(activityContext: Context, fragmentManager: FragmentManager) {}
+
+    open suspend fun onUpdate(activityContext: Context, fragmentManager: FragmentManager) {}
 
     abstract fun getFragmentCreator(): FragmentCreator
 
