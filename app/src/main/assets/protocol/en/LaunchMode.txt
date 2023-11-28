@@ -1,5 +1,5 @@
 <Launch Mode Introduction>
-    There are two launch modes: launch from external storage and launch from internal storage.
+    There are two launch modes: launch from external storage(Currently unavailable) and launch from internal storage.
 
     Currently, it is not possible to change the launch mode after configuring the software. Therefore, please read and choose carefully.
 <The Difference Between The Two Launch Modes>

@@ -189,9 +189,12 @@ class SplashFragment : Fragment() {
                         )
                     )
 
-                    LaunchMode.LaunchFromInternalStorage -> viewLifecycleOwner.lifecycleScope.launch {
-                        splashViewModel.intent.send(SplashUiIntent.InitializeLaunchMode)
-                    }
+                    LaunchMode.LaunchFromInternalStorage -> activityResultLauncher.launch(
+                        arrayOf(
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                            Manifest.permission.READ_EXTERNAL_STORAGE
+                        )
+                    )
                 }
                 return@setOnClickListener
             }
@@ -200,11 +203,11 @@ class SplashFragment : Fragment() {
             }
         }
 
-        viewBinding.launchFromExternalStorageCard.setOnClickListener {
-            viewLifecycleOwner.lifecycleScope.launch {
-                splashViewModel.intent.send(SplashUiIntent.SelectLaunchMode(LaunchMode.LaunchFromExteralStorage))
-            }
-        }
+//        viewBinding.launchFromExternalStorageCard.setOnClickListener {
+//            viewLifecycleOwner.lifecycleScope.launch {
+//                splashViewModel.intent.send(SplashUiIntent.SelectLaunchMode(LaunchMode.LaunchFromExteralStorage))
+//            }
+//        }
 
         viewBinding.launchFromInternalStorageCard.setOnClickListener {
             viewLifecycleOwner.lifecycleScope.launch {

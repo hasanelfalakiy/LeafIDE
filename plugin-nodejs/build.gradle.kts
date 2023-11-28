@@ -21,6 +21,7 @@ android {
 dependencies {
     implementation(project(":common"))
     implementation(project(":plugin-api"))
+    implementation(libs.libsu)
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.material)

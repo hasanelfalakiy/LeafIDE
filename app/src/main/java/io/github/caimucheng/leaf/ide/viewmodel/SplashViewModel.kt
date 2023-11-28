@@ -26,7 +26,7 @@ data class SplashUiState(
     val titleResId: Int = R.string.privacy_policy,
     val content: SpannedString? = null,
     val page: SplashPage = SplashPage.PrivacyPolicy,
-    val selectedLaunchMode: LaunchMode = LaunchMode.LaunchFromExteralStorage,
+    val selectedLaunchMode: LaunchMode = LaunchMode.LaunchFromInternalStorage,
     val initializedLaunchMode: Boolean = false
 ) : UiState()
 

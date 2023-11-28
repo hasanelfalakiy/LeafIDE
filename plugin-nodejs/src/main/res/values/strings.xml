@@ -5,4 +5,30 @@
     <string name="template_title">NodeJS Project</string>
     <string name="project_card_subscript" translatable="false">NodeJS</string>
     <string name="create">Create</string>
+    <string name="install_nodejs">Install NodeJS</string>
+    <string name="install_nodejs_message">Install nodejs to use the functionality normally</string>
+    <string name="install">Install</string>
+    <string name="uninstall_nodejs">Uninstall NodeJS</string>
+    <string name="uninstall_nodejs_message">Uninstall NodeJS to reduce disk usage</string>
+    <string name="uninstall">Uninstall</string>
+    <string name="update_nodejs">Update NodeJS</string>
+    <string name="update_nodejs_message">Will uninstall the old version and install the new version NodeJS</string>
+    <string name="update">Update</string>
+    <string name="install_nodejs_successfully">NodeJS installed successfully</string>
+    <string name="install_nodejs_failed">NodeJS installation failed: %s</string>
+    <string name="uninstall_nodejs_successfully">NodeJS uninstalled successfully</string>
+    <string name="uninstall_nodejs_failed">NodeJS uninstallation failed</string>
+    <string name="update_nodejs_successfully">NodeJS updated successfully</string>
+    <string name="update_nodejs_failed">NodeJS updation failed: %s</string>
+    <string name="delete_failed">Failed to delete original version</string>
+    <string name="project_name">Project Name</string>
+    <string name="version">Version</string>
+    <string name="project_template">Project Template</string>
+    <string-array name="project_templates">
+        <item>Default Template</item>
+    </string-array>
+    <string name="project_name_cannot_be_empty">Project name cannot be empty</string>
+    <string name="version_cannot_be_empty">Version cannot be empty</string>
+    <string name="invalid_project_name">Invalid project name</string>
+    <string name="invalid_version">Invalid project version</string>
 </resources>

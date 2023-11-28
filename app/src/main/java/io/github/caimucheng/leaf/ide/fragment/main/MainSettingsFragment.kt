@@ -28,33 +28,7 @@ class MainSettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val fileUnZipFragment = FileUnZipFragment()
-        fileUnZipFragment.isCancelable = false
-        fileUnZipFragment.arguments = bundleOf(
-            "name" to "nodejs.zip",
-            "from" to "nodejs.zip",
-            "to" to File(requireContext().filesDir, "isolate").absolutePath,
-            "type" to "zip"
-        )
-        fileUnZipFragment.setAssets(requireActivity().assets)
-        fileUnZipFragment.setFileUnZipCallback(object : FileUnZipCallback {
-            override fun onUnZipSuccess() {
-                fileUnZipFragment.dismiss()
-                Toasty.success(requireContext(), R.string.copy_success, Toasty.LENGTH_SHORT)
-                    .show()
-            }
 
-            override fun onUnZipFailed(e: Exception) {
-                fileUnZipFragment.dismiss()
-                e.printStackTrace()
-                Toasty.error(
-                    requireContext(),
-                    getString(R.string.copy_failure, e.message),
-                    Toasty.LENGTH_LONG
-                ).show()
-            }
-        })
-        fileUnZipFragment.show(childFragmentManager, "fileCopy")
     }
 
 }

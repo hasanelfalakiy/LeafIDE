@@ -1,6 +1,7 @@
 package io.github.caimucheng.leaf.common.viewmodel
 
 import android.content.res.AssetManager
+import android.os.Environment
 import android.system.Os
 import android.util.Log
 import androidx.lifecycle.viewModelScope
@@ -291,8 +292,11 @@ class FileUnZipViewModel : MVIViewModel<FileUnZipState, FileUnZipIntent>() {
     }
 
     private fun relativeTo(baseFile: File, name: String): File {
-        val paths = name.split("/")
         var currentBaseFile = baseFile
+        val paths = name.split("/")
+        if (paths[0].isEmpty()) {
+            return File(name)
+        }
         for (path in paths) {
             currentBaseFile = if (path == "..") {
                 currentBaseFile.parentFile ?: currentBaseFile
