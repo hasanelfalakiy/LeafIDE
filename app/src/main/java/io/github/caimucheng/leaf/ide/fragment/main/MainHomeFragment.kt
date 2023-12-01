@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import io.github.caimucheng.leaf.common.fragment.ProgressFragment
 import io.github.caimucheng.leaf.ide.R
 import io.github.caimucheng.leaf.ide.adapter.MainHomeAdapter
 import io.github.caimucheng.leaf.ide.databinding.FragmentMainHomeBinding
