@@ -7,7 +7,6 @@ import android.graphics.drawable.Drawable
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.topjohnwu.superuser.Shell
 import es.dmoral.toasty.Toasty
 import io.github.caimucheng.leaf.common.callback.FileDeleteCallback
 import io.github.caimucheng.leaf.common.callback.FileUnZipCallback
@@ -21,6 +20,7 @@ import kotlin.coroutines.Continuation
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
+@Suppress("unused")
 class APP : PluginAPP() {
 
     private lateinit var hostContext: Context

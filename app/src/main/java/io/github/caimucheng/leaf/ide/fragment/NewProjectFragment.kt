@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import io.github.caimucheng.leaf.ide.R
 import io.github.caimucheng.leaf.ide.databinding.FragmentNewProjectBinding
+import io.github.caimucheng.leaf.ide.viewmodel.AppIntent
 import io.github.caimucheng.leaf.ide.viewmodel.AppViewModel
 import io.github.caimucheng.leaf.ide.viewmodel.PluginState
 import io.github.caimucheng.leaf.plugin.action.ActionHolder
@@ -79,6 +80,16 @@ class NewProjectFragment : Fragment() {
     private fun setupFragment(onNewProjectFragment: PluginFragment) {
         val actionHolder = ActionHolder(
             onPopBackStack = { findNavController().popBackStack() },
+            onPopBackHome = {
+                if (it) {
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        AppViewModel.intent.send(AppIntent.Refresh)
+                        findNavController().navigate(R.id.action_newProjectFragment_to_mainFragment)
+                    }
+                } else {
+                    findNavController().navigate(R.id.action_newProjectFragment_to_mainFragment)
+                }
+            },
             onStartFragment = {
                 setupFragment(it)
                 childFragmentManager.beginTransaction()

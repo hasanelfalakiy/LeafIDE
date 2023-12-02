@@ -10,5 +10,6 @@ object Versions {
     const val minSdkVersion = 21
     val javaVersion = JavaVersion.VERSION_17
     const val jvmToolchainVersion = 17
+    const val kotlinCompilerExtensionVersion = "1.5.5-dev-k2.0.0-Beta1-06b8ae672a4"
 
 }

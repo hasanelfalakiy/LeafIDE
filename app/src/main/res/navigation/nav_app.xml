@@ -46,6 +46,12 @@
     <fragment
         android:id="@+id/newProjectFragment"
         android:name="io.github.caimucheng.leaf.ide.fragment.NewProjectFragment"
-        android:label="NewProjectFragment" />
+        android:label="NewProjectFragment" >
+        <action
+            android:id="@+id/action_newProjectFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:popUpTo="@id/newProjectFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 
 </navigation>

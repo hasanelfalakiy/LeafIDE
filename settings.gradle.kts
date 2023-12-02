@@ -1,5 +1,8 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":compose-ui")
+
+
 include(":plugin-nodejs")
 
 
@@ -20,6 +23,7 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven { url = uri("https://jitpack.io") }
+        maven { url = uri("https://androidx.dev/storage/compose-compiler/repository") }
     }
 }
 
