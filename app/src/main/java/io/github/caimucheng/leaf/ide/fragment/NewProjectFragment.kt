@@ -54,19 +54,17 @@ class NewProjectFragment : Fragment() {
                             viewBinding.content.visibility = View.VISIBLE
 
                             val fragmentCreator = plugin.pluginAPP.getFragmentCreator()
-                            if (childFragmentManager.findFragmentById(R.id.content) == null) {
-                                val onNewProjectFragment = fragmentCreator.onNewProject()
-                                setupFragment(onNewProjectFragment)
-                                childFragmentManager.beginTransaction()
-                                    .setCustomAnimations(
-                                        androidx.navigation.ui.R.anim.nav_default_enter_anim,
-                                        androidx.navigation.ui.R.anim.nav_default_exit_anim,
-                                        androidx.navigation.ui.R.anim.nav_default_pop_enter_anim,
-                                        androidx.navigation.ui.R.anim.nav_default_pop_exit_anim
-                                    )
-                                    .replace(R.id.content, onNewProjectFragment)
-                                    .commit()
-                            }
+                            val onNewProjectFragment = fragmentCreator.onNewProject()
+                            setupFragment(onNewProjectFragment)
+                            childFragmentManager.beginTransaction()
+                                .setCustomAnimations(
+                                    androidx.navigation.ui.R.anim.nav_default_enter_anim,
+                                    androidx.navigation.ui.R.anim.nav_default_exit_anim,
+                                    androidx.navigation.ui.R.anim.nav_default_pop_enter_anim,
+                                    androidx.navigation.ui.R.anim.nav_default_pop_exit_anim
+                                )
+                                .replace(R.id.content, onNewProjectFragment)
+                                .commit()
                         } else {
                             viewBinding.content.visibility = View.GONE
                             viewBinding.placeholder.visibility = View.VISIBLE

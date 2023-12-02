@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.background
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -17,13 +18,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.VisualTransformation
 import io.github.caimucheng.leaf.compose.ui.theme.LeafIDETheme
 import io.github.caimucheng.leaf.plugin.fragment.PluginFragment
 import leaf.plugin.nodejs.APP
@@ -83,7 +86,16 @@ class NewProjectFragment : PluginFragment() {
                     .fillMaxSize()
                     .padding(it)
             ) {
-
+                TextFieldDefaults.DecorationBox(
+                    value = "",
+                    innerTextField = { Text(text = "Text") },
+                    enabled = true,
+                    singleLine = true,
+                    visualTransformation = VisualTransformation.None,
+                    interactionSource = remember {
+                        MutableInteractionSource()
+                    }
+                )
             }
         }
     }
