@@ -1,13 +1,9 @@
 @file:Suppress("UnstableApiUsage")
 
-include(":compose-ui")
-
-
 include(":plugin-nodejs")
-
-
 include(":plugin-api")
-
+include(":app")
+include(":common")
 
 pluginManagement {
     includeBuild("build-logic")
@@ -28,5 +24,3 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "LeafIDE"
-include(":app")
-include(":common")

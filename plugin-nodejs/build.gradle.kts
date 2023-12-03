@@ -13,34 +13,18 @@ android {
         versionName = NodeJSPluginVersions.VERSION_NAME
     }
 
-    buildFeatures {
-        compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = Versions.kotlinCompilerExtensionVersion
-    }
-
 }
 
 dependencies {
-    compileOnly(project(":common"))
-    compileOnly(project(":plugin-api"))
-
-    implementation(project(":compose-ui"))
-    implementation(platform(libs.compose.bom))
-    implementation(libs.activity.compose)
-    implementation(libs.compose.ui)
-    implementation(libs.compose.ui.graphics)
-    implementation(libs.compose.ui.tooling.preview)
-    implementation(libs.compose.material3)
-
+    implementation(project(":common"))
+    implementation(project(":plugin-api"))
     implementation(libs.core.ktx)
-    compileOnly(libs.appcompat)
-    compileOnly(libs.material)
-    compileOnly(libs.constraintlayout)
-    compileOnly(libs.navigation.fragment.ktx)
-    compileOnly(libs.navigation.ui.ktx)
-    compileOnly(libs.preference.ktx)
-    compileOnly(libs.toasty)
+    implementation(libs.appcompat)
+    implementation(libs.material)
+    implementation(libs.constraintlayout)
+    implementation(libs.navigation.fragment.ktx)
+    implementation(libs.navigation.ui.ktx)
+    implementation(libs.preference.ktx)
+    implementation(libs.toasty)
+    implementation(libs.kotlin.reflect)
 }

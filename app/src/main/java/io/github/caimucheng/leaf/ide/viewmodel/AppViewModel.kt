@@ -40,19 +40,22 @@ sealed class AppIntent : UiIntent() {
     data class Install(
         val packageName: String,
         val context: Context,
-        val fragmentManager: FragmentManager
+        val fragmentManager: FragmentManager,
+        val skipLifecycle: Boolean = false
     ) : AppIntent()
 
     data class Uninstall(
         val packageName: String,
         val context: Context,
-        val fragmentManager: FragmentManager
+        val fragmentManager: FragmentManager,
+        val skipLifecycle: Boolean = false
     ) : AppIntent()
 
     data class Update(
         val packageName: String,
         val context: Context,
-        val fragmentManager: FragmentManager
+        val fragmentManager: FragmentManager,
+        val skipLifecycle: Boolean = false
     ) : AppIntent()
 
 }
@@ -72,24 +75,32 @@ object AppViewModel : MVIAppViewModel<AppState, AppIntent>() {
             is AppIntent.Install -> install(
                 intent.packageName,
                 intent.context,
-                intent.fragmentManager
+                intent.fragmentManager,
+                intent.skipLifecycle
             )
 
             is AppIntent.Uninstall -> uninstall(
                 intent.packageName,
                 intent.context,
-                intent.fragmentManager
+                intent.fragmentManager,
+                intent.skipLifecycle
             )
 
             is AppIntent.Update -> update(
                 intent.packageName,
                 intent.context,
-                intent.fragmentManager
+                intent.fragmentManager,
+                intent.skipLifecycle
             )
         }
     }
 
-    private fun update(packageName: String, context: Context, fragmentManager: FragmentManager) {
+    private fun update(
+        packageName: String,
+        context: Context,
+        fragmentManager: FragmentManager,
+        skipLifecycle: Boolean
+    ) {
         viewModelScope.launch {
             setState(
                 state.value.copy(
@@ -101,14 +112,16 @@ object AppViewModel : MVIAppViewModel<AppState, AppIntent>() {
                 appDepository.refreshPlugins(state.value.plugins.filter { it.packageName != packageName })
             val updatedPlugin = plugins.find { it.packageName == packageName }
             if (updatedPlugin != null) {
-                try {
-                    withContext(Dispatchers.Main) {
-                        updatedPlugin.pluginAPP.onUpdate(context, fragmentManager)
+                if (!skipLifecycle) {
+                    try {
+                        withContext(Dispatchers.Main) {
+                            updatedPlugin.pluginAPP.onUpdate(context, fragmentManager)
+                        }
+                    } catch (e: Exception) {
+                        if (e is CancellationException) throw e
+                        e.printStackTrace()
+                        Log.e("AppViewModel", "Update plugin failed: " + e.message)
                     }
-                } catch (e: Exception) {
-                    if (e is CancellationException) throw e
-                    e.printStackTrace()
-                    Log.e("AppViewModel", "Update plugin failed: " + e.message)
                 }
             }
 
@@ -127,7 +140,12 @@ object AppViewModel : MVIAppViewModel<AppState, AppIntent>() {
         }
     }
 
-    private fun uninstall(packageName: String, context: Context, fragmentManager: FragmentManager) {
+    private fun uninstall(
+        packageName: String,
+        context: Context,
+        fragmentManager: FragmentManager,
+        skipLifecycle: Boolean
+    ) {
         viewModelScope.launch {
             setState(
                 state.value.copy(
@@ -144,14 +162,16 @@ object AppViewModel : MVIAppViewModel<AppState, AppIntent>() {
                     file.delete()
                 }
                 plugins.remove(uninstalledPlugin)
-                try {
-                    withContext(Dispatchers.Main) {
-                        uninstalledPlugin.pluginAPP.onUninstall(context, fragmentManager)
+                if (!skipLifecycle) {
+                    try {
+                        withContext(Dispatchers.Main) {
+                            uninstalledPlugin.pluginAPP.onUninstall(context, fragmentManager)
+                        }
+                    } catch (e: Exception) {
+                        if (e is CancellationException) throw e
+                        e.printStackTrace()
+                        Log.e("AppViewModel", "Uninstall plugin failed: " + e.message)
                     }
-                } catch (e: Exception) {
-                    if (e is CancellationException) throw e
-                    e.printStackTrace()
-                    Log.e("AppViewModel", "Uninstall plugin failed: " + e.message)
                 }
             }
 
@@ -173,7 +193,8 @@ object AppViewModel : MVIAppViewModel<AppState, AppIntent>() {
     private fun install(
         packageName: String,
         context: Context,
-        fragmentManager: FragmentManager
+        fragmentManager: FragmentManager,
+        skipLifecycle: Boolean
     ) {
         viewModelScope.launch {
             setState(
@@ -185,14 +206,16 @@ object AppViewModel : MVIAppViewModel<AppState, AppIntent>() {
             val plugins = appDepository.refreshPlugins(state.value.plugins)
             val installedPlugin = plugins.find { it.packageName == packageName }
             if (installedPlugin != null) {
-                try {
-                    withContext(Dispatchers.Main) {
-                        installedPlugin.pluginAPP.onInstall(context, fragmentManager)
+                if (!skipLifecycle) {
+                    try {
+                        withContext(Dispatchers.Main) {
+                            installedPlugin.pluginAPP.onInstall(context, fragmentManager)
+                        }
+                    } catch (e: Exception) {
+                        if (e is CancellationException) throw e
+                        e.printStackTrace()
+                        Log.e("AppViewModel", "Install plugin failed: " + e.message)
                     }
-                } catch (e: Exception) {
-                    if (e is CancellationException) throw e
-                    e.printStackTrace()
-                    Log.e("AppViewModel", "Install plugin failed: " + e.message)
                 }
             }
 

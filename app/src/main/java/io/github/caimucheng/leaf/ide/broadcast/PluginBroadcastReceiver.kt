@@ -29,6 +29,10 @@ import kotlin.coroutines.suspendCoroutine
 
 class PluginBroadcastReceiver : BroadcastReceiver() {
 
+    companion object {
+        private const val SKIP_PLUGIN_LIFECYCLE = true
+    }
+
     private val coroutineScope =
         CoroutineScope(Dispatchers.Main + CoroutineName("PluginBroadcastCoroutine"))
 
@@ -71,7 +75,8 @@ class PluginBroadcastReceiver : BroadcastReceiver() {
                         AppIntent.Install(
                             packageName,
                             activity,
-                            fragmentManager
+                            fragmentManager,
+                            SKIP_PLUGIN_LIFECYCLE
                         )
                     )
                 }
@@ -96,7 +101,8 @@ class PluginBroadcastReceiver : BroadcastReceiver() {
                         AppIntent.Uninstall(
                             packageName,
                             activity,
-                            fragmentManager
+                            fragmentManager,
+                            SKIP_PLUGIN_LIFECYCLE
                         )
                     )
                 }
@@ -125,7 +131,8 @@ class PluginBroadcastReceiver : BroadcastReceiver() {
                         AppIntent.Update(
                             packageName,
                             activity,
-                            fragmentManager
+                            fragmentManager,
+                            SKIP_PLUGIN_LIFECYCLE
                         )
                     )
                 }

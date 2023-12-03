@@ -22,7 +22,7 @@
     <string name="update_nodejs_failed">NodeJS updation failed: %s</string>
     <string name="delete_failed">Failed to delete original version</string>
     <string name="project_name">Project Name</string>
-    <string name="version">Version</string>
+    <string name="version_name">Version Name</string>
     <string name="project_template">Project Template</string>
     <string-array name="project_templates">
         <item>Default Template</item>
@@ -30,5 +30,5 @@
     <string name="project_name_cannot_be_empty">Project name cannot be empty</string>
     <string name="version_cannot_be_empty">Version cannot be empty</string>
     <string name="invalid_project_name">Invalid project name</string>
-    <string name="invalid_version">Invalid project version</string>
+    <string name="invalid_version_name">Invalid project version name</string>
 </resources>
