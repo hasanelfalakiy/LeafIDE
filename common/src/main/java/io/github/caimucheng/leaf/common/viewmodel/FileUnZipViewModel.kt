@@ -181,13 +181,16 @@ class FileUnZipViewModel : MVIViewModel<FileUnZipState, FileUnZipIntent>() {
                     File(toFile, archiveEntry.name)
 
                 if (archiveEntry.isSymbolicLink) {
-                    Os.symlink(
-                        relativeTo(
-                            outputFile.parentFile ?: outputFile,
-                            archiveEntry.linkName
-                        ).absolutePath,
-                        outputFile.absolutePath
-                    )
+                    try {
+                        Os.symlink(
+                            relativeTo(
+                                outputFile.parentFile ?: outputFile,
+                                archiveEntry.linkName
+                            ).absolutePath,
+                            outputFile.absolutePath
+                        )
+                    } catch (_: Exception) {
+                    }
                     continue
                 }
 
@@ -217,6 +220,10 @@ class FileUnZipViewModel : MVIViewModel<FileUnZipState, FileUnZipIntent>() {
                     }
                 }
 
+                val splitIndex = archiveEntry.name.lastIndexOf("bin/")
+                if (splitIndex != -1) {
+                    outputFile.setExecutable(true, true)
+                }
             }
         }
     }
@@ -251,13 +258,16 @@ class FileUnZipViewModel : MVIViewModel<FileUnZipState, FileUnZipIntent>() {
                     File(toFile, archiveEntry.name)
 
                 if (archiveEntry.isSymbolicLink) {
-                    Os.symlink(
-                        relativeTo(
-                            outputFile.parentFile ?: outputFile,
-                            archiveEntry.linkName
-                        ).absolutePath,
-                        outputFile.absolutePath
-                    )
+                    try {
+                        Os.symlink(
+                            relativeTo(
+                                outputFile.parentFile ?: outputFile,
+                                archiveEntry.linkName
+                            ).absolutePath,
+                            outputFile.absolutePath
+                        )
+                    } catch (_: Exception) {
+                    }
                     continue
                 }
 
@@ -287,6 +297,10 @@ class FileUnZipViewModel : MVIViewModel<FileUnZipState, FileUnZipIntent>() {
                     }
                 }
 
+                val splitIndex = archiveEntry.name.lastIndexOf("bin/")
+                if (splitIndex != -1) {
+                    outputFile.setExecutable(true, true)
+                }
             }
         }
     }

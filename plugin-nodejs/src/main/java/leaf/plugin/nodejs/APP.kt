@@ -45,7 +45,7 @@ class APP : PluginAPP() {
                 .setMessage(currentResources.getString(R.string.install_nodejs_message))
                 .setCancelable(false)
                 .setPositiveButton(currentResources.getString(R.string.install)) { _, _ ->
-                    installCoreutils(
+                    installNodeJS(
                         activityContext,
                         fragmentManager,
                         continuation,
@@ -56,66 +56,12 @@ class APP : PluginAPP() {
         }
     }
 
-    private fun installCoreutils(
-        activityContext: Context,
-        fragmentManager: FragmentManager,
-        continuation: Continuation<Unit>,
-        isUpdatedMode: Boolean
-    ) {
-        val fileUnZipFragment = FileUnZipFragment()
-        fileUnZipFragment.setAssets(currentResources.assets)
-        fileUnZipFragment.arguments = bundleOf(
-            "name" to "coreutils.tgz",
-            "from" to "coreutils.tgz",
-            "to" to File(activityContext.filesDir, "isolate").absolutePath,
-            "type" to "gz"
-        )
-        fileUnZipFragment.setAssets(currentResources.assets)
-        fileUnZipFragment.setFileUnZipCallback(object : FileUnZipCallback {
-
-            override fun onUnZipSuccess() {
-                fileUnZipFragment.dismiss()
-                installNodeJS(
-                    activityContext,
-                    fragmentManager,
-                    continuation,
-                    isUpdatedMode = isUpdatedMode
-                )
-            }
-
-            override fun onUnZipFailed(e: Exception) {
-                fileUnZipFragment.dismiss()
-                if (isUpdatedMode) {
-                    Toasty.error(
-                        activityContext,
-                        currentResources.getString(R.string.update_nodejs_failed, e.message),
-                        Toasty.LENGTH_LONG
-                    ).show()
-                } else {
-                    Toasty.error(
-                        activityContext,
-                        currentResources.getString(R.string.install_nodejs_failed, e.message),
-                        Toasty.LENGTH_LONG
-                    ).show()
-                }
-                continuation.resume(Unit)
-            }
-
-        })
-        fileUnZipFragment.isCancelable = false
-        fileUnZipFragment.show(fragmentManager, "UnZipCoreutilsTask")
-    }
-
     private fun installNodeJS(
         activityContext: Context,
         fragmentManager: FragmentManager,
         continuation: Continuation<Unit>,
         isUpdatedMode: Boolean
     ) {
-        val isolateFolder = File(activityContext.filesDir, "isolate")
-        val nodeJSFolder = File(isolateFolder, "nodejs")
-        val binFolder = File(nodeJSFolder, "bin")
-
         val fileUnZipFragment = FileUnZipFragment()
         fileUnZipFragment.setAssets(currentResources.assets)
         fileUnZipFragment.arguments = bundleOf(
@@ -128,7 +74,6 @@ class APP : PluginAPP() {
         fileUnZipFragment.setFileUnZipCallback(object : FileUnZipCallback {
 
             override fun onUnZipSuccess() {
-                setupExecutable(binFolder)
                 fileUnZipFragment.dismiss()
                 if (isUpdatedMode) {
                     Toasty.success(
@@ -167,12 +112,6 @@ class APP : PluginAPP() {
         })
         fileUnZipFragment.isCancelable = false
         fileUnZipFragment.show(fragmentManager, "UnZipNodeJSTask")
-    }
-
-    private fun setupExecutable(binFolder: File) {
-        File(binFolder, "coreutils").setExecutable(true, true)
-        File(binFolder, "iconv").setExecutable(true, true)
-        File(binFolder, "node").setExecutable(true, true)
     }
 
     override suspend fun onUninstall(activityContext: Context, fragmentManager: FragmentManager) {
@@ -256,7 +195,7 @@ class APP : PluginAPP() {
 
             override fun onDeleteSuccess() {
                 fileDeleteFragment.dismiss()
-                installCoreutils(
+                installNodeJS(
                     activityContext,
                     fragmentManager,
                     continuation,
