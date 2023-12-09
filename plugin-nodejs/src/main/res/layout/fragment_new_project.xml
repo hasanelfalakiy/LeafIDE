@@ -1,58 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:title="NodeJS Project" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/projectNameLayout"
+    <io.github.caimucheng.leaf.common.view.springback.SpringBackLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
-        android:hint="Project Name"
-        tools:ignore="HardcodedText">
+        android:layout_height="0dp"
+        android:layout_marginBottom="15dp"
+        app:layout_constraintBottom_toTopOf="@+id/materialButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:scrollableView="@id/scrollView">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:text="MyNodeProject">
+            android:layout_height="match_parent"
+            android:fillViewport="true">
 
-            <requestFocus />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:orientation="vertical">
 
-        </com.google.android.material.textfield.TextInputEditText>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Project Name"
+                    tools:ignore="HardcodedText">
 
-    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/textInputEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:text="MyNodeProject" />
 
-    <Space
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </io.github.caimucheng.leaf.common.view.springback.SpringBackLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/materialButton"
         android:layout_width="wrap_content"
-        android:layout_height="15dp" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/versionLayout"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
-        android:hint="Version Name"
-        tools:ignore="HardcodedText">
+        android:layout_margin="15dp"
+        android:text="Create"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="HardcodedText" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:digits="0123456789."
-            android:text="1.0.0" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

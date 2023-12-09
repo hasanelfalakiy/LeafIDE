@@ -21,13 +21,4 @@
     <string name="update_nodejs_failed">NodeJS 更新失败：%s</string>
     <string name="delete_failed">删除原版本失败</string>
     <string name="project_name">工程名称</string>
-    <string name="version_name">工程版本</string>
-    <string name="project_template">工程模板</string>
-    <string-array name="project_templates">
-        <item>默认模板</item>
-    </string-array>
-    <string name="project_name_cannot_be_empty">工程名称不能为空</string>
-    <string name="version_cannot_be_empty">工程版本不能为空</string>
-    <string name="invalid_project_name">无效的工程名称</string>
-    <string name="invalid_version_name">无效的工程版本名称</string>
 </resources>

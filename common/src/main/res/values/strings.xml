@@ -14,4 +14,5 @@
     <string name="unzip_file">Unzip File...</string>
     <string name="delete_file">Deleting File / Folder...</string>
     <string name="path">Path: %s</string>
+    <string name="nodejs_project_template">NodeJS Project</string>
 </resources>

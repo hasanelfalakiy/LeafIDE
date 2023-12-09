@@ -14,4 +14,5 @@
     <string name="unzip_file">解压文件...</string>
     <string name="delete_file">删除文件 / 目录...</string>
     <string name="path">路径：%s</string>
+    <string name="nodejs_project_template">NodeJS 工程</string>
 </resources>
