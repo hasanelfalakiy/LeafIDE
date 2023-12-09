@@ -17,6 +17,10 @@ android {
         enable = true
     }
 
+    packaging {
+        resources.excludes.addAll(setOf("assets/.gitattributes"))
+    }
+
 }
 
 dependencies {
