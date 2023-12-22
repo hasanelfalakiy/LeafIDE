@@ -3,7 +3,6 @@ package io.github.caimucheng.leaf.ide.fragment.main
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater

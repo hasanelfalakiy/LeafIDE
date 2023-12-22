@@ -5,10 +5,11 @@ import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import androidx.fragment.app.FragmentManager
 import io.github.caimucheng.leaf.plugin.creator.FragmentCreator
+import io.github.caimucheng.leaf.plugin.path.Paths
 
 abstract class PluginAPP {
 
-    open fun onCreate(hostApplicationContext: Context, resources: Resources) {}
+    open fun onCreate(hostApplicationContext: Context, resources: Resources, paths: Paths) {}
 
     open suspend fun onInstall(activityContext: Context, fragmentManager: FragmentManager) {}
 

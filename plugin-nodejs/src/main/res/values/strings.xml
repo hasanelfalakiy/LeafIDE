@@ -22,4 +22,10 @@
     <string name="update_nodejs_failed">NodeJS updation failed: %s</string>
     <string name="delete_failed">Failed to delete original version</string>
     <string name="project_name">Project Name</string>
+    <string name="project_name_cannot_be_empty">Project name cannot be empty</string>
+    <string name="illegal_project_name">Illegal project name</string>
+    <string name="creation_failed">Creation failed: %s</string>
+    <string name="create_successfully">Create successfully</string>
+    <string name="creating_project">Creating project</string>
+    <string name="creating_project_message">Just a moment please...</string>
 </resources>

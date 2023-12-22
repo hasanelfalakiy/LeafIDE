@@ -6,9 +6,12 @@ import dalvik.system.DexClassLoader
 import io.github.caimucheng.leaf.ide.application.AppContext
 import io.github.caimucheng.leaf.ide.model.Plugin
 import io.github.caimucheng.leaf.ide.model.Project
+import io.github.caimucheng.leaf.ide.util.ExternalRootPath
 import io.github.caimucheng.leaf.ide.util.LeafIDEPluginRootPath
 import io.github.caimucheng.leaf.ide.util.LeafIDEProjectPath
+import io.github.caimucheng.leaf.ide.util.LeafIDERootPath
 import io.github.caimucheng.leaf.plugin.PluginAPP
+import io.github.caimucheng.leaf.plugin.path.Paths
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.supervisorScope
 import kotlinx.coroutines.withContext
@@ -104,8 +107,14 @@ class AppDepository {
                     }
 
                     // Get pluginAPP
+                    val paths = Paths(
+                        ExternalRootPath,
+                        LeafIDEPluginRootPath,
+                        LeafIDERootPath,
+                        LeafIDEProjectPath
+                    )
                     val pluginAPP = pluginAPPClass.getConstructor().newInstance() as PluginAPP
-                    pluginAPP.onCreate(context, resources)
+                    pluginAPP.onCreate(context, resources, paths)
 
                     plugins.add(
                         Plugin(

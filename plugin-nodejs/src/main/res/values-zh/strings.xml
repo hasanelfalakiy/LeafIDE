@@ -21,4 +21,10 @@
     <string name="update_nodejs_failed">NodeJS 更新失败：%s</string>
     <string name="delete_failed">删除原版本失败</string>
     <string name="project_name">工程名称</string>
+    <string name="project_name_cannot_be_empty">工程名称不能为空</string>
+    <string name="illegal_project_name">不合法的工程名称</string>
+    <string name="creation_failed">创建失败：%s</string>
+    <string name="create_successfully">创建成功</string>
+    <string name="creating_project">正在创建工程</string>
+    <string name="creating_project_message">请稍等片刻....</string>
 </resources>

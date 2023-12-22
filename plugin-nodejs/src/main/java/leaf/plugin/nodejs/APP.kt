@@ -14,6 +14,7 @@ import io.github.caimucheng.leaf.common.fragment.FileDeleteFragment
 import io.github.caimucheng.leaf.common.fragment.FileUnZipFragment
 import io.github.caimucheng.leaf.plugin.PluginAPP
 import io.github.caimucheng.leaf.plugin.creator.FragmentCreator
+import io.github.caimucheng.leaf.plugin.path.Paths
 import leaf.plugin.nodejs.creator.APPFragmentCreator
 import java.io.File
 import kotlin.coroutines.Continuation
@@ -23,18 +24,24 @@ import kotlin.coroutines.suspendCoroutine
 @Suppress("unused")
 class APP : PluginAPP() {
 
-    private lateinit var hostContext: Context
-
     companion object {
+
+        @SuppressLint("StaticFieldLeak")
+        lateinit var currentContext: Context
+            private set
 
         lateinit var currentResources: Resources
             private set
 
+        lateinit var currentPaths: Paths
+            private set
+
     }
 
-    override fun onCreate(hostApplicationContext: Context, resources: Resources) {
-        this.hostContext = hostApplicationContext
+    override fun onCreate(hostApplicationContext: Context, resources: Resources, paths: Paths) {
+        currentContext = hostApplicationContext
         currentResources = resources
+        currentPaths = paths;
     }
 
     override suspend fun onInstall(activityContext: Context, fragmentManager: FragmentManager) {
@@ -236,7 +243,7 @@ class APP : PluginAPP() {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun getProjectCardIcon(): Drawable {
-        return currentResources.getDrawable(R.drawable.nodejs_logo, hostContext.theme)
+        return currentResources.getDrawable(R.drawable.nodejs_logo, currentContext.theme)
     }
 
     override fun getProjectCardSubscript(): String {
@@ -245,7 +252,7 @@ class APP : PluginAPP() {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun getTemplateIcon(): Drawable {
-        return currentResources.getDrawable(R.mipmap.template_icon, hostContext.theme)
+        return currentResources.getDrawable(R.mipmap.template_icon, currentContext.theme)
     }
 
     override fun getTemplateTitle(): String {
