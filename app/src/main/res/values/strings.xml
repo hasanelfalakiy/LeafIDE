@@ -44,4 +44,5 @@
     <string name="uninstall_plugin">Are you sure you want to uninstall this plugin?</string>
     <string name="cancel">Cancel</string>
     <string name="sure">Sure</string>
+    <string name="terminal">Terminal</string>
 </resources>

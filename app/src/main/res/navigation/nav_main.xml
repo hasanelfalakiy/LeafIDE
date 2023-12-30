@@ -20,6 +20,11 @@
         android:label="MainLeafFlowFragment" />
 
     <fragment
+        android:id="@+id/nav_terminal"
+        android:name="io.github.caimucheng.leaf.ide.fragment.main.MainTerminalFragment"
+        android:label="MainTerminalFragment" />
+
+    <fragment
         android:id="@+id/nav_settings"
         android:name="io.github.caimucheng.leaf.ide.fragment.main.MainSettingsFragment"
         android:label="MainSettingsFragment" />

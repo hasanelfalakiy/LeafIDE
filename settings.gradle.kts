@@ -1,5 +1,8 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":merminal")
+
+
 include(":plugin-nodejs")
 include(":plugin-api")
 include(":app")
