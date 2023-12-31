@@ -6,16 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import io.github.caimucheng.leaf.ide.R
 import io.github.caimucheng.leaf.ide.databinding.FragmentMainBinding
+import io.github.caimucheng.leaf.ide.util.findMainFragmentNavController
 import io.github.caimucheng.leaf.ide.viewmodel.AppIntent
 import io.github.caimucheng.leaf.ide.viewmodel.AppViewModel
 import io.github.caimucheng.leaf.ide.viewmodel.MainViewModel
@@ -48,10 +42,6 @@ class MainFragment : Fragment() {
     }
 
     private fun setupBottomNavigation() {
-        val pageNavHostFragment =
-            childFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
-        val pageNavController = pageNavHostFragment.navController
-        viewBinding.bottomNavigationBar.setupWithNavController(pageNavController)
+        viewBinding.bottomNavigationBar.setupWithNavController(findMainFragmentNavController())
     }
-
 }

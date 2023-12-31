@@ -40,4 +40,21 @@
         <item name="cornerRadius">48dp</item>
     </style>
 
+    <style name="Theme.Material3.Preference" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="preferenceTheme">@style/MaterialPreferenceThemeOverlay</item>
+    </style>
+
+    <style name="MaterialPreferenceThemeOverlay" parent="PreferenceThemeOverlay">
+        <item name="switchPreferenceCompatStyle">@style/Preference.SwitchPreferenceCompat</item>
+    </style>
+
+    <style name="Preference.SwitchPreferenceCompat" parent="Preference.SwitchPreferenceCompat.Material">
+        <item name="android:widgetLayout">@layout/preference_widget_material_switch</item>
+    </style>
+
+    <style name="CircleImageStyle">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
 </resources>

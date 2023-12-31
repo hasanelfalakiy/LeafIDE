@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_app_graph"
     app:startDestination="@id/splashFragment">
 
     <fragment
         android:id="@+id/splashFragment"
         android:name="io.github.caimucheng.leaf.ide.fragment.SplashFragment"
-        android:label="SplashFragment">
+        android:label="SplashFragment"
+        tools:layout="@layout/fragment_splash">
         <action
             android:id="@+id/action_splashFragment_to_mainFragment"
             app:destination="@id/mainFragment"
@@ -22,7 +24,8 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="io.github.caimucheng.leaf.ide.fragment.MainFragment"
-        android:label="MainFragment">
+        android:label="MainFragment"
+        tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/action_mainFragment_to_templateProjectFragment"
             app:destination="@id/templateProjectFragment"
@@ -30,12 +33,58 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_mainFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="io.github.caimucheng.leaf.ide.fragment.SettingsFragment"
+        android:label="SettingsFragment"
+        tools:layout="@layout/fragment_settings">
+        <action
+            android:id="@+id/action_settingsFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_settingsFragment_to_aboutFragment"
+            app:destination="@id/aboutFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_settingsFragment_to_appUpdateSettingsFragment"
+            app:destination="@id/appUpdateSettingsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/appUpdateSettingsFragment"
+        android:name="io.github.caimucheng.leaf.ide.fragment.settings.AppUpdateSettingsFragment"
+        android:label="AppUpdateSettingsFragment"
+        tools:layout="@layout/fragment_settings_app_update" />
+
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="io.github.caimucheng.leaf.ide.fragment.AboutFragment"
+        android:label="AboutFragment"
+        tools:layout="@layout/fragment_about" />
 
     <fragment
         android:id="@+id/templateProjectFragment"
         android:name="io.github.caimucheng.leaf.ide.fragment.TemplateProjectFragment"
-        android:label="TemplateProjectFragment">
+        android:label="TemplateProjectFragment"
+        tools:layout="@layout/fragment_template_project">
         <action
             android:id="@+id/action_templateProjectFragment_to_newProjectFragment"
             app:destination="@id/newProjectFragment"
@@ -48,7 +97,8 @@
     <fragment
         android:id="@+id/newProjectFragment"
         android:name="io.github.caimucheng.leaf.ide.fragment.NewProjectFragment"
-        android:label="NewProjectFragment">
+        android:label="NewProjectFragment"
+        tools:layout="@layout/fragment_new_project">
         <action
             android:id="@+id/action_newProjectFragment_to_mainFragment"
             app:destination="@id/mainFragment"

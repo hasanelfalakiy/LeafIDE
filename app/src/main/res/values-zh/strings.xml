@@ -44,4 +44,15 @@
     <string name="cancel">取消</string>
     <string name="sure">确定</string>
     <string name="terminal">终端</string>
+    <string name="global">全局</string>
+    <string name="preference_global_summary">设置应用的全局配置</string>
+    <string name="editor">编辑器</string>
+    <string name="preference_editor_summary">控制编辑器的行为</string>
+    <string name="about">关于</string>
+    <string name="preference_about_summary">关于应用</string>
+    <string name="app_update">应用更新</string>
+    <string name="preference_app_update_summary">设置应用的更新策略</string>
+    <string name="project_repo">项目仓库</string>
+    <string name="open_source_license">开放源代码许可</string>
+    <string name="privacy_agreement">隐私协议</string>
 </resources>

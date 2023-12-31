@@ -42,5 +42,4 @@
         <activity android:name=".activity.CrashHandlerActivity" />
 
     </application>
-
 </manifest>

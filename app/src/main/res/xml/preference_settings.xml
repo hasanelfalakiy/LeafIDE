@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Preference
+        android:title="@string/global"
+        android:summary="@string/preference_global_summary"
+        app:iconSpaceReserved="false" />
+
+    <Preference
+        android:title="@string/editor"
+        android:summary="@string/preference_editor_summary"
+        app:iconSpaceReserved="false" />
+
+    <Preference
+        android:key="preference_app_update"
+        android:title="@string/app_update"
+        android:summary="@string/preference_app_update_summary"
+        app:iconSpaceReserved="false" />
+
+    <Preference
+        android:key="preference_about"
+        android:title="@string/about"
+        android:summary="@string/preference_about_summary"
+        app:iconSpaceReserved="false" />
+
+</androidx.preference.PreferenceScreen>

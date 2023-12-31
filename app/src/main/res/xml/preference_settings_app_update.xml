@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <SwitchPreferenceCompat
+        android:key="check_update_on_startup"
+        android:summary="每次启动时自动检查是否有新版本"
+        app:iconSpaceReserved="false"
+        app:title="自动检查更新" />
+
+    <Preference
+        android:key="check_update"
+        app:iconSpaceReserved="false"
+        app:title="检查更新" />
+
+    <Preference
+        android:key="app_version_name"
+        app:iconSpaceReserved="false"
+        app:title="当前版本" />
+
+</androidx.preference.PreferenceScreen>

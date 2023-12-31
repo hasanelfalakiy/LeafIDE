@@ -45,4 +45,15 @@
     <string name="cancel">Cancel</string>
     <string name="sure">Sure</string>
     <string name="terminal">Terminal</string>
+    <string name="global">Global</string>
+    <string name="preference_global_summary">Set the app global properties</string>
+    <string name="editor">Editor</string>
+    <string name="preference_editor_summary">Controls the behavior of the editor</string>
+    <string name="about">About</string>
+    <string name="preference_about_summary">About app</string>
+    <string name="app_update">Application Update</string>
+    <string name="preference_app_update_summary">Set the update policy for the app</string>
+    <string name="project_repo">Project Repo</string>
+    <string name="open_source_license">Open Source License</string>
+    <string name="privacy_agreement">Privacy Agreement</string>
 </resources>

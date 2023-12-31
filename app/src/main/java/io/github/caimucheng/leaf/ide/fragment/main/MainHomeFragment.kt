@@ -9,14 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import io.github.caimucheng.leaf.common.fragment.ProgressFragment
 import io.github.caimucheng.leaf.ide.R
 import io.github.caimucheng.leaf.ide.adapter.MainHomeAdapter
 import io.github.caimucheng.leaf.ide.databinding.FragmentMainHomeBinding
-import io.github.caimucheng.leaf.ide.fragment.MainFragment
 import io.github.caimucheng.leaf.ide.model.Project
+import io.github.caimucheng.leaf.ide.util.findGlobalNavController
 import io.github.caimucheng.leaf.ide.viewmodel.AppViewModel
 import io.github.caimucheng.leaf.ide.viewmodel.ProjectState
 import kotlinx.coroutines.flow.collectLatest
@@ -49,6 +47,7 @@ class MainHomeFragment : Fragment() {
 
         setupRecyclerView()
         setupFab()
+        setupToolbar()
 
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -80,17 +79,13 @@ class MainHomeFragment : Fragment() {
     }
 
     private fun setupFab() {
-        val rootFragment =
-            requireActivity().supportFragmentManager.findFragmentById(R.id.fragmentContainerView)
-        val mainFragment = rootFragment?.childFragmentManager?.fragments?.get(0) as? MainFragment
+        val navController = findGlobalNavController()
 
         viewBinding.fab1.setOnClickListener {
-            mainFragment?.findNavController()
-                ?.navigate(R.id.action_mainFragment_to_templateProjectFragment)
+            navController.navigate(R.id.action_mainFragment_to_templateProjectFragment)
         }
         viewBinding.fab2.setOnClickListener {
-            mainFragment?.findNavController()
-                ?.navigate(R.id.action_mainFragment_to_templateProjectFragment)
+            navController.navigate(R.id.action_mainFragment_to_templateProjectFragment)
         }
     }
 
@@ -100,4 +95,14 @@ class MainHomeFragment : Fragment() {
         viewBinding.recyclerView.adapter = adapter
     }
 
+    private fun setupToolbar() {
+        viewBinding.toolbar.setOnMenuItemClickListener {
+            if (it.itemId == R.id.settings) {
+                findGlobalNavController().navigate(R.id.action_mainFragment_to_settingsFragment)
+                return@setOnMenuItemClickListener true
+            } else {
+                return@setOnMenuItemClickListener false
+            }
+        }
+    }
 }
