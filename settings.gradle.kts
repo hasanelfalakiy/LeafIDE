@@ -1,6 +1,6 @@
 @file:Suppress("UnstableApiUsage")
 
-include(":merminal")
+include(":library-merminal")
 
 
 include(":plugin-nodejs")

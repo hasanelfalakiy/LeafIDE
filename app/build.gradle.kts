@@ -15,7 +15,7 @@ android {
 dependencies {
     implementation(project(":common"))
     implementation(project(":plugin-api"))
-    implementation(project(":merminal"))
+    implementation(project(":library-merminal"))
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.material)
