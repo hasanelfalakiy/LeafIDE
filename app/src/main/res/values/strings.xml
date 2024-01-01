@@ -55,5 +55,4 @@
     <string name="preference_app_update_summary">Set the update policy for the app</string>
     <string name="project_repo">Project Repo</string>
     <string name="open_source_license">Open Source License</string>
-    <string name="privacy_agreement">Privacy Agreement</string>
 </resources>

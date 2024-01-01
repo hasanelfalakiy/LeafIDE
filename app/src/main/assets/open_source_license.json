@@ -1,0 +1,20 @@
+[
+  {
+    "name": "AndroidX",
+    "summary": "Development environment for Android Jetpack extension libraries under the androidx namespace. Synchronized with Android Jetpack's primary development branch on AOSP.",
+    "license": "Apache-2.0 license",
+    "url": "https://github.com/androidx/androidx"
+  },
+  {
+    "name": "commons-compress",
+    "summary": "Apache Commons Compress defines an API for working with compression and archive formats. These include: bzip2, gzip, pack200, LZMA, XZ, Snappy, traditional Unix Compress, DEFLATE, DEFLATE64, LZ4, Brotli, Zstandard and ar, cpio, jar, tar, zip, dump, 7z, arj.",
+    "license": "Apache-2.0 license",
+    "url": "https://github.com/apache/commons-compress"
+  },
+  {
+    "name": "Toasty",
+    "summary": "The usual Toast, but with steroids",
+    "license": "LGPL-3.0 license",
+    "url": "https://github.com/GrenderG/Toasty"
+  }
+]

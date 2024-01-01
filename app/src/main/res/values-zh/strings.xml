@@ -54,5 +54,4 @@
     <string name="preference_app_update_summary">设置应用的更新策略</string>
     <string name="project_repo">项目仓库</string>
     <string name="open_source_license">开放源代码许可</string>
-    <string name="privacy_agreement">隐私协议</string>
 </resources>

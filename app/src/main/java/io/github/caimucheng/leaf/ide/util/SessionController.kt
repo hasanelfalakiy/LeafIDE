@@ -10,7 +10,7 @@ class SessionController(
 ) {
     fun create(callback: TerminalSession.SessionChangedCallback): ShellTermSession {
         val environmentList = mutableListOf<String>()
-        environment.forEach { t, u ->
+        for ((t, u) in environment) {
             environmentList.add("$t=$u")
         }
         return ShellTermSession(

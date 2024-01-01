@@ -28,6 +28,7 @@ class AboutFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupToolbar()
         setupFooter()
+        setupItem()
     }
 
     private fun setupToolbar() {
@@ -52,5 +53,11 @@ class AboutFragment : Fragment() {
             getVersionNameSelf(requireContext()),
             Build.CPU_ABI
         )
+    }
+
+    private fun setupItem() {
+        viewBinding.openSourceLicense.setOnClickListener {
+            findGlobalNavController().navigate(R.id.action_aboutFragment_to_openSourceLicenseFragment)
+        }
     }
 }

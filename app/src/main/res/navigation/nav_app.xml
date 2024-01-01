@@ -78,7 +78,21 @@
         android:id="@+id/aboutFragment"
         android:name="io.github.caimucheng.leaf.ide.fragment.AboutFragment"
         android:label="AboutFragment"
-        tools:layout="@layout/fragment_about" />
+        tools:layout="@layout/fragment_about">
+        <action
+            android:id="@+id/action_aboutFragment_to_openSourceLicenseFragment"
+            app:destination="@id/openSourceLicenseFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/openSourceLicenseFragment"
+        android:name="io.github.caimucheng.leaf.ide.fragment.OpenSourceLicenseFragment"
+        android:label="OpenSourceLicenseFragment"
+        tools:layout="@layout/fragment_open_source_license" />
 
     <fragment
         android:id="@+id/templateProjectFragment"
