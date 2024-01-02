@@ -7,6 +7,11 @@ import android.content.Intent
 import android.os.Bundle
 import io.github.caimucheng.leaf.ide.R
 import io.github.caimucheng.leaf.ide.databinding.ActivityCrashHandlerBinding
+import io.github.caimucheng.leaf.ide.util.LeafIDECrashFilePath
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class CrashHandlerActivity : BaseActivity() {
 
@@ -41,9 +46,21 @@ class CrashHandlerActivity : BaseActivity() {
                 packageManager.getLaunchIntentForPackage(packageName) ?: return@setOnClickListener
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(intent)
-
             android.os.Process.killProcess(android.os.Process.myPid())
         }
+        saveFile(all)
     }
 
+    private fun saveFile(text: String) {
+        val template = "crash-%s-%d.log"
+        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.getDefault())
+        val fileName = String.format(
+            template,
+            simpleDateFormat.format(Date()),
+            System.currentTimeMillis()
+        )
+        if (!LeafIDECrashFilePath.exists()) LeafIDECrashFilePath.mkdirs()
+        val file = File(LeafIDECrashFilePath, fileName)
+        file.writeText(text)
+    }
 }

@@ -20,4 +20,10 @@ inline val LeafIDERootPath: File
         }
     }
 
+inline val LeafIDECrashFilePath: File
+    get() {
+        return File(AppContext.current.filesDir, "crash")
+    }
+
 val LeafIDEProjectPath: File by lazy { File(LeafIDERootPath, "projects") }
+
