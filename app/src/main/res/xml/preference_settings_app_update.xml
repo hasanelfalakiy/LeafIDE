@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <SwitchPreferenceCompat
+        android:defaultValue="true"
         android:key="check_update_on_startup"
         android:summary="每次启动时自动检查是否有新版本"
         app:iconSpaceReserved="false"
