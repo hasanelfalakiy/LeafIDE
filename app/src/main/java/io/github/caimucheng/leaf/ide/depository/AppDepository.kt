@@ -21,9 +21,7 @@ import java.io.File
 class AppDepository {
 
     companion object {
-
         const val PLUGIN_MIN_VERSION = 1
-
     }
 
     suspend fun refreshProjects(plugins: List<Plugin>): List<Project> {

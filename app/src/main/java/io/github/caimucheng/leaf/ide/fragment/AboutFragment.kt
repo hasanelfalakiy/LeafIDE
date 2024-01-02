@@ -59,5 +59,23 @@ class AboutFragment : Fragment() {
         viewBinding.openSourceLicense.setOnClickListener {
             findGlobalNavController().navigate(R.id.action_aboutFragment_to_openSourceLicenseFragment)
         }
+
+        viewBinding.userAgreement.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString("protocolType", "UserAgreement")
+            findGlobalNavController().navigate(
+                R.id.action_aboutFragment_to_protocolFragment,
+                bundle
+            )
+        }
+
+        viewBinding.privacyPolicy.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString("protocolType", "PrivacyPolicy")
+            findGlobalNavController().navigate(
+                R.id.action_aboutFragment_to_protocolFragment,
+                bundle
+            )
+        }
     }
 }

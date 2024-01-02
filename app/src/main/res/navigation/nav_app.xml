@@ -75,6 +75,16 @@
         tools:layout="@layout/fragment_settings_app_update" />
 
     <fragment
+        android:id="@+id/protocolFragment"
+        android:name="io.github.caimucheng.leaf.ide.fragment.ProtocolFragment"
+        android:label="ProtocolFragment"
+        tools:layout="@layout/fragment_protocol">
+        <argument
+            android:name="protocolType"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
         android:id="@+id/aboutFragment"
         android:name="io.github.caimucheng.leaf.ide.fragment.AboutFragment"
         android:label="AboutFragment"
@@ -82,6 +92,13 @@
         <action
             android:id="@+id/action_aboutFragment_to_openSourceLicenseFragment"
             app:destination="@id/openSourceLicenseFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_aboutFragment_to_protocolFragment"
+            app:destination="@id/protocolFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
