@@ -1,12 +1,10 @@
 @file:Suppress("UnstableApiUsage")
 
-include(":library-merminal")
-
-
-include(":plugin-nodejs")
-include(":plugin-api")
-include(":app")
 include(":common")
+include(":library-merminal")
+include(":plugin-api")
+include(":plugin-nodejs")
+include(":app")
 
 pluginManagement {
     includeBuild("build-logic")
