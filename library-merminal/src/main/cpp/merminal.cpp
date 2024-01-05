@@ -115,10 +115,7 @@ static int create_subprocess(JNIEnv *env,
 }
 
 extern "C"
-JNIEXPORT jint
-
-JNICALL
-Java_cn_mucute_merminal_core_JNI_createSubprocess(
+JNIEXPORT jint Java_cn_mucute_merminal_core_JNI_createSubprocess(
         JNIEnv *env,
         jclass TERMUX_UNUSED(clazz),
         jstring cmd,

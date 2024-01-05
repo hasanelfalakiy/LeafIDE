@@ -21,6 +21,7 @@ import leaf.plugin.nodejs.databinding.FragmentNewProjectBinding
 import leaf.plugin.nodejs.viewmodel.NewProjectCreateState
 import leaf.plugin.nodejs.viewmodel.NewProjectIntent
 import leaf.plugin.nodejs.viewmodel.NewProjectViewModel
+import java.io.File
 
 class NewProjectFragment : PluginFragment() {
 
@@ -107,16 +108,22 @@ class NewProjectFragment : PluginFragment() {
         viewBinding.toolbar.setNavigationOnClickListener {
             actionHolder.popBackStack()
         }
-        viewBinding.textInputLayout.startIconDrawable = APP.currentResources.getDrawable(
+        viewBinding.projectNameLayout.startIconDrawable = APP.currentResources.getDrawable(
             R.drawable.baseline_data_object_24,
             requireContext().theme
         )
-        viewBinding.textInputLayout.hint = APP.currentResources.getString(R.string.project_name)
+        viewBinding.descriptionLayout.startIconDrawable = APP.currentResources.getDrawable(
+            R.drawable.baseline_swap_vert_24,
+            requireContext().theme
+        )
+        viewBinding.projectNameLayout.hint = APP.currentResources.getString(R.string.project_name)
+        viewBinding.descriptionLayout.hint = APP.currentResources.getString(R.string.description)
 
         viewBinding.materialButton.text = APP.currentResources.getString(R.string.create)
         viewBinding.materialButton.setOnClickListener {
-            val input = viewBinding.textInputEditText.text?.toString() ?: ""
-            if (input.isEmpty()) {
+            val projectNameInput = viewBinding.projectNameEditText.text?.toString() ?: ""
+            val descriptionInput = viewBinding.descriptionEditText.text?.toString() ?: ""
+            if (projectNameInput.isEmpty()) {
                 Toasty.info(
                     requireContext(),
                     APP.currentResources.getString(R.string.project_name_cannot_be_empty)
@@ -124,7 +131,15 @@ class NewProjectFragment : PluginFragment() {
                 return@setOnClickListener
             }
 
-            if ('/' in input) {
+            if (descriptionInput.isEmpty()) {
+                Toasty.info(
+                    requireContext(),
+                    APP.currentResources.getString(R.string.description_cannot_be_null)
+                ).show()
+                return@setOnClickListener
+            }
+
+            if ('/' in projectNameInput) {
                 Toasty.info(
                     requireContext(),
                     APP.currentResources.getString(R.string.illegal_project_name)
@@ -132,8 +147,16 @@ class NewProjectFragment : PluginFragment() {
                 return@setOnClickListener
             }
 
+            if (File(APP.currentPaths.leafIDEProjectPath, projectNameInput).exists()) {
+                Toasty.info(
+                    requireContext(),
+                    APP.currentResources.getString(R.string.exists_project)
+                ).show()
+                return@setOnClickListener
+            }
+
             viewLifecycleOwner.lifecycleScope.launch {
-                newProjectViewModel.intent.send(NewProjectIntent.Create(input))
+                newProjectViewModel.intent.send(NewProjectIntent.Create(projectNameInput))
             }
         }
     }

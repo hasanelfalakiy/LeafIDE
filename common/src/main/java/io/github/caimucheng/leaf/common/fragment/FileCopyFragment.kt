@@ -21,7 +21,6 @@ import io.github.caimucheng.leaf.common.viewmodel.FileCopyTotalState
 import io.github.caimucheng.leaf.common.viewmodel.FileCopyViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.io.File
 
 class FileCopyFragment : DialogFragment() {
 

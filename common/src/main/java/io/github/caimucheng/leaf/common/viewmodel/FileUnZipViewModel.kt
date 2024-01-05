@@ -1,9 +1,7 @@
 package io.github.caimucheng.leaf.common.viewmodel
 
 import android.content.res.AssetManager
-import android.os.Environment
 import android.system.Os
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import io.github.caimucheng.leaf.common.mvi.MVIViewModel
 import io.github.caimucheng.leaf.common.mvi.UiIntent

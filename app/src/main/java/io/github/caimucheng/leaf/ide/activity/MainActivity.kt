@@ -18,4 +18,5 @@ class MainActivity : BaseActivity() {
         viewBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
     }
+
 }

@@ -27,4 +27,7 @@
     <string name="create_successfully">创建成功</string>
     <string name="creating_project">正在创建工程</string>
     <string name="creating_project_message">请稍等片刻....</string>
+    <string name="exists_project">工程已存在</string>
+    <string name="description">描述</string>
+    <string name="description_cannot_be_null">描述不能为空</string>
 </resources>

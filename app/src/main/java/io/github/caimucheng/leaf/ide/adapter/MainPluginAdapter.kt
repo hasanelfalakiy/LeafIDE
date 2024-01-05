@@ -1,8 +1,6 @@
 package io.github.caimucheng.leaf.ide.adapter
 
 import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.MenuInflater
 import android.view.View
@@ -16,8 +14,6 @@ import io.github.caimucheng.leaf.ide.model.isEnabled
 import io.github.caimucheng.leaf.ide.model.isSupported
 import io.github.caimucheng.leaf.ide.model.name
 import io.github.caimucheng.leaf.ide.model.toggle
-import io.github.caimucheng.leaf.ide.viewmodel.AppIntent
-import io.github.caimucheng.leaf.ide.viewmodel.AppViewModel
 
 class MainPluginAdapter(
     private val context: Context,

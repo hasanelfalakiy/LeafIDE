@@ -6,11 +6,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import io.github.caimucheng.leaf.common.R
+import io.github.caimucheng.leaf.ide.fix.PluginFragmentFactory
 
 abstract class BaseActivity : AppCompatActivity() {
 
     @Suppress("DEPRECATION")
     override fun onCreate(savedInstanceState: Bundle?) {
+        supportFragmentManager.fragmentFactory = PluginFragmentFactory()
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, true)
 
@@ -25,6 +27,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
         windowInsetsController.isAppearanceLightStatusBars = !isDark
         windowInsetsController.isAppearanceLightNavigationBars = !isDark
+
     }
 
 }

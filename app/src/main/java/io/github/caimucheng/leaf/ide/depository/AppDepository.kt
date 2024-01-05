@@ -122,7 +122,8 @@ class AppDepository {
                             versionCode = versionCode,
                             entrance = entrance,
                             pluginMinVersion = pluginMinVersion,
-                            pluginAPP = pluginAPP
+                            pluginAPP = pluginAPP,
+                            pluginClassLoader = classLoader
                         )
                     )
                 }.exceptionOrNull()?.printStackTrace()

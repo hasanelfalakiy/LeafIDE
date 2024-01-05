@@ -1,12 +1,9 @@
 package io.github.caimucheng.leaf.ide.model
 
-import android.content.SharedPreferences
 import android.graphics.drawable.Drawable
 import androidx.core.content.edit
 import io.github.caimucheng.leaf.ide.application.AppContext
-import io.github.caimucheng.leaf.ide.depository.AppDepository
 import io.github.caimucheng.leaf.ide.depository.AppDepository.Companion.PLUGIN_MIN_VERSION
-import io.github.caimucheng.leaf.ide.util.launchModeSharedPreferences
 import io.github.caimucheng.leaf.ide.util.pluginSharedPreferences
 import io.github.caimucheng.leaf.plugin.PluginAPP
 
@@ -17,7 +14,8 @@ data class Plugin(
     val versionCode: Long,
     val entrance: String,
     val pluginMinVersion: Int,
-    val pluginAPP: PluginAPP
+    val pluginAPP: PluginAPP,
+    val pluginClassLoader: ClassLoader
 )
 
 inline val Plugin.name: String

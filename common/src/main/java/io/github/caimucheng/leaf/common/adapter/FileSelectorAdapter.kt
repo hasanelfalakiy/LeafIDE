@@ -3,11 +3,8 @@ package io.github.caimucheng.leaf.common.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewbinding.ViewBinding
 import io.github.caimucheng.leaf.common.R
-import io.github.caimucheng.leaf.common.callback.FileSelectorCallback
 import io.github.caimucheng.leaf.common.databinding.LayoutFileSelectorBinding
 import java.io.File
 

@@ -1,7 +1,5 @@
 package io.github.caimucheng.leaf.plugin.fragment
 
-import android.os.Bundle
-import android.view.View
 import androidx.annotation.CallSuper
 import androidx.fragment.app.Fragment
 import io.github.caimucheng.leaf.plugin.action.ActionHolder

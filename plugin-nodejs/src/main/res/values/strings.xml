@@ -27,5 +27,8 @@
     <string name="creation_failed">Creation failed: %s</string>
     <string name="create_successfully">Create successfully</string>
     <string name="creating_project">Creating project</string>
-    <string name="creating_project_message">Just a moment please...</string>
+    <string name="creating_project_message">Just a moment please…</string>
+    <string name="exists_project">Project already exists</string>
+    <string name="description">Description</string>
+    <string name="description_cannot_be_null">Description cannot be null</string>
 </resources>

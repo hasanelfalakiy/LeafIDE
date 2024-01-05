@@ -20,12 +20,10 @@ import io.github.caimucheng.leaf.ide.application.AppContext
 import io.github.caimucheng.leaf.ide.databinding.FragmentSplashBinding
 import io.github.caimucheng.leaf.ide.util.isInitializedLaunchMode
 import io.github.caimucheng.leaf.ide.util.launchMode
-import io.github.caimucheng.leaf.ide.util.launchModeSharedPreferences
 import io.github.caimucheng.leaf.ide.viewmodel.LaunchMode
 import io.github.caimucheng.leaf.ide.viewmodel.SplashPage
 import io.github.caimucheng.leaf.ide.viewmodel.SplashUiIntent
 import io.github.caimucheng.leaf.ide.viewmodel.SplashViewModel
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 

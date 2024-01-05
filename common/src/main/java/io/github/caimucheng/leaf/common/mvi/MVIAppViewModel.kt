@@ -1,6 +1,5 @@
 package io.github.caimucheng.leaf.common.mvi
 
-import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

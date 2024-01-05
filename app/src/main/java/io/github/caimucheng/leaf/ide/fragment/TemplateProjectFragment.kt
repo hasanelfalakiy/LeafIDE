@@ -11,9 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import io.github.caimucheng.leaf.ide.R
-import io.github.caimucheng.leaf.ide.adapter.MainPluginAdapter
 import io.github.caimucheng.leaf.ide.adapter.TemplateAdapter
 import io.github.caimucheng.leaf.ide.databinding.FragmentTemplateProjectBinding
 import io.github.caimucheng.leaf.ide.model.Plugin

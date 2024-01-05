@@ -7,9 +7,9 @@ import io.github.caimucheng.leaf.common.mvi.UiState
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import leaf.plugin.nodejs.APP
+import org.json.JSONObject
 import java.io.File
 
 enum class NewProjectCreateState {
@@ -63,6 +63,23 @@ class NewProjectViewModel : MVIViewModel<NewProjectState, NewProjectIntent>() {
         return withContext(Dispatchers.IO) {
             val projectRootPath = File(APP.currentPaths.leafIDEProjectPath, projectName)
             projectRootPath.mkdirs()
+
+            val configurationDir = File(projectRootPath, ".LeafIDE")
+            configurationDir.mkdirs()
+
+            val workspaceFile = File(configurationDir, "workspace.json")
+            workspaceFile.createNewFile()
+
+            workspaceFile.writer().use {
+                val jsonObject = JSONObject()
+                jsonObject.put("name", projectName)
+                jsonObject.put("description", "")
+                jsonObject.put("pluginSupport", APP.PACKAGE_NAME)
+                it.write(jsonObject.toString(4))
+                it.flush()
+            }
+
+
         }
     }
 }
