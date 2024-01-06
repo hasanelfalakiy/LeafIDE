@@ -17,13 +17,13 @@
         app:layout_constraintTop_toTopOf="parent"
         app:title="@string/terminal" />
 
-    <cn.mucute.merminal.view.TerminalView
-        android:focusable="true"
-        android:clickable="true"
-        android:focusableInTouchMode="true"
+    <com.termux.view.TerminalView
         android:id="@+id/terminal_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

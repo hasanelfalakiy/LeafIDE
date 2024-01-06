@@ -1,7 +1,8 @@
 @file:Suppress("UnstableApiUsage")
 
 include(":common")
-include(":library-merminal")
+include(":terminal-view")
+include(":terminal-emulator")
 include(":plugin-api")
 include(":plugin-nodejs")
 include(":app")

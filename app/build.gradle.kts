@@ -15,7 +15,8 @@ android {
 dependencies {
     implementation(project(":common"))
     implementation(project(":plugin-api"))
-    implementation(project(":library-merminal"))
+    implementation(project(":terminal-view"))
+    implementation(project(":terminal-emulator"))
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.material)
