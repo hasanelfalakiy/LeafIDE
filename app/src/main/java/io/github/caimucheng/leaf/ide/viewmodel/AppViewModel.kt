@@ -243,8 +243,9 @@ object AppViewModel : MVIAppViewModel<AppState, AppIntent>() {
                 )
             )
             val plugins = appDepository.refreshPlugins(state.value.plugins)
-            val projects =
-                appDepository.refreshProjects(plugins.filter { it.isSupported && it.isEnabled })
+            val projects = appDepository.refreshProjects(
+                plugins.filter { it.isSupported && it.isEnabled }
+            )
             setState(
                 state.value.copy(
                     pluginState = PluginState.Done,

@@ -26,7 +26,7 @@ class APP : PluginAPP() {
 
     companion object {
 
-        const val PACKAGE_NAME = "leaf.plugin.nodejs.APP"
+        const val PACKAGE_NAME = "leaf.plugin.nodejs"
 
         @SuppressLint("StaticFieldLeak")
         lateinit var currentContext: Context
