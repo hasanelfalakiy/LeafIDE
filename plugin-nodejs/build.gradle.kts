@@ -26,13 +26,13 @@ android {
 dependencies {
     implementation(project(":common"))
     implementation(project(":plugin-api"))
-    implementation(libs.appcompat)
-    implementation(libs.constraintlayout)
     implementation(libs.core.ktx)
-    implementation(libs.kotlin.reflect)
+    implementation(libs.appcompat)
     implementation(libs.material)
+    implementation(libs.constraintlayout)
     implementation(libs.navigation.fragment.ktx)
     implementation(libs.navigation.ui.ktx)
     implementation(libs.preference.ktx)
     implementation(libs.toasty)
+    implementation(libs.kotlin.reflect)
 }

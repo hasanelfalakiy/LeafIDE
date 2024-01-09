@@ -43,12 +43,6 @@
     </fragment>
 
     <fragment
-        android:id="@+id/editorFragment"
-        android:name="io.github.caimucheng.leaf.ide.fragment.EditorFragment"
-        android:label="EditorFragment"
-        tools:layout="@layout/fragment_editor" />
-
-    <fragment
         android:id="@+id/settingsFragment"
         android:name="io.github.caimucheng.leaf.ide.fragment.SettingsFragment"
         android:label="SettingsFragment"

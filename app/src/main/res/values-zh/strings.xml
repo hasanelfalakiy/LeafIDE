@@ -54,16 +54,4 @@
     <string name="preference_app_update_summary">设置应用的更新策略</string>
     <string name="project_repo">项目仓库</string>
     <string name="open_source_license">开放源代码许可</string>
-    <string name="undo">撤回</string>
-    <string name="redo">重做</string>
-    <string name="save">保存</string>
-    <string name="close_project">关闭项目</string>
-    <string name="search_inside_file">在文件内搜索</string>
-    <string name="search">查找</string>
-    <string name="drawerlayout_expand">展开</string>
-    <string name="drawerlayout_shrink">收缩</string>
-    <string name="click_navigation_button_to_open">点击导航按钮打开</string>
-    <string name="file_list">文件列表</string>
-    <string name="click_menu_button_to_open">点击菜单按钮打开</string>
-    <string name="options_menu">选项菜单</string>
 </resources>
