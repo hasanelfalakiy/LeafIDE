@@ -26,252 +26,228 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
-        <io.github.caimucheng.leaf.common.view.springback.SpringBackLayout
-            android:id="@+id/privacyPolicyPage"
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/privacyPolicyPageScrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:scrollableView="@id/scrollView1">
+            android:fillViewport="true"
+            android:padding="15dp">
 
-            <androidx.core.widget.NestedScrollView
-                android:id="@+id/scrollView1"
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/privacyPolicyContent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:fillViewport="true"
-                android:padding="15dp">
+                android:textColor="?attr/colorOnSurface"
+                android:textIsSelectable="true"
+                android:textSize="16sp" />
+
+        </androidx.core.widget.NestedScrollView>
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/userAgreementPageScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:padding="15dp"
+            android:visibility="gone">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/userAgreementContent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="?attr/colorOnSurface"
+                android:textIsSelectable="true"
+                android:textSize="16sp" />
+
+        </androidx.core.widget.NestedScrollView>
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/launchModePageScrollView3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/launchFromExternalStorageCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.6"
+                    android:clickable="false"
+                    android:focusable="false"
+                    app:cardBackgroundColor="@android:color/transparent"
+                    app:cardCornerRadius="0dp"
+                    app:strokeWidth="0dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp">
+
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/launchFromExternalStorageIcon"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginEnd="15dp"
+                            android:src="@drawable/baseline_sd_card_24"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="?attr/colorOnSurfaceVariant" />
+
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/launchFromExternalStorageRadioButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginEnd="15dp"
+                            android:clickable="false"
+                            android:focusable="false"
+                            android:minWidth="0dp"
+                            android:minHeight="0dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="1.0"
+                            app:layout_constraintStart_toEndOf="@+id/launchFromExternalStorageIcon"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginEnd="15dp"
+                            android:orientation="vertical"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/launchFromExternalStorageRadioButton"
+                            app:layout_constraintStart_toEndOf="@+id/launchFromExternalStorageIcon"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/launch_from_external_storage"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="18sp" />
+
+                            <Space
+                                android:layout_width="wrap_content"
+                                android:layout_height="5dp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/launch_from_external_storage_summary"
+                                android:textColor="?attr/colorOnSurfaceVariant"
+                                android:textSize="14sp" />
+
+                        </LinearLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/launchFromInternalStorageCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:cardBackgroundColor="@android:color/transparent"
+                    app:cardCornerRadius="0dp"
+                    app:strokeWidth="0dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp">
+
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/launchFromInternalStorageIcon"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginEnd="15dp"
+                            android:src="@drawable/baseline_storage_24"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="?attr/colorOnSurfaceVariant" />
+
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/launchFromInternalStorageRadioButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginEnd="15dp"
+                            android:checked="true"
+                            android:clickable="false"
+                            android:focusable="false"
+                            android:minWidth="0dp"
+                            android:minHeight="0dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="1.0"
+                            app:layout_constraintStart_toEndOf="@+id/launchFromInternalStorageIcon"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginEnd="15dp"
+                            android:orientation="vertical"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/launchFromInternalStorageRadioButton"
+                            app:layout_constraintStart_toEndOf="@+id/launchFromInternalStorageIcon"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/launch_from_internal_storage"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="18sp" />
+
+                            <Space
+                                android:layout_width="wrap_content"
+                                android:layout_height="5dp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/launch_from_internal_storage_summary"
+                                android:textColor="?attr/colorOnSurfaceVariant"
+                                android:textSize="14sp" />
+
+                        </LinearLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/privacyPolicyContent"
+                    android:id="@+id/launchModeContent"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textColor="?attr/colorOnSurface"
+                    android:padding="15dp"
                     android:textIsSelectable="true"
                     android:textSize="16sp" />
 
-            </androidx.core.widget.NestedScrollView>
+            </LinearLayout>
 
-        </io.github.caimucheng.leaf.common.view.springback.SpringBackLayout>
-
-        <io.github.caimucheng.leaf.common.view.springback.SpringBackLayout
-            android:id="@+id/userAgreementPage"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone"
-            app:scrollableView="@id/scrollView2">
-
-            <androidx.core.widget.NestedScrollView
-                android:id="@+id/scrollView2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fillViewport="true"
-                android:padding="15dp">
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/userAgreementContent"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textColor="?attr/colorOnSurface"
-                    android:textIsSelectable="true"
-                    android:textSize="16sp" />
-
-            </androidx.core.widget.NestedScrollView>
-
-        </io.github.caimucheng.leaf.common.view.springback.SpringBackLayout>
-
-        <io.github.caimucheng.leaf.common.view.springback.SpringBackLayout
-            android:id="@+id/launchModePage"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone"
-            app:scrollableView="@id/scrollView3">
-
-            <androidx.core.widget.NestedScrollView
-                android:id="@+id/scrollView3"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fillViewport="true">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/launchFromExternalStorageCard"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:alpha="0.6"
-                        android:clickable="false"
-                        android:focusable="false"
-                        app:cardBackgroundColor="@android:color/transparent"
-                        app:cardCornerRadius="0dp"
-                        app:strokeWidth="0dp">
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingTop="15dp"
-                            android:paddingBottom="15dp">
-
-                            <com.google.android.material.imageview.ShapeableImageView
-                                android:id="@+id/launchFromExternalStorageIcon"
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:layout_marginStart="15dp"
-                                android:layout_marginEnd="15dp"
-                                android:src="@drawable/baseline_sd_card_24"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.0"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:tint="?attr/colorOnSurfaceVariant" />
-
-                            <com.google.android.material.radiobutton.MaterialRadioButton
-                                android:id="@+id/launchFromExternalStorageRadioButton"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="15dp"
-                                android:layout_marginEnd="15dp"
-                                android:clickable="false"
-                                android:focusable="false"
-                                android:minWidth="0dp"
-                                android:minHeight="0dp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="1.0"
-                                app:layout_constraintStart_toEndOf="@+id/launchFromExternalStorageIcon"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="15dp"
-                                android:layout_marginEnd="15dp"
-                                android:orientation="vertical"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toStartOf="@+id/launchFromExternalStorageRadioButton"
-                                app:layout_constraintStart_toEndOf="@+id/launchFromExternalStorageIcon"
-                                app:layout_constraintTop_toTopOf="parent">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/launch_from_external_storage"
-                                    android:textColor="?attr/colorOnSurface"
-                                    android:textSize="18sp" />
-
-                                <Space
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="5dp" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/launch_from_external_storage_summary"
-                                    android:textColor="?attr/colorOnSurfaceVariant"
-                                    android:textSize="14sp" />
-
-                            </LinearLayout>
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/launchFromInternalStorageCard"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:focusable="true"
-                        app:cardBackgroundColor="@android:color/transparent"
-                        app:cardCornerRadius="0dp"
-                        app:strokeWidth="0dp">
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingTop="15dp"
-                            android:paddingBottom="15dp">
-
-                            <com.google.android.material.imageview.ShapeableImageView
-                                android:id="@+id/launchFromInternalStorageIcon"
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:layout_marginStart="15dp"
-                                android:layout_marginEnd="15dp"
-                                android:src="@drawable/baseline_storage_24"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.0"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:tint="?attr/colorOnSurfaceVariant" />
-
-                            <com.google.android.material.radiobutton.MaterialRadioButton
-                                android:id="@+id/launchFromInternalStorageRadioButton"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="15dp"
-                                android:layout_marginEnd="15dp"
-                                android:checked="true"
-                                android:clickable="false"
-                                android:focusable="false"
-                                android:minWidth="0dp"
-                                android:minHeight="0dp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="1.0"
-                                app:layout_constraintStart_toEndOf="@+id/launchFromInternalStorageIcon"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="15dp"
-                                android:layout_marginEnd="15dp"
-                                android:orientation="vertical"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toStartOf="@+id/launchFromInternalStorageRadioButton"
-                                app:layout_constraintStart_toEndOf="@+id/launchFromInternalStorageIcon"
-                                app:layout_constraintTop_toTopOf="parent">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/launch_from_internal_storage"
-                                    android:textColor="?attr/colorOnSurface"
-                                    android:textSize="18sp" />
-
-                                <Space
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="5dp" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/launch_from_internal_storage_summary"
-                                    android:textColor="?attr/colorOnSurfaceVariant"
-                                    android:textSize="14sp" />
-
-                            </LinearLayout>
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/launchModeContent"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:padding="15dp"
-                        android:textIsSelectable="true"
-                        android:textSize="16sp" />
-
-                </LinearLayout>
-
-            </androidx.core.widget.NestedScrollView>
-
-        </io.github.caimucheng.leaf.common.view.springback.SpringBackLayout>
+        </androidx.core.widget.NestedScrollView>
 
     </FrameLayout>
 

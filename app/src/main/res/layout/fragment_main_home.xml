@@ -87,23 +87,15 @@
         android:layout_height="match_parent"
         android:visibility="gone">
 
-        <io.github.caimucheng.leaf.common.view.springback.SpringBackLayout
-            android:id="@+id/springBackLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:scrollableView="@id/recyclerView">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:listitem="@layout/layout_main_home" />
-
-        </io.github.caimucheng.leaf.common.view.springback.SpringBackLayout>
+            tools:listitem="@layout/layout_main_home" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab1"
@@ -114,7 +106,7 @@
             android:src="@drawable/baseline_add_24"
             app:elevation="2dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:shapeAppearance="@style/RoundedFloatingActionButtonStyle"
             app:tint="@android:color/white" />
 

@@ -116,9 +116,9 @@ class SplashFragment : Fragment() {
                             viewBinding.privacyPolicyContent.text =
                                 it.content
 
-                            viewBinding.userAgreementPage.visibility = View.GONE
-                            viewBinding.launchModePage.visibility = View.GONE
-                            viewBinding.privacyPolicyPage.visibility = View.VISIBLE
+                            viewBinding.userAgreementPageScrollView.visibility = View.GONE
+                            viewBinding.launchModePageScrollView3.visibility = View.GONE
+                            viewBinding.privacyPolicyPageScrollView.visibility = View.VISIBLE
                             viewBinding.previousIcon.visibility = View.GONE
                             viewBinding.closeIcon.visibility = View.VISIBLE
                         }
@@ -127,9 +127,9 @@ class SplashFragment : Fragment() {
                             viewBinding.userAgreementContent.text =
                                 it.content
 
-                            viewBinding.privacyPolicyPage.visibility = View.GONE
-                            viewBinding.launchModePage.visibility = View.GONE
-                            viewBinding.userAgreementPage.visibility = View.VISIBLE
+                            viewBinding.privacyPolicyPageScrollView.visibility = View.GONE
+                            viewBinding.launchModePageScrollView3.visibility = View.GONE
+                            viewBinding.userAgreementPageScrollView.visibility = View.VISIBLE
                             viewBinding.closeIcon.visibility = View.GONE
                             viewBinding.doneIcon.visibility = View.GONE
                             viewBinding.previousIcon.visibility = View.VISIBLE
@@ -140,9 +140,9 @@ class SplashFragment : Fragment() {
                             viewBinding.launchModeContent.text =
                                 it.content
 
-                            viewBinding.privacyPolicyPage.visibility = View.GONE
-                            viewBinding.userAgreementPage.visibility = View.GONE
-                            viewBinding.launchModePage.visibility = View.VISIBLE
+                            viewBinding.privacyPolicyPageScrollView.visibility = View.GONE
+                            viewBinding.userAgreementPageScrollView.visibility = View.GONE
+                            viewBinding.launchModePageScrollView3.visibility = View.VISIBLE
                             viewBinding.closeIcon.visibility = View.GONE
                             viewBinding.nextIcon.visibility = View.GONE
                             viewBinding.previousIcon.visibility = View.VISIBLE

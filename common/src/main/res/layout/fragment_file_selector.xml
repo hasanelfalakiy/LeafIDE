@@ -68,20 +68,12 @@
 
         </LinearLayout>
 
-        <io.github.caimucheng.leaf.common.view.springback.SpringBackLayout
-            android:id="@+id/content"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone"
-            app:scrollableView="@id/recyclerView">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:listitem="@layout/layout_file_selector" />
-
-        </io.github.caimucheng.leaf.common.view.springback.SpringBackLayout>
+            tools:listitem="@layout/layout_file_selector" />
 
     </LinearLayout>
 

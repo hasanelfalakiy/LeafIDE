@@ -48,7 +48,10 @@ class FileSelectorFragment : DialogFragment() {
                 if (it.isDirectory) {
                     viewLifecycleOwner.lifecycleScope.launch {
                         fileSelectorViewModel.intent.send(
-                            FileSelectorIntent.Enter(it, arguments?.getStringArrayList("matchingSuffix"))
+                            FileSelectorIntent.Enter(
+                                it,
+                                arguments?.getStringArrayList("matchingSuffix")
+                            )
                         )
                     }
                 } else {
@@ -86,11 +89,17 @@ class FileSelectorFragment : DialogFragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                fileSelectorViewModel.intent.send(FileSelectorIntent.Refresh(arguments?.getStringArrayList("matchingSuffix")))
+                fileSelectorViewModel.intent.send(
+                    FileSelectorIntent.Refresh(
+                        arguments?.getStringArrayList(
+                            "matchingSuffix"
+                        )
+                    )
+                )
                 fileSelectorViewModel.state.collectLatest {
                     when (it.fileState) {
                         FileState.Loading -> {
-                            viewBinding.content.visibility = View.GONE
+                            viewBinding.recyclerView.visibility = View.GONE
                             viewBinding.placeholder.visibility = View.GONE
                             viewBinding.loading.visibility = View.VISIBLE
                         }
@@ -103,9 +112,9 @@ class FileSelectorFragment : DialogFragment() {
                             adapter.notifyDataSetChanged()
                             if (files.isNotEmpty()) {
                                 viewBinding.placeholder.visibility = View.GONE
-                                viewBinding.content.visibility = View.VISIBLE
+                                viewBinding.recyclerView.visibility = View.VISIBLE
                             } else {
-                                viewBinding.content.visibility = View.GONE
+                                viewBinding.recyclerView.visibility = View.GONE
                                 viewBinding.placeholder.visibility = View.VISIBLE
                             }
                         }

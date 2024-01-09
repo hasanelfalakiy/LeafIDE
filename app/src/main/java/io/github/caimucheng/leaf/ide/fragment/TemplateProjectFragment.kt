@@ -70,7 +70,7 @@ class TemplateProjectFragment : Fragment() {
                 }.collectLatest {
                     when (it.pluginState) {
                         PluginState.Loading -> {
-                            viewBinding.content.visibility = View.GONE
+                            viewBinding.recyclerView.visibility = View.GONE
                             viewBinding.placeholder.visibility = View.GONE
                             viewBinding.loading.visibility = View.VISIBLE
                         }
@@ -81,9 +81,9 @@ class TemplateProjectFragment : Fragment() {
                             plugins.addAll(it.plugins)
                             if (plugins.isNotEmpty()) {
                                 viewBinding.placeholder.visibility = View.GONE
-                                viewBinding.content.visibility = View.VISIBLE
+                                viewBinding.recyclerView.visibility = View.VISIBLE
                             } else {
-                                viewBinding.content.visibility = View.GONE
+                                viewBinding.recyclerView.visibility = View.GONE
                                 viewBinding.placeholder.visibility = View.VISIBLE
                             }
                         }
