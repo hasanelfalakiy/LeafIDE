@@ -68,8 +68,7 @@ class NewProjectFragment : PluginFragment() {
                             Toasty.success(
                                 requireContext(),
                                 APP.currentResources.getString(R.string.create_successfully)
-                            )
-                                .show()
+                            ).show()
                             actionHolder.popBackHome(refreshProject = true)
                         }
 
