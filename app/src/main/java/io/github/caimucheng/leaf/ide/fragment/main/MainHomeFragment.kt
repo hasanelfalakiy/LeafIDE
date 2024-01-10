@@ -90,8 +90,22 @@ class MainHomeFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        viewBinding.recyclerView.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        viewBinding.recyclerView.layoutManager = LinearLayoutManager(
+            requireContext(),
+            LinearLayoutManager.VERTICAL,
+            false
+        )
+        adapter.setOnItemClickListener { _, position ->
+            val bundle = Bundle()
+            bundle.putString("projectPath", projects[position].projectPath)
+            findGlobalNavController().navigate(
+                R.id.action_mainFragment_to_projectEditorFragment,
+                bundle
+            )
+        }
+        adapter.setOnItemLongClickListener { _, _ ->
+
+        }
         viewBinding.recyclerView.adapter = adapter
     }
 

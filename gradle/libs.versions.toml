@@ -2,13 +2,15 @@
 agp = "8.2.1"
 appcompat = "1.6.1"
 core-ktx = "1.12.0"
-material = "1.10.0"
 commons-compress = "1.25.0"
 constraintlayout = "2.1.4"
+editor = "0.22.2"
+material = "1.10.0"
 navigation-fragment-ktx = "2.7.5"
 navigation-ui-ktx = "2.7.5"
 org-jetbrains-kotlin-android = "2.0.0-Beta2"
 preference-ktx = "1.2.1"
+recyclerview-adapter-helper = "4.1.4"
 toasty = "1.5.2"
 
 [libraries]
@@ -16,11 +18,14 @@ appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "a
 commons-compress = { group = "org.apache.commons", name = "commons-compress", version.ref = "commons-compress" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
+editor-bom = { group = "io.github.Rosemoe.sora-editor", name = "bom", version.ref = "editor" }
+editor = { group = "io.github.Rosemoe.sora-editor", name = "editor" }
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "org-jetbrains-kotlin-android" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigation-fragment-ktx" }
 navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigation-ui-ktx" }
 preference-ktx = { group = "androidx.preference", name = "preference-ktx", version.ref = "preference-ktx" }
+recyclerview-adapter-helper = { module = "io.github.cymchad:BaseRecyclerViewAdapterHelper4", version.ref = "recyclerview-adapter-helper" }
 toasty = { group = "com.github.GrenderG", name = "Toasty", version.ref = "toasty" }
 
 [plugins]

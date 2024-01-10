@@ -55,4 +55,16 @@
     <string name="preference_app_update_summary">Set the update policy for the app</string>
     <string name="project_repo">Project Repo</string>
     <string name="open_source_license">Open Source License</string>
+    <string name="undo">Undo</string>
+    <string name="redo">Redo</string>
+    <string name="save">Save</string>
+    <string name="close_project">Close Project</string>
+    <string name="search_inside_file">Search inside file</string>
+    <string name="search">Search</string>
+    <string name="drawerlayout_expand">Expand</string>
+    <string name="drawerlayout_shrink">Shrink</string>
+    <string name="click_navigation_button_to_open">Click navigation button to open</string>
+    <string name="file_list">File List</string>
+    <string name="click_menu_button_to_open">Click menu button to open</string>
+    <string name="options_menu">Options Menu</string>
 </resources>

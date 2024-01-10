@@ -2,6 +2,7 @@ package io.github.caimucheng.leaf.ide.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import io.github.caimucheng.leaf.ide.R
@@ -17,7 +18,12 @@ class MainHomeAdapter(
         LayoutInflater.from(context)
     }
 
-    inner class ViewHolder(val viewBinding: LayoutMainHomeBinding) : RecyclerView.ViewHolder(viewBinding.root)
+    private var onItemClickListener: ((View, Int) -> Unit)? = null
+
+    private var onItemLongClickListener: ((View, Int) -> Unit)? = null
+
+    inner class ViewHolder(val viewBinding: LayoutMainHomeBinding) :
+        RecyclerView.ViewHolder(viewBinding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutMainHomeBinding.inflate(inflater, parent, false))
@@ -31,10 +37,36 @@ class MainHomeAdapter(
         val project = projects[position]
         val viewBinding = holder.viewBinding
         viewBinding.projectName.text = project.name
-        viewBinding.projectDescription.text = context.getString(R.string.project_description, project.description)
-        viewBinding.pluginSupport.text = context.getString(R.string.plugin_support, project.plugin.packageName)
+        viewBinding.projectDescription.text = context.getString(
+            R.string.project_description,
+            project.description
+        )
+        viewBinding.pluginSupport.text = context.getString(
+            R.string.plugin_support,
+            project.plugin.packageName
+        )
         viewBinding.icon.background = project.plugin.pluginAPP.getProjectCardIcon()
         viewBinding.subscript.text = project.plugin.pluginAPP.getProjectCardSubscript()
+
+        if (onItemClickListener != null) {
+            viewBinding.root.setOnClickListener {
+                onItemClickListener!!(it, position)
+            }
+        }
+
+        if (onItemLongClickListener != null) {
+            viewBinding.root.setOnLongClickListener {
+                onItemLongClickListener!!(it, position)
+                true
+            }
+        }
     }
 
+    fun setOnItemClickListener(listener: (View, Int) -> Unit) {
+        onItemClickListener = listener
+    }
+
+    fun setOnItemLongClickListener(listener: (View, Int) -> Unit) {
+        onItemLongClickListener = listener
+    }
 }

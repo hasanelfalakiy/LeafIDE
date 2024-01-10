@@ -43,7 +43,15 @@ class AppDepository {
                         val pluginSupport = workspace.optString("pluginSupport")
                         val plugin =
                             plugins.find { it.packageName == pluginSupport } ?: return@runCatching
-                        projects.add(Project(projectName, projectDescription, plugin, workspace))
+                        projects.add(
+                            Project(
+                                child.absolutePath,
+                                projectName,
+                                projectDescription,
+                                plugin,
+                                workspace
+                            )
+                        )
                     }
                 }
             }
