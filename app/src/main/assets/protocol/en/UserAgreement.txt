@@ -14,8 +14,6 @@
     (4. Reverse engineering such as packet capture and decompilation is not allowed on the software. Copyright information and secondary packaging are not allowed.)
 
     (For users who violate the agreement, we will pursue legal responsibility {including but not limited to litigation}).
-<Privacy Policy>
-    (See previous page for details on the Privacy Policy.)
 <Disclaimer>
     We are not responsible for any consequences caused by the user's use of the software, and all responsibilities are borne by the user, and we have the right to unilaterally terminate the service.
 <Interpretation>

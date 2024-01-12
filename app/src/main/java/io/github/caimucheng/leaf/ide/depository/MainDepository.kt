@@ -1,6 +1,6 @@
 package io.github.caimucheng.leaf.ide.depository
 
-import io.github.caimucheng.leaf.ide.util.LeafIDEPluginRootPath
+import io.github.caimucheng.leaf.ide.util.LeafIDEModuleRootPath
 import io.github.caimucheng.leaf.ide.util.LeafIDEProjectPath
 import io.github.caimucheng.leaf.ide.util.LeafIDERootPath
 import java.io.File
@@ -8,13 +8,13 @@ import java.io.File
 class MainDepository {
 
     fun initialize() {
-        createPluginRoot()
+        createModuleRoot()
         createLeafIDERoot()
         createLeafIDEProject()
     }
 
-    private fun createPluginRoot() {
-        LeafIDEPluginRootPath.mkdirs()
+    private fun createModuleRoot() {
+        LeafIDEModuleRootPath.mkdirs()
     }
 
     private fun createLeafIDERoot() {

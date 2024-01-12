@@ -77,7 +77,7 @@
         android:id="@+id/newProjectFragment"
         android:name="io.github.caimucheng.leaf.ide.fragment.NewProjectFragment"
         android:label="NewProjectFragment"
-        tools:layout="@layout/fragment_new_project">
+        tools:layout="@layout/fragment_new_nodejs_project">
         <action
             android:id="@+id/action_newProjectFragment_to_mainFragment"
             app:destination="@id/mainFragment"

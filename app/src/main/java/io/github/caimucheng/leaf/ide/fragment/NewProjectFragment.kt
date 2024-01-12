@@ -9,11 +9,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import io.github.caimucheng.leaf.ide.R
 import io.github.caimucheng.leaf.ide.databinding.FragmentNewProjectBinding
+import io.github.caimucheng.leaf.ide.model.moduleSupport
 import io.github.caimucheng.leaf.ide.viewmodel.AppIntent
 import io.github.caimucheng.leaf.ide.viewmodel.AppViewModel
-import io.github.caimucheng.leaf.ide.viewmodel.PluginState
-import io.github.caimucheng.leaf.plugin.action.ActionHolder
-import io.github.caimucheng.leaf.plugin.fragment.PluginFragment
+import io.github.caimucheng.leaf.ide.viewmodel.ModuleState
+import io.github.caimucheng.leaf.module.action.ActionHolder
+import io.github.caimucheng.leaf.module.fragment.ModuleFragment
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -33,27 +34,27 @@ class NewProjectFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupIconButton()
-        val packageName =
-            arguments?.getString("packageName") ?: return run { findNavController().popBackStack() }
+        val moduleSupport =
+            arguments?.getString("moduleSupport") ?: return run { findNavController().popBackStack() }
 
         viewLifecycleOwner.lifecycleScope.launch {
             AppViewModel.state.collectLatest {
-                when (it.pluginState) {
-                    PluginState.Loading -> {
+                when (it.moduleState) {
+                    ModuleState.Loading -> {
                         viewBinding.content.visibility = View.GONE
                         viewBinding.placeholder.visibility = View.GONE
                         viewBinding.loading.visibility = View.VISIBLE
                     }
 
-                    PluginState.Done -> {
+                    ModuleState.Done -> {
                         viewBinding.loading.visibility = View.GONE
-                        val plugin =
-                            it.plugins.find { plugin -> plugin.packageName == packageName }
-                        if (plugin != null) {
+                        val module =
+                            it.modules.find { module -> module.moduleSupport == moduleSupport }
+                        if (module != null) {
                             viewBinding.placeholder.visibility = View.GONE
                             viewBinding.content.visibility = View.VISIBLE
 
-                            val fragmentCreator = plugin.pluginAPP.getFragmentCreator()
+                            val fragmentCreator = module.fragmentCreator
                             val onNewProjectFragment = fragmentCreator.onNewProject()
                             setupFragment(onNewProjectFragment)
                             childFragmentManager.beginTransaction()
@@ -75,7 +76,7 @@ class NewProjectFragment : Fragment() {
         }
     }
 
-    private fun setupFragment(onNewProjectFragment: PluginFragment) {
+    private fun setupFragment(onNewProjectFragment: ModuleFragment) {
         val actionHolder = ActionHolder(
             onPopBackStack = { findNavController().popBackStack() },
             onPopBackHome = {

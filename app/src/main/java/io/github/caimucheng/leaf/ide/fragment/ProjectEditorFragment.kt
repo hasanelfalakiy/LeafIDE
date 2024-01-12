@@ -132,7 +132,7 @@ class ProjectEditorFragment : Fragment() {
                     }
 
                     ProjectStatus.CLOSE -> {
-                        ProjectEditorViewModel.intent.send(ProjectEditorIntent.CLEAR)
+                        ProjectEditorViewModel.intent.send(ProjectEditorIntent.Clear)
                         findGlobalNavController().popBackStack()
                     }
                 }

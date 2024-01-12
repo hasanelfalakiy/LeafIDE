@@ -17,7 +17,7 @@ data class ProjectEditorState(
 ) : UiState()
 
 sealed class ProjectEditorIntent : UiIntent() {
-    data object CLEAR : ProjectEditorIntent()
+    data object Clear : ProjectEditorIntent()
 
     data class OpenProject(val projectPath: String?) : ProjectEditorIntent()
 
@@ -31,7 +31,7 @@ object ProjectEditorViewModel : MVIAppViewModel<ProjectEditorState, ProjectEdito
 
     override fun handleIntent(intent: ProjectEditorIntent, currentState: ProjectEditorState) {
         when (intent) {
-            ProjectEditorIntent.CLEAR -> {
+            ProjectEditorIntent.Clear -> {
                 setState(ProjectEditorState())
             }
 

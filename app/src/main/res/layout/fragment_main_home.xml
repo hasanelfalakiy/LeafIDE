@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="@string/no_project_or_plugins_for_projects"
+                android:text="@string/no_project_or_modules_for_projects"
                 android:textColor="?attr/colorOnSurface"
                 android:textSize="16sp" />
 

@@ -7,15 +7,15 @@ import java.io.File
 
 val ExternalRootPath: File = Environment.getExternalStorageDirectory()
 
-inline val LeafIDEPluginRootPath: File
+inline val LeafIDEModuleRootPath: File
     get() {
-        return File(AppContext.current.filesDir, "plugins")
+        return File(AppContext.current.filesDir, "modules")
     }
 
 inline val LeafIDERootPath: File
     get() {
         return when (AppContext.current.launchMode) {
-            LaunchMode.LaunchFromExteralStorage -> File(ExternalRootPath, "LeafIDE")
+            LaunchMode.LaunchFromExternalStorage -> File(ExternalRootPath, "LeafIDE")
             LaunchMode.LaunchFromInternalStorage -> File(AppContext.current.filesDir, "LeafIDE")
         }
     }

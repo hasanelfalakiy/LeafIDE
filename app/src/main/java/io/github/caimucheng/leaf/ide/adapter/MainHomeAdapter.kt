@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import io.github.caimucheng.leaf.ide.R
 import io.github.caimucheng.leaf.ide.databinding.LayoutMainHomeBinding
 import io.github.caimucheng.leaf.ide.model.Project
+import io.github.caimucheng.leaf.ide.model.moduleSupport
 
 class MainHomeAdapter(
     private val context: Context,
@@ -41,12 +42,12 @@ class MainHomeAdapter(
             R.string.project_description,
             project.description
         )
-        viewBinding.pluginSupport.text = context.getString(
-            R.string.plugin_support,
-            project.plugin.packageName
+        viewBinding.moduleSupport.text = context.getString(
+            R.string.module_support,
+            project.module.moduleSupport
         )
-        viewBinding.icon.background = project.plugin.pluginAPP.getProjectCardIcon()
-        viewBinding.subscript.text = project.plugin.pluginAPP.getProjectCardSubscript()
+        viewBinding.icon.background = project.module.moduleAPP.getProjectCardIcon()
+        viewBinding.subscript.text = project.module.moduleAPP.getProjectCardSubscript()
 
         if (onItemClickListener != null) {
             viewBinding.root.setOnClickListener {

@@ -9,7 +9,7 @@
     <item
         android:id="@+id/nav_plugin"
         android:icon="@drawable/baseline_needle_24"
-        android:title="@string/plugin" />
+        android:title="@string/module" />
 
     <item
         android:id="@+id/nav_leaf_flow"

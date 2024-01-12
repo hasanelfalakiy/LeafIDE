@@ -40,14 +40,14 @@
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/pluginSupport"
+            android:id="@+id/moduleSupport"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="20dp"
             android:alpha="0.8"
-            android:text="插件支持：leaf.plugin.node"
+            android:text="模块支持：leaf.plugin.node"
             android:textColor="?attr/colorOnSurface"
             android:textSize="14sp" />
 

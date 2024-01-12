@@ -14,8 +14,9 @@ android {
 
 dependencies {
     implementation(project(":common"))
-    implementation(project(":plugin-api"))
     implementation(project(":library-merminal"))
+    implementation(project(":module-api"))
+    implementation(project(":module-nodejs"))
     implementation(libs.appcompat)
     implementation(libs.constraintlayout)
     implementation(libs.core.ktx)

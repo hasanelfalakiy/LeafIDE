@@ -79,7 +79,7 @@ class SplashFragment : Fragment() {
 
         if (AppContext.current.isInitializedLaunchMode) {
             when (AppContext.current.launchMode) {
-                LaunchMode.LaunchFromExteralStorage -> {
+                LaunchMode.LaunchFromExternalStorage -> {
                     val writable = ContextCompat.checkSelfPermission(
                         requireContext(),
                         Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -150,7 +150,7 @@ class SplashFragment : Fragment() {
                         }
                     }
                     when (it.selectedLaunchMode) {
-                        LaunchMode.LaunchFromExteralStorage -> {
+                        LaunchMode.LaunchFromExternalStorage -> {
                             viewBinding.launchFromExternalStorageRadioButton.isChecked = true
                             viewBinding.launchFromInternalStorageRadioButton.isChecked = false
                         }
@@ -180,7 +180,7 @@ class SplashFragment : Fragment() {
         viewBinding.nextButton.setOnClickListener {
             if (splashViewModel.state.value.page == SplashPage.LaunchMode) {
                 when (splashViewModel.state.value.selectedLaunchMode) {
-                    LaunchMode.LaunchFromExteralStorage -> activityResultLauncher.launch(
+                    LaunchMode.LaunchFromExternalStorage -> activityResultLauncher.launch(
                         arrayOf(
                             Manifest.permission.WRITE_EXTERNAL_STORAGE,
                             Manifest.permission.READ_EXTERNAL_STORAGE
@@ -200,12 +200,6 @@ class SplashFragment : Fragment() {
                 splashViewModel.intent.send(SplashUiIntent.NextPage)
             }
         }
-
-//        viewBinding.launchFromExternalStorageCard.setOnClickListener {
-//            viewLifecycleOwner.lifecycleScope.launch {
-//                splashViewModel.intent.send(SplashUiIntent.SelectLaunchMode(LaunchMode.LaunchFromExteralStorage))
-//            }
-//        }
 
         viewBinding.launchFromInternalStorageCard.setOnClickListener {
             viewLifecycleOwner.lifecycleScope.launch {

@@ -14,11 +14,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import io.github.caimucheng.leaf.ide.R
 import io.github.caimucheng.leaf.ide.adapter.TemplateAdapter
 import io.github.caimucheng.leaf.ide.databinding.FragmentTemplateProjectBinding
-import io.github.caimucheng.leaf.ide.model.Plugin
+import io.github.caimucheng.leaf.ide.model.Module
 import io.github.caimucheng.leaf.ide.model.isEnabled
-import io.github.caimucheng.leaf.ide.model.isSupported
+import io.github.caimucheng.leaf.ide.model.moduleSupport
 import io.github.caimucheng.leaf.ide.viewmodel.AppViewModel
-import io.github.caimucheng.leaf.ide.viewmodel.PluginState
+import io.github.caimucheng.leaf.ide.viewmodel.ModuleState
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -27,20 +27,20 @@ class TemplateProjectFragment : Fragment() {
 
     private lateinit var viewBinding: FragmentTemplateProjectBinding
 
-    private val plugins by lazy {
-        ArrayList<Plugin>(AppViewModel.state.value.plugins.filter { it.isSupported && it.isEnabled })
+    private val modules by lazy {
+        ArrayList<Module>(AppViewModel.state.value.modules.filter { it.isEnabled })
     }
 
     private val adapter by lazy {
         TemplateAdapter(
             context = requireContext(),
-            plugins = plugins,
-            onItemClick = { plugin ->
+            modules = modules,
+            onItemClick = { module ->
                 findNavController()
                     .navigate(
                         R.id.action_templateProjectFragment_to_newProjectFragment,
                         bundleOf(
-                            "packageName" to plugin.packageName
+                            "moduleSupport" to module.moduleSupport
                         )
                     )
             }
@@ -65,21 +65,21 @@ class TemplateProjectFragment : Fragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 AppViewModel.state.map {
                     it.copy(
-                        plugins = it.plugins.filter { plugin -> plugin.isSupported && plugin.isEnabled }
+                        modules = it.modules.filter { module -> module.isEnabled }
                     )
                 }.collectLatest {
-                    when (it.pluginState) {
-                        PluginState.Loading -> {
+                    when (it.moduleState) {
+                        ModuleState.Loading -> {
                             viewBinding.recyclerView.visibility = View.GONE
                             viewBinding.placeholder.visibility = View.GONE
                             viewBinding.loading.visibility = View.VISIBLE
                         }
 
-                        PluginState.Done -> {
+                        ModuleState.Done -> {
                             viewBinding.loading.visibility = View.GONE
-                            plugins.clear()
-                            plugins.addAll(it.plugins)
-                            if (plugins.isNotEmpty()) {
+                            modules.clear()
+                            modules.addAll(it.modules)
+                            if (modules.isNotEmpty()) {
                                 viewBinding.placeholder.visibility = View.GONE
                                 viewBinding.recyclerView.visibility = View.VISIBLE
                             } else {

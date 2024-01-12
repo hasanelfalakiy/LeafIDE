@@ -6,6 +6,6 @@ data class Project(
     val projectPath: String,
     val name: String,
     val description: String,
-    val plugin: Plugin,
+    val module: Module,
     val workspace: JSONObject
 )

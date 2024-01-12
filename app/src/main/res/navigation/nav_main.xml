@@ -11,7 +11,7 @@
 
     <fragment
         android:id="@+id/nav_plugin"
-        android:name="io.github.caimucheng.leaf.ide.fragment.main.MainPluginFragment"
+        android:name="io.github.caimucheng.leaf.ide.fragment.main.MainModuleFragment"
         android:label="MainPluginFragment" />
 
     <fragment

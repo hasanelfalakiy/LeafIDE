@@ -37,7 +37,6 @@
                 android:id="@+id/privacyPolicyContent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textColor="?attr/colorOnSurface"
                 android:textIsSelectable="true"
                 android:textSize="16sp" />
 
@@ -55,7 +54,6 @@
                 android:id="@+id/userAgreementContent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textColor="?attr/colorOnSurface"
                 android:textIsSelectable="true"
                 android:textSize="16sp" />
 

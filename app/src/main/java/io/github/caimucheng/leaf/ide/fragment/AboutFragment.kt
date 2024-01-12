@@ -51,7 +51,7 @@ class AboutFragment : Fragment() {
             "%s v%s(%s)",
             getString(R.string.app_name),
             getVersionNameSelf(requireContext()),
-            Build.CPU_ABI
+            Build.SUPPORTED_ABIS[0]
         )
     }
 

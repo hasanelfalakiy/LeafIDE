@@ -18,7 +18,7 @@ enum class SplashPage {
 }
 
 enum class LaunchMode {
-    LaunchFromExteralStorage,
+    LaunchFromExternalStorage,
     LaunchFromInternalStorage
 }
 

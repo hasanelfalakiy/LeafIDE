@@ -90,17 +90,10 @@ class OpenSourceLicenseFragment : Fragment() {
         }
 
         class ItemHolder(item: View) : RecyclerView.ViewHolder(item) {
-            val root: MaterialCardView
-            val repoName: MaterialTextView
-            val repoSummary: MaterialTextView
-            val repoLicense: MaterialTextView
-
-            init {
-                root = item.findViewById(R.id.root)
-                repoName = item.findViewById(R.id.repo_name)
-                repoSummary = item.findViewById(R.id.repo_summary)
-                repoLicense = item.findViewById(R.id.repo_license)
-            }
+            val root: MaterialCardView = item.findViewById(R.id.root)
+            val repoName: MaterialTextView = item.findViewById(R.id.repo_name)
+            val repoSummary: MaterialTextView = item.findViewById(R.id.repo_summary)
+            val repoLicense: MaterialTextView = item.findViewById(R.id.repo_license)
         }
     }
 

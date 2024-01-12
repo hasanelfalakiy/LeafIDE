@@ -1,9 +1,11 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":module-nodejs")
+
+
 include(":common")
 include(":library-merminal")
-include(":plugin-api")
-include(":plugin-nodejs")
+include(":module-api")
 include(":app")
 
 pluginManagement {

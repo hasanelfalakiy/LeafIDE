@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="@string/no_supported_plugin_project"
+            android:text="@string/no_supported_module_project"
             android:textColor="?attr/colorOnSurface"
             android:textSize="16sp" />
 
