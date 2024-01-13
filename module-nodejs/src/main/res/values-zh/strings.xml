@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="module_nodejs_name">适用于 Leaf IDE 的 NodeJS 模块</string>
+    <string name="module_nodejs_description">支持创建、运行 nodejs 工程，且附带 npm、npx、corepack 等包管理器，以及默认的全局 node_modules</string>
+    <string name="module_nodejs_template">NodeJS 工程</string>
+    <string name="module_nodejs_management">NodeJS 管理</string>
 </resources>

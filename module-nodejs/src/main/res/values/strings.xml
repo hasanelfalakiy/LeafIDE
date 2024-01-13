@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="module_nodejs_name" >NodeJS Module For Leaf IDE</string>
+    <string name="module_nodejs_description">Supports creating and running nodejs projects, and comes with package managers such as npm, npx, corepack, and the default global node_modules</string>
+    <string name="module_nodejs_template">NodeJS Project</string>
+    <string name="module_nodejs_subscript" translatable="false">NodeJS</string>
+    <string name="module_nodejs_management">NodeJS Management</string>
 </resources>

@@ -66,4 +66,5 @@
     <string name="file_list">文件列表</string>
     <string name="click_menu_button_to_open">点击菜单按钮打开</string>
     <string name="options_menu">选项菜单</string>
+    <string name="module_management">模块管理</string>
 </resources>

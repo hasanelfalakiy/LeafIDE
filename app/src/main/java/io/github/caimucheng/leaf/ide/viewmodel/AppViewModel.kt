@@ -52,7 +52,7 @@ object AppViewModel : MVIAppViewModel<AppState, AppIntent>() {
                     projectState = ProjectState.Loading
                 )
             )
-            val modules = appDepository.refreshPlugins()
+            val modules = appDepository.refreshModules()
             val projects = appDepository.refreshProjects(
                 modules.filter { it.isEnabled }
             )

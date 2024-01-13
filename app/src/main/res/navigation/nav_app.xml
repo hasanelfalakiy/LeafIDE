@@ -47,6 +47,9 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_mainFragment_to_moduleManagementFragment"
+            app:destination="@id/moduleManagementFragment" />
     </fragment>
 
     <fragment
@@ -153,5 +156,10 @@
         android:name="io.github.caimucheng.leaf.ide.fragment.OpenSourceLicenseFragment"
         android:label="OpenSourceLicenseFragment"
         tools:layout="@layout/fragment_open_source_license" />
+
+    <fragment
+        android:id="@+id/moduleManagementFragment"
+        android:name="io.github.caimucheng.leaf.ide.fragment.ModuleManagementFragment"
+        android:label="ModuleManagementFragment" />
 
 </navigation>

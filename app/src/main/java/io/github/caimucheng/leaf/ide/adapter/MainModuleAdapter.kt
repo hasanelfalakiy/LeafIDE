@@ -18,6 +18,7 @@ import io.github.caimucheng.leaf.ide.model.toggle
 class MainModuleAdapter(
     private val context: Context,
     private val modules: List<Module>,
+    private val onItemClick: (module: Module) -> Unit,
     private val onToggle: (module: Module) -> Unit
 ) : RecyclerView.Adapter<MainModuleAdapter.ViewHolder>() {
 
@@ -55,6 +56,9 @@ class MainModuleAdapter(
                     }
                 }
             }
+        }
+        viewBinding.root.setOnClickListener {
+            onItemClick(module)
         }
         viewBinding.root.setOnCreateContextMenuListener { menu, _, _ ->
             val menuInflater = MenuInflater(context)

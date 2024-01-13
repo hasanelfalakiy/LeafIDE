@@ -54,7 +54,7 @@ class AppDepository {
         }
     }
 
-    suspend fun refreshPlugins(): List<Module> {
+    suspend fun refreshModules(): List<Module> {
         return withContext(Dispatchers.IO) {
             val context = AppContext.current
             val paths = Paths(

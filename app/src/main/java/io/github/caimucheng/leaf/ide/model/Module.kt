@@ -42,11 +42,6 @@ inline val Module.description: String
         return moduleAPP.getDescription()
     }
 
-inline val Module.author: String
-    get() {
-        return moduleAPP.getAuthor()
-    }
-
 inline val Module.isEnabled: Boolean
     get() {
         val moduleSharedPreferences = AppContext.current.moduleSharedPreferences

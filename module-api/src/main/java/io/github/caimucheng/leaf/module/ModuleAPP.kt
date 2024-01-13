@@ -18,8 +18,6 @@ abstract class ModuleAPP(val context: Context, val paths: Paths) {
 
     abstract fun getDescription(): String
 
-    abstract fun getAuthor(): String
-
     abstract fun getProjectCardIcon(): Drawable
 
     abstract fun getProjectCardSubscript(): String

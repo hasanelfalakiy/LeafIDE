@@ -6,4 +6,6 @@ interface FragmentCreator {
 
     fun onNewProject(): ModuleFragment
 
+    fun onManageModule(): ModuleFragment
+
 }

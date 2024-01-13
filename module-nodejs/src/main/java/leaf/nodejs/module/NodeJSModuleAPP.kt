@@ -43,11 +43,7 @@ class NodeJSModuleAPP(context: Context, paths: Paths) : ModuleAPP(context, paths
     }
 
     override fun getDescription(): String {
-        return "Description"
-    }
-
-    override fun getAuthor(): String {
-        return "Author"
+        return currentContext.getString(R.string.module_nodejs_description)
     }
 
     override fun getProjectCardIcon(): Drawable {
@@ -55,7 +51,7 @@ class NodeJSModuleAPP(context: Context, paths: Paths) : ModuleAPP(context, paths
     }
 
     override fun getProjectCardSubscript(): String {
-        return "NodeJS"
+        return currentContext.getString(R.string.module_nodejs_subscript)
     }
 
     override fun getTemplateIcon(): Drawable {
@@ -63,7 +59,7 @@ class NodeJSModuleAPP(context: Context, paths: Paths) : ModuleAPP(context, paths
     }
 
     override fun getTemplateTitle(): String {
-        return "NodeJS Project"
+        return currentContext.getString(R.string.module_nodejs_template)
     }
 
 }

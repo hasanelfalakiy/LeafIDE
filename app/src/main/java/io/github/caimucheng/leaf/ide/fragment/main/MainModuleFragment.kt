@@ -18,6 +18,8 @@ import io.github.caimucheng.leaf.ide.R
 import io.github.caimucheng.leaf.ide.adapter.MainModuleAdapter
 import io.github.caimucheng.leaf.ide.databinding.FragmentMainModuleBinding
 import io.github.caimucheng.leaf.ide.model.Module
+import io.github.caimucheng.leaf.ide.model.moduleSupport
+import io.github.caimucheng.leaf.ide.util.findGlobalNavController
 import io.github.caimucheng.leaf.ide.viewmodel.AppIntent
 import io.github.caimucheng.leaf.ide.viewmodel.AppViewModel
 import io.github.caimucheng.leaf.ide.viewmodel.ModuleState
@@ -36,6 +38,15 @@ class MainModuleFragment : Fragment() {
         MainModuleAdapter(
             context = requireContext(),
             modules = modules,
+            onItemClick = {
+                val bundle = Bundle()
+                bundle.putString("moduleSupport", it.moduleSupport)
+                findGlobalNavController()
+                    .navigate(
+                        R.id.action_mainFragment_to_moduleManagementFragment,
+                        bundle
+                    )
+            },
             onToggle = {
                 viewLifecycleOwner.lifecycleScope.launch {
                     AppViewModel.intent.send(AppIntent.Refresh)
