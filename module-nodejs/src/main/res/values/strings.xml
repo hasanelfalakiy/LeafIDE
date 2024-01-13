@@ -5,4 +5,13 @@
     <string name="module_nodejs_template">NodeJS Project</string>
     <string name="module_nodejs_subscript" translatable="false">NodeJS</string>
     <string name="module_nodejs_management">NodeJS Management</string>
+    <string name="env_package_not_installed">Environment package not installed</string>
+    <string name="install_failed">Install failed: %s</string>
+    <string name="uninstall_nodejs">Uninstall NodeJS</string>
+    <string name="uninstall_nodejs_summary">Are you sure you want to uninstall the NodeJS environment package?</string>
+    <string name="sure">Sure</string>
+    <string name="cancel">Cancel</string>
+    <string name="uninstall_failed">Uninstall failed</string>
+    <string name="uninstall_successfully">Uninstall successfully</string>
+    <string name="install_successfully">Install successfully</string>
 </resources>

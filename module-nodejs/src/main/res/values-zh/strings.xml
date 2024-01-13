@@ -4,4 +4,13 @@
     <string name="module_nodejs_description">支持创建、运行 nodejs 工程，且附带 npm、npx、corepack 等包管理器，以及默认的全局 node_modules</string>
     <string name="module_nodejs_template">NodeJS 工程</string>
     <string name="module_nodejs_management">NodeJS 管理</string>
+    <string name="env_package_not_installed">未安装环境包</string>
+    <string name="install_failed">安装失败：%s</string>
+    <string name="uninstall_nodejs">卸载 NodeJS</string>
+    <string name="uninstall_nodejs_summary">你确定要卸载 NodeJS 环境包吗？</string>
+    <string name="sure">确定</string>
+    <string name="cancel">取消</string>
+    <string name="uninstall_failed">卸载失败</string>
+    <string name="uninstall_successfully">卸载成功</string>
+    <string name="install_successfully">安装成功</string>
 </resources>
