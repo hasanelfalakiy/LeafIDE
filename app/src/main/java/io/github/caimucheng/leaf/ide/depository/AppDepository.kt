@@ -23,9 +23,9 @@ class AppDepository {
         return withContext(Dispatchers.IO) {
             val projects: MutableList<Project> = ArrayList()
             supervisorScope {
-                val children = LeafIDEProjectPath.listFiles() ?: emptyArray()
-                for (child in children) {
-                    runCatching {
+                runCatching {
+                    val children = LeafIDEProjectPath.listFiles() ?: emptyArray()
+                    for (child in children) {
                         if (child.isFile) return@runCatching
                         val configurationDir = File(child, ".LeafIDE")
                         if (configurationDir.isFile || !configurationDir.exists()) return@runCatching
@@ -36,8 +36,9 @@ class AppDepository {
                         val projectName = workspace.optString("name")
                         val projectDescription = workspace.optString("description")
                         val moduleSupport = workspace.optString("moduleSupport")
-                        val module =
-                            modules.find { it.moduleSupport == moduleSupport } ?: return@runCatching
+                        val module = modules.find {
+                            it.moduleSupport == moduleSupport
+                        } ?: return@runCatching
                         projects.add(
                             Project(
                                 child.absolutePath,
@@ -66,11 +67,11 @@ class AppDepository {
 
             listOf(
                 Module(
-                    moduleAPP =  NodeJSModuleAPP(
+                    moduleAPP = NodeJSModuleAPP(
                         context = context,
                         paths = paths
                     ),
-                    fragmentCreator =  NodeJSFragmentCreator
+                    fragmentCreator = NodeJSFragmentCreator
                 )
             )
         }

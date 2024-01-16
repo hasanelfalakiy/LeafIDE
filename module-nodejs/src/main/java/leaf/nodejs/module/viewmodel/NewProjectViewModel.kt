@@ -74,7 +74,7 @@ class NewProjectViewModel : MVIViewModel<NewProjectState, NewProjectIntent>() {
                 val jsonObject = JSONObject()
                 jsonObject.put("name", projectName)
                 jsonObject.put("description", description)
-                jsonObject.put("pluginSupport", NodeJSModuleAPP.MODULE_SUPPORT)
+                jsonObject.put("moduleSupport", NodeJSModuleAPP.MODULE_SUPPORT)
                 it.write(jsonObject.toString(4))
                 it.flush()
             }
