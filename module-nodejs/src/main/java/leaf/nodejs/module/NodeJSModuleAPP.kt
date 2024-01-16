@@ -20,6 +20,8 @@ class NodeJSModuleAPP(context: Context, paths: Paths) : ModuleAPP(context, paths
         lateinit var currentPaths: Paths
             private set
 
+        @JvmStatic
+        val MODULE_SUPPORT = "leaf.nodejs.module"
     }
 
     init {
@@ -28,7 +30,7 @@ class NodeJSModuleAPP(context: Context, paths: Paths) : ModuleAPP(context, paths
     }
 
     override val moduleSupport: String
-        get() = "leaf.nodejs.module"
+        get() = MODULE_SUPPORT
     override val versionName: String
         get() = "1.0.0.0"
     override val versionCode: Long

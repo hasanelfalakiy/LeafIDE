@@ -10,8 +10,10 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import io.github.caimucheng.leaf.common.util.ViewUtils
 import io.github.caimucheng.leaf.ide.R
+import io.github.caimucheng.leaf.ide.adapter.FileTreeViewAdapter
 import io.github.caimucheng.leaf.ide.databinding.FragmentProjectEditorBinding
 import io.github.caimucheng.leaf.ide.util.findGlobalNavController
 import io.github.caimucheng.leaf.ide.viewmodel.ProjectEditorIntent
@@ -58,6 +60,7 @@ class ProjectEditorFragment : Fragment() {
 
         setupToolbar()
         setupEditor()
+        setupFileTreeView()
         setupFooter()
 
         requireActivity().onBackPressedDispatcher.addCallback(
@@ -129,6 +132,9 @@ class ProjectEditorFragment : Fragment() {
                                 searchInsideFileMenuItem
                             )
                         }
+                        val adapter = FileTreeViewAdapter(it.fileTreeNodeList)
+                        adapter.submitList(it.fileTreeNodeList)
+                        viewBinding.fileTreeView.adapter = adapter
                     }
 
                     ProjectStatus.CLOSE -> {
@@ -176,6 +182,11 @@ class ProjectEditorFragment : Fragment() {
 
     private fun setupEditor() {
 
+    }
+
+    private fun setupFileTreeView() {
+        val fileTreeView = viewBinding.fileTreeView
+        fileTreeView.layoutManager = LinearLayoutManager(requireContext())
     }
 
     private fun setupFooter() {

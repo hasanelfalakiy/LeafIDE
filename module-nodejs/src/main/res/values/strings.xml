@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="module_nodejs_name" >NodeJS Module For Leaf IDE</string>
+    <string name="module_nodejs_name">NodeJS Module For Leaf IDE</string>
     <string name="module_nodejs_description">Supports creating and running nodejs projects, and comes with package managers such as npm, npx, corepack, and the default global node_modules</string>
     <string name="module_nodejs_template">NodeJS Project</string>
     <string name="module_nodejs_subscript" translatable="false">NodeJS</string>
@@ -14,4 +14,15 @@
     <string name="uninstall_failed">Uninstall failed</string>
     <string name="uninstall_successfully">Uninstall successfully</string>
     <string name="install_successfully">Install successfully</string>
+    <string name="create">Create</string>
+    <string name="project_name">Project Name</string>
+    <string name="description">Description</string>
+    <string name="creating_project">Creating project</string>
+    <string name="creating_project_message">Just a moment please…</string>
+    <string name="exists_project">Project already exists</string>
+    <string name="description_cannot_be_null">Description cannot be null</string>
+    <string name="project_name_cannot_be_empty">Project name cannot be empty</string>
+    <string name="illegal_project_name">Illegal project name</string>
+    <string name="create_successfully">Create successfully</string>
+    <string name="creation_failed">Creation failed: %s</string>
 </resources>

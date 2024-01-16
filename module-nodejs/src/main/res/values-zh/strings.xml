@@ -13,4 +13,15 @@
     <string name="uninstall_failed">卸载失败</string>
     <string name="uninstall_successfully">卸载成功</string>
     <string name="install_successfully">安装成功</string>
+    <string name="create">创建</string>
+    <string name="project_name">工程名称</string>
+    <string name="description">描述</string>
+    <string name="creating_project">正在创建工程</string>
+    <string name="creating_project_message">请稍等片刻....</string>
+    <string name="exists_project">工程已存在</string>
+    <string name="description_cannot_be_null">描述不能为空</string>
+    <string name="project_name_cannot_be_empty">工程名称不能为空</string>
+    <string name="illegal_project_name">不合法的工程名称</string>
+    <string name="create_successfully">创建成功</string>
+    <string name="creation_failed">创建失败：%s</string>
 </resources>
