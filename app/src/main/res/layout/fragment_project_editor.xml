@@ -151,11 +151,10 @@
         android:clickable="true"
         android:focusable="true">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/file_tree_view"
+        <io.github.dingyi222666.view.treeview.TreeView
+            android:id="@+id/tree_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical" />
+            android:layout_height="match_parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

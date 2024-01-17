@@ -12,6 +12,24 @@
     "url": "https://github.com/apache/commons-compress"
   },
   {
+    "name": "Merminal",
+    "summary": "基于Compose的Terminal终端模拟器",
+    "license": "no license",
+    "url": "https://github.com/mucute/Merminal"
+  },
+  {
+    "name": "sora-editor",
+    "summary": "A multifunctional Android code editor library. (aka CodeEditor)",
+    "license": "LGPL-2.1 license",
+    "url": "https://github.com/Rosemoe/sora-editor"
+  },
+  {
+    "name": "TreeView",
+    "summary": "An Android TreeView with RecyclerView",
+    "license": "Apache-2.0 license",
+    "url": "https://github.com/dingyi222666/TreeView"
+  },
+  {
     "name": "Toasty",
     "summary": "The usual Toast, but with steroids",
     "license": "LGPL-3.0 license",

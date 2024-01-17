@@ -5,22 +5,37 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Checkable
+import android.widget.Space
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
+import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.checkbox.MaterialCheckBox
 import io.github.caimucheng.leaf.common.util.ViewUtils
 import io.github.caimucheng.leaf.ide.R
-import io.github.caimucheng.leaf.ide.adapter.FileTreeViewAdapter
+import io.github.caimucheng.leaf.ide.databinding.FileTreeItemDirBinding
+import io.github.caimucheng.leaf.ide.databinding.FileTreeItemFileBinding
 import io.github.caimucheng.leaf.ide.databinding.FragmentProjectEditorBinding
+import io.github.caimucheng.leaf.ide.loader.FileListLoader
+import io.github.caimucheng.leaf.ide.util.FileNodeGenerator
 import io.github.caimucheng.leaf.ide.util.findGlobalNavController
 import io.github.caimucheng.leaf.ide.viewmodel.ProjectEditorIntent
 import io.github.caimucheng.leaf.ide.viewmodel.ProjectEditorViewModel
 import io.github.caimucheng.leaf.ide.viewmodel.ProjectStatus
+import io.github.dingyi222666.view.treeview.Tree
+import io.github.dingyi222666.view.treeview.TreeNode
+import io.github.dingyi222666.view.treeview.TreeNodeEventListener
+import io.github.dingyi222666.view.treeview.TreeView
+import io.github.dingyi222666.view.treeview.TreeViewBinder
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.File
 
 class ProjectEditorFragment : Fragment() {
     private lateinit var viewBinding: FragmentProjectEditorBinding
@@ -29,6 +44,8 @@ class ProjectEditorFragment : Fragment() {
     private var redoMenuItem: MenuItem? = null
     private var saveMenuItem: MenuItem? = null
     private var searchInsideFileMenuItem: MenuItem? = null
+    private var fileListLoader: FileListLoader? = null
+    private var tree: Tree<File>? = null
 
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
@@ -132,9 +149,7 @@ class ProjectEditorFragment : Fragment() {
                                 searchInsideFileMenuItem
                             )
                         }
-                        val adapter = FileTreeViewAdapter(it.fileTreeNodeList)
-                        adapter.submitList(it.fileTreeNodeList)
-                        viewBinding.fileTreeView.adapter = adapter
+                        refreshTreeView(it.project?.projectPath)
                     }
 
                     ProjectStatus.CLOSE -> {
@@ -185,8 +200,11 @@ class ProjectEditorFragment : Fragment() {
     }
 
     private fun setupFileTreeView() {
-        val fileTreeView = viewBinding.fileTreeView
-        fileTreeView.layoutManager = LinearLayoutManager(requireContext())
+        val treeView = viewBinding.treeView
+        treeView.bindCoroutineScope(lifecycleScope)
+        treeView.binder = FileViewBinder()
+        treeView.nodeEventListener = treeView.binder as FileViewBinder
+        fileListLoader = FileListLoader()
     }
 
     private fun setupFooter() {
@@ -204,8 +222,117 @@ class ProjectEditorFragment : Fragment() {
         symbolInputView.bindEditor(viewBinding.editor)
     }
 
+    private fun refreshTreeView(projectPath: String?) {
+        if (projectPath.isNullOrBlank()) return
+        lifecycleScope.launch {
+            tree = withContext(Dispatchers.Default) {
+                fileListLoader!!.loadFileList(projectPath)
+                createTree(projectPath)
+            }
+            viewBinding.treeView.tree = tree!!
+            viewBinding.treeView.refresh()
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         onBackPressedCallback.remove()
+    }
+
+    private fun createTree(rootPath: String): Tree<File> {
+        val tree = Tree.createTree<File>()
+        tree.apply {
+            this.generator = FileNodeGenerator(
+                File(rootPath),
+                fileListLoader!!
+            )
+            initTree()
+        }
+        return tree
+    }
+
+    inner class FileViewBinder : TreeViewBinder<File>(), TreeNodeEventListener<File> {
+        override fun createView(parent: ViewGroup, viewType: Int): View {
+            val layoutInflater = LayoutInflater.from(parent.context)
+            return if (viewType == 1) {
+                FileTreeItemDirBinding.inflate(layoutInflater, parent, false).root
+            } else {
+                FileTreeItemFileBinding.inflate(layoutInflater, parent, false).root
+            }
+        }
+
+        override fun getItemViewType(node: TreeNode<File>): Int {
+            return if (node.isChild) 1 else 0
+        }
+
+        override fun bindView(
+            holder: TreeView.ViewHolder,
+            node: TreeNode<File>,
+            listener: TreeNodeEventListener<File>
+        ) {
+            if (node.isChild) {
+                applyDir(holder, node)
+            } else {
+                applyFile(holder, node)
+            }
+
+            val itemView = holder.itemView.findViewById<Space>(R.id.space)
+
+            itemView.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                width = node.depth * 22
+            }
+
+            (getCheckableView(node, holder) as MaterialCheckBox).apply {
+                visibility = if (node.selected) View.VISIBLE else View.GONE
+                isSelected = node.selected
+            }
+        }
+
+        private fun applyFile(holder: TreeView.ViewHolder, node: TreeNode<File>) {
+            val binding = FileTreeItemFileBinding.bind(holder.itemView)
+            binding.tvName.text = node.name.toString()
+        }
+
+        private fun applyDir(holder: TreeView.ViewHolder, node: TreeNode<File>) {
+            val binding = FileTreeItemDirBinding.bind(holder.itemView)
+            binding.tvName.text = node.name.toString()
+            binding
+                .ivArrow
+                .animate()
+                .rotation(if (node.expand) 90f else 0f)
+                .setDuration(200)
+                .start()
+        }
+
+        override fun getCheckableView(
+            node: TreeNode<File>,
+            holder: TreeView.ViewHolder
+        ): Checkable {
+            return if (node.isChild) {
+                FileTreeItemDirBinding.bind(holder.itemView).checkbox
+            } else {
+                FileTreeItemFileBinding.bind(holder.itemView).checkbox
+            }
+        }
+
+        override fun onClick(node: TreeNode<File>, holder: TreeView.ViewHolder) {
+            if (node.isChild) {
+                applyDir(holder, node)
+            } else {
+                Toast.makeText(
+                    holder.itemView.context,
+                    "Clicked ${node.name}",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+
+        override fun onToggle(
+            node: TreeNode<File>,
+            isExpand: Boolean,
+            holder: TreeView.ViewHolder
+        ) {
+            applyDir(holder, node)
+        }
     }
 }

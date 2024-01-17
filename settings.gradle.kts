@@ -1,11 +1,10 @@
 @file:Suppress("UnstableApiUsage")
 
-include(":module-nodejs")
-
-
 include(":common")
 include(":library-merminal")
+include(":library-treeview")
 include(":module-api")
+include(":module-nodejs")
 include(":app")
 
 pluginManagement {

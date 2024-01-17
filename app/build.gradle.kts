@@ -15,6 +15,7 @@ android {
 dependencies {
     implementation(project(":common"))
     implementation(project(":library-merminal"))
+    implementation(project(":library-treeview"))
     implementation(project(":module-api"))
     implementation(project(":module-nodejs"))
     implementation(libs.appcompat)
@@ -22,6 +23,8 @@ dependencies {
     implementation(libs.core.ktx)
     implementation(platform(libs.editor.bom))
     implementation(libs.editor)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlin.reflect)
     implementation(libs.material)
     implementation(libs.navigation.fragment.ktx)
