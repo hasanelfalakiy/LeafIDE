@@ -67,6 +67,6 @@
     <string name="click_menu_button_to_open">点击菜单按钮打开</string>
     <string name="options_menu">选项菜单</string>
     <string name="module_management">模块管理</string>
-    <string name="more">更多...</string>
+    <string name="more">更多…</string>
     <string name="error_opening_project">打开工程时出错</string>
 </resources>
