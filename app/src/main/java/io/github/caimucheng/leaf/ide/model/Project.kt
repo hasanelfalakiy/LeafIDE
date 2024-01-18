@@ -9,3 +9,8 @@ data class Project(
     val module: Module,
     val workspace: JSONObject
 )
+
+inline val Project.moduleSupport: String
+    get() {
+        return module.moduleSupport
+    }

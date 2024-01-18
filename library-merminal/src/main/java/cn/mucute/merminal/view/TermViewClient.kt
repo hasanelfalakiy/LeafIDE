@@ -13,12 +13,10 @@ import cn.mucute.merminal.core.TerminalSession
 
 class TermViewClient(
     val context: Context,
-    private val terminalView: TerminalView,
-    private val termSession: ShellTermSession,
+    private val terminalView: TerminalView
 ) : TerminalViewClient {
     private var mVirtualControlKeyDown: Boolean = false
     private var mVirtualFnKeyDown: Boolean = false
-    private var lastTitle: String = ""
 
     override fun onScale(scale: Float): Float {
         if (scale < 0.9f || scale > 1.1f) {
@@ -39,7 +37,7 @@ class TermViewClient(
     }
 
     override fun copyModeChanged(copyMode: Boolean) {
-        // TODO
+
     }
 
     override fun onKeyDown(keyCode: Int, e: KeyEvent?, session: TerminalSession?): Boolean {
@@ -51,36 +49,18 @@ class TermViewClient(
 
         when (keyCode) {
             KeyEvent.KEYCODE_ENTER -> {
-                if (e?.action == KeyEvent.ACTION_DOWN && session?.isRunning == false) {
-
-                    return true
-                }
-                return false
+                return e?.action == KeyEvent.ACTION_DOWN && session?.isRunning == false
             }
 
         }
 
-        // TODO 自定义快捷键
         if (e != null && e.isCtrlPressed && e.isShiftPressed) {
-            // Get the unmodified code point:
-            val unicodeChar = e.getUnicodeChar(0).toChar()
-
-
-            // 当要触发 NeoTerm 快捷键时，屏蔽所有终端处理key
             return true
         } else if (e != null && e.isAltPressed) {
             // Get the unmodified code point:
             val unicodeChar = e.getUnicodeChar(0).toChar()
-            if (unicodeChar !in ('1'..'9')) {
-                return false
-            }
-
-            // Use Alt + num to switch sessions
-            val sessionIndex = unicodeChar.toInt() - '0'.toInt()
-
-
+            return unicodeChar in ('1'..'9')
             // 当要触发 NeoTerm 快捷键时，屏蔽所有终端处理key
-            return true
         }
         return false
     }
@@ -123,15 +103,15 @@ class TermViewClient(
                 // Some special keys:
                 't' -> resultingKeyCode = KeyEvent.KEYCODE_TAB
                 'i' -> resultingKeyCode = KeyEvent.KEYCODE_INSERT
-                'h' -> resultingCodePoint = '~'.toInt()
+                'h' -> resultingCodePoint = '~'.code
 
                 // Special characters to input.
-                'u' -> resultingCodePoint = '_'.toInt()
-                'l' -> resultingCodePoint = '|'.toInt()
+                'u' -> resultingCodePoint = '_'.code
+                'l' -> resultingCodePoint = '|'.code
 
                 // Function keys.
                 '1', '2', '3', '4', '5', '6', '7', '8', '9' -> resultingKeyCode =
-                    codePoint - '1'.toInt() + KeyEvent.KEYCODE_F1
+                    codePoint - '1'.code + KeyEvent.KEYCODE_F1
 
                 '0' -> resultingKeyCode = KeyEvent.KEYCODE_F10
 
@@ -139,9 +119,9 @@ class TermViewClient(
                 'e' -> resultingCodePoint = 27 /*Escape*/
                 '.' -> resultingCodePoint = 28 /*^.*/
 
-                'b', // alt+b, jumping backward in readline.
-                'f', // alf+f, jumping forward in readline.
-                'x', // alt+x, common in emacs.
+                'b',
+                'f',
+                'x',
                 -> {
                     resultingCodePoint = lowerCase
                     altDown = true
@@ -180,7 +160,6 @@ class TermViewClient(
     }
 
     override fun onLongPress(event: MotionEvent?): Boolean {
-        // TODO
         return false
     }
 
@@ -188,8 +167,6 @@ class TermViewClient(
         if (event == null) {
             return false
         }
-
-        val shellSession = termSession
 
         // Volume keys as special keys
         val volumeAsSpecialKeys = false

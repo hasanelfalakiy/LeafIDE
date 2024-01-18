@@ -68,4 +68,6 @@
     <string name="click_menu_button_to_open">Click menu button to open</string>
     <string name="options_menu">Options Menu</string>
     <string name="module_management">Module Management</string>
+    <string name="more">More...</string>
+    <string name="error_opening_project">Error opening project</string>
 </resources>

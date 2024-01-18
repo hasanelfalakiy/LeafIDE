@@ -2,7 +2,7 @@ package cn.mucute.merminal.view
 
 import cn.mucute.merminal.core.TerminalSession
 
-class TermSessionCallback(private var terminalView: TerminalView) :
+open class TermSessionCallback(private var terminalView: TerminalView) :
     TerminalSession.SessionChangedCallback {
 
     override fun onTextChanged(changedSession: TerminalSession?) {

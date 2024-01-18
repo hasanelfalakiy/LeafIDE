@@ -1,5 +1,6 @@
 package io.github.caimucheng.leaf.ide.fragment
 
+import android.graphics.Paint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -15,6 +16,7 @@ import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.checkbox.MaterialCheckBox
+import es.dmoral.toasty.Toasty
 import io.github.caimucheng.leaf.common.util.ViewUtils
 import io.github.caimucheng.leaf.ide.R
 import io.github.caimucheng.leaf.ide.databinding.FileTreeItemDirBinding
@@ -76,6 +78,7 @@ class ProjectEditorFragment : Fragment() {
         }
 
         setupToolbar()
+        setupPlaceHolder()
         setupEditor()
         setupFileTreeView()
         setupFooter()
@@ -86,7 +89,11 @@ class ProjectEditorFragment : Fragment() {
         )
 
         viewLifecycleOwner.lifecycleScope.launch {
-            ProjectEditorViewModel.intent.send(ProjectEditorIntent.OpenProject(projectPath))
+            ProjectEditorViewModel.intent.send(
+                ProjectEditorIntent.OpenProject(
+                    projectPath
+                )
+            )
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -125,7 +132,9 @@ class ProjectEditorFragment : Fragment() {
                     }
 
                     ProjectStatus.ERROR -> {
-
+                        Toasty.error(requireContext(), R.string.error_opening_project, Toasty.LENGTH_LONG)
+                            .show()
+                        findGlobalNavController().popBackStack()
                     }
 
                     ProjectStatus.DONE -> {
@@ -134,6 +143,9 @@ class ProjectEditorFragment : Fragment() {
                             viewBinding.loading,
                             viewBinding.editor
                         )
+                        if (it.project != null) {
+                            viewBinding.toolbar.title = it.project.name
+                        }
                         if (it.editorCurrentContent != null) {
                             ViewUtils.enableMenuItem(
                                 undoMenuItem,
@@ -192,6 +204,22 @@ class ProjectEditorFragment : Fragment() {
 
                 else -> return@setOnMenuItemClickListener false
             }
+        }
+    }
+
+    private fun setupPlaceHolder() {
+        viewBinding.openFileList.paintFlags = Paint.UNDERLINE_TEXT_FLAG
+        viewBinding.openFileList.paint.isAntiAlias = true
+
+        viewBinding.openOptionsMenu.paintFlags = Paint.UNDERLINE_TEXT_FLAG
+        viewBinding.openOptionsMenu.paint.isAntiAlias = true
+
+        viewBinding.openFileList.setOnClickListener {
+            viewBinding.drawerLayout.openDrawer(GravityCompat.START)
+        }
+
+        viewBinding.openOptionsMenu.setOnClickListener {
+            viewBinding.toolbar.showOverflowMenu()
         }
     }
 

@@ -29,4 +29,5 @@
     <item
         android:id="@+id/close_project"
         android:title="@string/close_project" />
+
 </menu>

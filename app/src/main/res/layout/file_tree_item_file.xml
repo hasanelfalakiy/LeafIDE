@@ -7,8 +7,8 @@
     android:animateLayoutChanges="true"
     android:background="?selectableItemBackground"
     android:orientation="horizontal"
-    android:paddingTop="4dp"
-    android:paddingBottom="4dp">
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp">
 
     <Space
         android:id="@+id/space"
@@ -33,7 +33,9 @@
         android:layout_marginStart="24dp"
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
+        android:textColor="?attr/colorOnSurface"
         android:textSize="14sp"
         app:drawableLeftCompat="@drawable/baseline_insert_drive_file_24"
         tools:text="@string/app_name" />
+
 </LinearLayout>

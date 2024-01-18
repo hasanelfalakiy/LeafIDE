@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import cn.mucute.merminal.core.TerminalSession
 import cn.mucute.merminal.view.TermSessionCallback
 import cn.mucute.merminal.view.TermViewClient
 import io.github.caimucheng.leaf.ide.databinding.FragmentMainTerminalBinding
@@ -37,9 +38,18 @@ class MainTerminalFragment : Fragment() {
         )
         terminalView.let {
             it.setBackgroundColor(0xFF212121.toInt())
-            val sessionCallback = TermSessionCallback(it)
+            val sessionCallback = object : TermSessionCallback(it) {
+
+                override fun onSessionFinished(finishedSession: TerminalSession?) {
+                    super.onSessionFinished(finishedSession)
+                    val newSession = sessionController.create(this)
+                    it.attachSession(newSession)
+                    it.requestFocus()
+                }
+
+            }
             val session = sessionController.create(sessionCallback)
-            val viewClient = TermViewClient(requireContext(), it, session)
+            val viewClient = TermViewClient(requireContext(), it)
             it.setEnableWordBasedIme(false)
             it.setTerminalViewClient(viewClient)
             it.attachSession(session)

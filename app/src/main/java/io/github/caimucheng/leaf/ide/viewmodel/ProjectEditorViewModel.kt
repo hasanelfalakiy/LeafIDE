@@ -4,9 +4,12 @@ import io.github.caimucheng.leaf.common.mvi.MVIAppViewModel
 import io.github.caimucheng.leaf.common.mvi.UiIntent
 import io.github.caimucheng.leaf.common.mvi.UiState
 import io.github.caimucheng.leaf.ide.depository.AppDepository
+import io.github.caimucheng.leaf.ide.model.Module
 import io.github.caimucheng.leaf.ide.model.Project
+import io.github.caimucheng.leaf.ide.model.moduleSupport
 import kotlinx.coroutines.launch
 import org.json.JSONObject
+import java.io.File
 
 enum class ProjectStatus {
     CLEAR, FREE, LOADING, ERROR, DONE, CLOSE
@@ -15,13 +18,15 @@ enum class ProjectStatus {
 data class ProjectEditorState(
     val projectStatus: ProjectStatus = ProjectStatus.FREE,
     val project: Project? = null,
+    val module: Module? = null,
     val editorCurrentContent: String? = null
 ) : UiState()
 
 sealed class ProjectEditorIntent : UiIntent() {
     data object Clear : ProjectEditorIntent()
 
-    data class OpenProject(val projectPath: String?) : ProjectEditorIntent()
+    data class OpenProject(val projectPath: String?) :
+        ProjectEditorIntent()
 
     data object CloseProject : ProjectEditorIntent()
 }
@@ -44,26 +49,24 @@ object ProjectEditorViewModel : MVIAppViewModel<ProjectEditorState, ProjectEdito
                             projectStatus = ProjectStatus.LOADING
                         )
                     )
-                    if (intent.projectPath.isNullOrBlank()) {
-                        setState(
-                            state.value.copy(
-                                projectStatus = ProjectStatus.ERROR
-                            )
-                        )
-                    } else {
-                        setState(
-                            state.value.copy(
-                                projectStatus = ProjectStatus.DONE,
-                                project = Project(
-                                    projectPath = intent.projectPath,
-                                    name = "",
-                                    description = "",
-                                    module = AppDepository().refreshModules()[0],
-                                    workspace = JSONObject()
-                                )
-                            )
-                        )
+
+                    val project = AppViewModel.state.value.projects.find {
+                        intent.projectPath == it.projectPath
                     }
+                    
+                    if (project == null) {
+                        setState(
+                            state.value.copy(projectStatus = ProjectStatus.ERROR)
+                        )
+                        return@launch
+                    }
+
+                    setState(
+                        state.value.copy(
+                            projectStatus = ProjectStatus.DONE,
+                            project = project
+                        )
+                    )
                 }
             }
 
@@ -74,6 +77,8 @@ object ProjectEditorViewModel : MVIAppViewModel<ProjectEditorState, ProjectEdito
                     )
                 )
             }
+
+            else -> {}
         }
     }
 }

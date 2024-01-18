@@ -22,33 +22,31 @@ class AppDepository {
     suspend fun refreshProjects(modules: List<Module>): List<Project> {
         return withContext(Dispatchers.IO) {
             val projects: MutableList<Project> = ArrayList()
-            supervisorScope {
+            val children = LeafIDEProjectPath.listFiles() ?: emptyArray()
+            for (child in children) {
                 runCatching {
-                    val children = LeafIDEProjectPath.listFiles() ?: emptyArray()
-                    for (child in children) {
-                        if (child.isFile) return@runCatching
-                        val configurationDir = File(child, ".LeafIDE")
-                        if (configurationDir.isFile || !configurationDir.exists()) return@runCatching
-                        val workspaceFile = File(configurationDir, "workspace.json")
-                        if (!workspaceFile.exists() || workspaceFile.isDirectory) return@runCatching
-                        val workspace =
-                            JSONObject(workspaceFile.bufferedReader().use { it.readText() })
-                        val projectName = workspace.optString("name")
-                        val projectDescription = workspace.optString("description")
-                        val moduleSupport = workspace.optString("moduleSupport")
-                        val module = modules.find {
-                            it.moduleSupport == moduleSupport
-                        } ?: return@runCatching
-                        projects.add(
-                            Project(
-                                child.absolutePath,
-                                projectName,
-                                projectDescription,
-                                module,
-                                workspace
-                            )
+                    if (child.isFile) return@runCatching
+                    val configurationDir = File(child, ".LeafIDE")
+                    if (configurationDir.isFile || !configurationDir.exists()) return@runCatching
+                    val workspaceFile = File(configurationDir, "workspace.json")
+                    if (!workspaceFile.exists() || workspaceFile.isDirectory) return@runCatching
+                    val workspace =
+                        JSONObject(workspaceFile.bufferedReader().use { it.readText() })
+                    val projectName = workspace.optString("name")
+                    val projectDescription = workspace.optString("description")
+                    val moduleSupport = workspace.optString("moduleSupport")
+                    val module = modules.find {
+                        it.moduleSupport == moduleSupport
+                    } ?: return@runCatching
+                    projects.add(
+                        Project(
+                            child.absolutePath,
+                            projectName,
+                            projectDescription,
+                            module,
+                            workspace
                         )
-                    }
+                    )
                 }
             }
             projects.toList()

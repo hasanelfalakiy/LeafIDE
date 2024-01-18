@@ -14,6 +14,7 @@ import io.github.caimucheng.leaf.ide.R
 import io.github.caimucheng.leaf.ide.adapter.MainHomeAdapter
 import io.github.caimucheng.leaf.ide.databinding.FragmentMainHomeBinding
 import io.github.caimucheng.leaf.ide.model.Project
+import io.github.caimucheng.leaf.ide.model.moduleSupport
 import io.github.caimucheng.leaf.ide.util.findGlobalNavController
 import io.github.caimucheng.leaf.ide.viewmodel.AppViewModel
 import io.github.caimucheng.leaf.ide.viewmodel.ProjectState
@@ -98,6 +99,7 @@ class MainHomeFragment : Fragment() {
         adapter.setOnItemClickListener { _, position ->
             val bundle = Bundle()
             bundle.putString("projectPath", projects[position].projectPath)
+            bundle.putString("moduleSupport", projects[position].moduleSupport)
             findGlobalNavController().navigate(
                 R.id.action_mainFragment_to_projectEditorFragment,
                 bundle
