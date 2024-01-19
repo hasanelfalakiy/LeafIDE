@@ -2,23 +2,29 @@
 <resources>
     <string name="privacy_policy">隐私政策</string>
     <string name="user_agreement">用户协议</string>
+
     <string name="launch_mode">启动模式</string>
     <string name="launch_from_external_storage">从外部存储启动</string>
     <string name="launch_from_external_storage_summary">将工程文件存放到外部存储</string>
     <string name="launch_from_internal_storage">从内部存储启动</string>
     <string name="launch_from_internal_storage_summary">将工程文件存放到内部存储</string>
+
     <string name="no_writable_and_readable">读写权限被拒绝</string>
     <string name="no_writable">写入权限被拒绝</string>
     <string name="no_readable">读取权限被拒绝</string>
+
     <string name="home">主页</string>
     <string name="module">模块</string>
+    <string name="terminal">终端</string>
     <string name="settings">设置</string>
+
     <string name="app_crashed">应用崩溃</string>
-    <string name="app_crashed_header">很抱歉，软件由于以下原因崩溃了，请您将异常提交给开发者，或者编写一个议题在 Github 项目页，以便及时修复异常。</string>
-    <string name="device_info">设备信息：</string>
-    <string name="thread_group">线程组：%s</string>
-    <string name="thread">线程：%s</string>
-    <string name="exception">异常：%s</string>
+    <string name="app_crashed_header">很抱歉,软件由于以下原因崩溃了,请您将异常提交给开发者,或者编写一个议题在 Github 项目页,以便及时修复异常。</string>
+    <string name="device_info">设备信息:</string>
+    <string name="thread_group">线程组:%s</string>
+    <string name="thread">线程:%s</string>
+    <string name="exception">异常:%s</string>
+
     <string name="no_module">没有模块</string>
     <string name="no_module_summary">可从 Leaf Flow 下载或从本地安装</string>
     <string name="expand">展开</string>
@@ -30,20 +36,21 @@
     <string name="enable">启用</string>
     <string name="disable">禁用</string>
     <string name="uninstall">卸载</string>
-    <string name="project_description">工程描述：%s</string>
-    <string name="module_support">模块支持：%s</string>
+    <string name="project_description">工程描述:%s</string>
+    <string name="module_support">模块支持:%s</string>
     <string name="create_project">创建工程</string>
     <string name="no_supported_module_project">没有适用的模块工程</string>
     <string name="download_from_leaf_flow">可从 Leaf Flow 中下载</string>
-    <string name="unable_to_load_ui">无法加载 UI：模块状态被更新</string>
+    <string name="unable_to_load_ui">无法加载 UI:模块状态被更新</string>
     <string name="install_from_local">从本地安装</string>
-    <string name="copy_failure">复制失败：%s</string>
+    <string name="copy_failure">复制失败:%s</string>
     <string name="copy_success">复制成功</string>
     <string name="unable_to_resolve_module">无法解析模块</string>
-    <string name="uninstall_module">你确定要卸载这个模块吗？</string>
+    <string name="uninstall_module">你确定要卸载这个模块吗?</string>
+
     <string name="cancel">取消</string>
     <string name="sure">确定</string>
-    <string name="terminal">终端</string>
+
     <string name="global">全局</string>
     <string name="preference_global_summary">设置应用的全局配置</string>
     <string name="editor">编辑器</string>
@@ -54,9 +61,28 @@
     <string name="preference_app_update_summary">设置应用的更新策略</string>
     <string name="project_repo">项目仓库</string>
     <string name="open_source_license">开放源代码许可</string>
+    <string name="check_update">检查更新</string>
+    <string name="font_size">字体大小</string>
+    <string name="preference_font_size_summary">编辑器字体大小</string>
+    <string name="space_instead_tab">空格代替Tab</string>
+    <string name="preference_space_instead_tab_enable_summary">使用多个空格代替Tab</string>
+    <string name="tab_width">Tab宽度</string>
+    <string name="preference_tab_width_summary">指定Tab代表的空格数</string>
+    <string name="non_printable_character_display">不可打印字符显示</string>
+    <string name="preference_non_printable_character_display_summary">选择在编辑器中显示哪些不可打印的字符</string>
+    <string name="ligature">连体字</string>
+    <string name="preference_ligature_enable_summary">把某些特定的符号组合,在显示时渲染成相应的数学符号。例如!=将显示为≠</string>
+    <string name="font_filepath">自定义字体</string>
+    <string name="preference_font_filepath_summary">将使用您的字体文件作为编辑器的字体</string>
+    <string name="word_wrap">自动换行</string>
+    <string name="preference_word_wrap_enable_summary">一行文本如果超出屏幕将会换行显示</string>
+    <string name="magnify">放大镜</string>
+    <string name="preference_magnify_enable_summary">选择光标的时候将会放大显示光标处的区域</string>
+
     <string name="undo">撤回</string>
     <string name="redo">重做</string>
     <string name="save">保存</string>
+    <string name="more">更多…</string>
     <string name="close_project">关闭项目</string>
     <string name="search_inside_file">在文件内搜索</string>
     <string name="search">查找</string>
@@ -67,6 +93,9 @@
     <string name="click_menu_button_to_open">点击菜单按钮打开</string>
     <string name="options_menu">选项菜单</string>
     <string name="module_management">模块管理</string>
-    <string name="more">更多…</string>
     <string name="error_opening_project">打开工程时出错</string>
+    <string name="automatically_check_for_updates">自动检查更新</string>
+    <string name="preference_automatically_check_for_updates_summary">每次启动时自动检查是否有新版本</string>
+    <string name="current_version">当前版本</string>
+    <string name="preference_font_filepath_dialog_message">您的字体文件的绝对路径，留空则使用默认字体</string>
 </resources>

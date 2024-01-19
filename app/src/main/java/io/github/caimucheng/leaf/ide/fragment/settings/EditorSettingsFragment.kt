@@ -1,26 +1,24 @@
-package io.github.caimucheng.leaf.ide.fragment
+package io.github.caimucheng.leaf.ide.fragment.settings
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import io.github.caimucheng.leaf.ide.R
-import io.github.caimucheng.leaf.ide.databinding.FragmentSettingsBinding
+import io.github.caimucheng.leaf.ide.databinding.FragmentSettingsEditorBinding
 import io.github.caimucheng.leaf.ide.util.findGlobalNavController
 
-class SettingsFragment : Fragment() {
-
-    private lateinit var viewBinding: FragmentSettingsBinding
+class EditorSettingsFragment : Fragment() {
+    private lateinit var viewBinding: FragmentSettingsEditorBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewBinding = FragmentSettingsBinding.inflate(inflater, container, false)
+        viewBinding = FragmentSettingsEditorBinding.inflate(inflater, container, false)
         return viewBinding.root
     }
 
@@ -32,7 +30,7 @@ class SettingsFragment : Fragment() {
 
     private fun setupToolbar() {
         viewBinding.toolbar.setNavigationOnClickListener {
-            findGlobalNavController().navigate(R.id.action_settingsFragment_to_mainFragment)
+            findGlobalNavController().popBackStack()
         }
     }
 
@@ -45,25 +43,12 @@ class SettingsFragment : Fragment() {
 
     class SettingsFragmentContainer : PreferenceFragmentCompat() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-            setPreferencesFromResource(R.xml.preference_settings, rootKey)
+            setPreferencesFromResource(R.xml.preference_settings_editor, rootKey)
             setupPreference()
         }
 
         private fun setupPreference() {
-            findPreference<Preference>("preference_about")?.setOnPreferenceClickListener {
-                findGlobalNavController().navigate(R.id.action_settingsFragment_to_aboutFragment)
-                true
-            }
 
-            findPreference<Preference>("preference_app_update")?.setOnPreferenceClickListener {
-                findGlobalNavController().navigate(R.id.action_settingsFragment_to_appUpdateSettingsFragment)
-                true
-            }
-
-            findPreference<Preference>("preference_editor")?.setOnPreferenceClickListener {
-                findGlobalNavController().navigate(R.id.action_settingsFragment_to_editorSettingsFragment)
-                true
-            }
         }
     }
 }

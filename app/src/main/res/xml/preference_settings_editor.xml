@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <SeekBarPreference
+        android:key="editor_font_size"
+        android:max="32"
+        app:defaultValue="13"
+        app:iconSpaceReserved="false"
+        app:showSeekBarValue="true"
+        app:summary="@string/preference_font_size_summary"
+        app:title="@string/font_size" />
+
+    <SwitchPreferenceCompat
+        android:key="editor_space_instead_tab_enable"
+        app:defaultValue="true"
+        app:iconSpaceReserved="false"
+        app:summary="@string/preference_space_instead_tab_enable_summary"
+        app:title="@string/space_instead_tab" />
+
+    <ListPreference
+        android:entries="@array/preference_tab_width"
+        android:entryValues="@array/preference_tab_width"
+        android:key="editor_tab_width"
+        app:defaultValue="4"
+        app:iconSpaceReserved="false"
+        app:summary="@string/preference_tab_width_summary"
+        app:title="@string/tab_width" />
+
+    <MultiSelectListPreference
+        android:entries="@array/preference_non_printable"
+        android:entryValues="@array/preference_non_printable"
+        android:key="editor_non_printable_character_display"
+        app:iconSpaceReserved="false"
+        app:summary="@string/preference_non_printable_character_display_summary"
+        app:title="@string/non_printable_character_display" />
+
+    <SwitchPreferenceCompat
+        android:key="editor_ligature_enable"
+        app:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:summary="@string/preference_ligature_enable_summary"
+        app:title="@string/ligature" />
+
+    <EditTextPreference
+        android:key="editor_font_filepath"
+        app:dialogMessage="@string/preference_font_filepath_dialog_message"
+        app:iconSpaceReserved="false"
+        app:summary="@string/preference_font_filepath_summary"
+        app:title="@string/font_filepath" />
+
+    <SwitchPreferenceCompat
+        android:key="editor_word_wrap_enable"
+        app:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:summary="@string/preference_word_wrap_enable_summary"
+        app:title="@string/word_wrap" />
+
+    <SwitchPreferenceCompat
+        android:key="editor_magnify_enable"
+        app:defaultValue="true"
+        app:iconSpaceReserved="false"
+        app:summary="@string/preference_magnify_enable_summary"
+        app:title="@string/magnify" />
+
+</androidx.preference.PreferenceScreen>

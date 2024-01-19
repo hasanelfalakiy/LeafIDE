@@ -112,6 +112,13 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_settingsFragment_to_editorSettingsFragment"
+            app:destination="@id/editorSettingsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
 
     <fragment
@@ -119,6 +126,12 @@
         android:name="io.github.caimucheng.leaf.ide.fragment.settings.AppUpdateSettingsFragment"
         android:label="AppUpdateSettingsFragment"
         tools:layout="@layout/fragment_settings_app_update" />
+
+    <fragment
+        android:id="@+id/editorSettingsFragment"
+        android:name="io.github.caimucheng.leaf.ide.fragment.settings.EditorSettingsFragment"
+        android:label="EditorSettingsFragment"
+        tools:layout="@layout/fragment_settings_editor" />
 
     <fragment
         android:id="@+id/protocolFragment"
