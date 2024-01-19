@@ -3,7 +3,8 @@ package io.github.caimucheng.leaf.ide.viewmodel
 import io.github.caimucheng.leaf.common.mvi.MVIAppViewModel
 import io.github.caimucheng.leaf.common.mvi.UiIntent
 import io.github.caimucheng.leaf.common.mvi.UiState
-import io.github.caimucheng.leaf.ide.depository.AppDepository
+import io.github.caimucheng.leaf.ide.manager.ModuleManager
+import io.github.caimucheng.leaf.ide.manager.ProjectManager
 import io.github.caimucheng.leaf.ide.model.Module
 import io.github.caimucheng.leaf.ide.model.Project
 import io.github.caimucheng.leaf.ide.model.isEnabled
@@ -31,9 +32,6 @@ sealed class AppIntent : UiIntent() {
 }
 
 object AppViewModel : MVIAppViewModel<AppState, AppIntent>() {
-
-    private val appDepository: AppDepository = AppDepository()
-
     override fun initialValue(): AppState {
         return AppState()
     }
@@ -52,10 +50,9 @@ object AppViewModel : MVIAppViewModel<AppState, AppIntent>() {
                     projectState = ProjectState.Loading
                 )
             )
-            val modules = appDepository.refreshModules()
-            val projects = appDepository.refreshProjects(
-                modules.filter { it.isEnabled }
-            )
+            val modules = ModuleManager.getInstance().modules
+            val projects = ProjectManager.getInstance()
+                .refreshAndFilterProject(modules.filter { it.isEnabled })
             setState(
                 state.value.copy(
                     moduleState = ModuleState.Done,

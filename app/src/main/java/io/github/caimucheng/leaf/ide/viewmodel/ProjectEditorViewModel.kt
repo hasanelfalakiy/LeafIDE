@@ -3,13 +3,9 @@ package io.github.caimucheng.leaf.ide.viewmodel
 import io.github.caimucheng.leaf.common.mvi.MVIAppViewModel
 import io.github.caimucheng.leaf.common.mvi.UiIntent
 import io.github.caimucheng.leaf.common.mvi.UiState
-import io.github.caimucheng.leaf.ide.depository.AppDepository
 import io.github.caimucheng.leaf.ide.model.Module
 import io.github.caimucheng.leaf.ide.model.Project
-import io.github.caimucheng.leaf.ide.model.moduleSupport
 import kotlinx.coroutines.launch
-import org.json.JSONObject
-import java.io.File
 
 enum class ProjectStatus {
     CLEAR, FREE, LOADING, ERROR, DONE, CLOSE
