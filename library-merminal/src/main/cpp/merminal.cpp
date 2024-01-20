@@ -18,8 +18,7 @@
 #endif
 
 static int throw_runtime_exception(JNIEnv *env, char const *message) {
-    jclass exClass = env->FindClass("java/lang/RuntimeException");
-    env->ThrowNew(exClass, message);
+    env->ThrowNew(env->FindClass("java/lang/RuntimeException"), message);
     return -1;
 }
 
@@ -108,7 +107,7 @@ static int create_subprocess(JNIEnv *env,
         // Show terminal output about failing exec() call:
         char *error_message;
         if (asprintf(&error_message, "exec(\"%s\")", cmd) == -1)
-            error_message = const_cast<char *>("exec()");;
+            error_message = const_cast<char *>("exec()");
         perror(error_message);
         _exit(1);
     }
