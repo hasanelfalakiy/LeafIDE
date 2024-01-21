@@ -25,10 +25,8 @@ jobs:
         uses: gradle/gradle-build-action@v2.4.2
         with:
           arguments: assembleDebug
-      - name: Upload debug APK artifact
+      - name: Upload debug apk
         uses: actions/upload-artifact@v3
-        if: ${{ always() && github.ref == 'refs/heads/master' && steps.buildDebug.outcome == 'success' }}
         with:
-          name: app-debug
+          name: apk-debug
           path: app/build/outputs/apk/debug/app-debug.apk
-          if-no-files-found: error
