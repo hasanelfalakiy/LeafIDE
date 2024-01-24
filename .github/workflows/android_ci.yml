@@ -25,3 +25,8 @@ jobs:
         uses: gradle/gradle-build-action@v2.4.2
         with:
           arguments: assembleDebug
+      - name: Upload debug apk
+        uses: actions/upload-artifact@v3
+        with:
+          name: apk-debug
+          path: app/build/outputs/apk/debug/app-debug.apk
