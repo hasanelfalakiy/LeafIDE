@@ -33,3 +33,9 @@ dependencies {
     implementation(libs.recyclerview.adapter.helper)
     implementation(libs.toasty)
 }
+
+tasks.register("printVersionName") {
+    doLast {
+        println(android.defaultConfig.versionName)
+    }
+}

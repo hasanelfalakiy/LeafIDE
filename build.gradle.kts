@@ -15,10 +15,14 @@ fun Project.configureBaseExtension() {
         buildToolsVersion = Versions.buildToolsVersion
 
         defaultConfig {
+            val gitCommitCount = "git rev-list --count HEAD".runCommand().toInt()
+            val gitCommitId = "git rev-parse --short HEAD".runCommand()
+            val appVersionName = "${Versions.versionName}.r${gitCommitCount}.${gitCommitId}"
+
             minSdk = Versions.minSdkVersion
             targetSdk = Versions.targetSdkVersion
-            versionCode = Versions.versionCode
-            versionName = Versions.versionName
+            versionCode = gitCommitCount
+            versionName = appVersionName
         }
 
         buildTypes {
@@ -41,6 +45,16 @@ fun Project.configureKotlinExtension() {
     extensions.findByType(KotlinAndroidProjectExtension::class)?.run {
         jvmToolchain(Versions.jvmToolchainVersion)
     }
+}
+
+fun String.runCommand(): String {
+    val parts = this.split("\\s".toRegex())
+    val processBuilder = ProcessBuilder(*parts.toTypedArray())
+        .redirectOutput(ProcessBuilder.Redirect.PIPE)
+        .redirectError(ProcessBuilder.Redirect.PIPE)
+        .start()
+    processBuilder.waitFor()
+    return processBuilder.inputStream.bufferedReader().readText().trim()
 }
 
 subprojects {
