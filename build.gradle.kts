@@ -26,7 +26,7 @@ fun Project.configureBaseExtension() {
         }
 
         signingConfigs {
-            val buildKeyFile = file("../buildKey.jks")
+            val buildKeyFile = File(rootDir, "buildKey.jks")
             if (buildKeyFile.exists()) {
                 create("leafide") {
                     storeFile = buildKeyFile
