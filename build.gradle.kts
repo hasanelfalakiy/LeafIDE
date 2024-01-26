@@ -25,12 +25,32 @@ fun Project.configureBaseExtension() {
             versionName = appVersionName
         }
 
-        buildTypes {
-            getByName("debug") {
-                isMinifyEnabled = false
+        signingConfigs {
+            val buildKeyFile = file("../buildKey.jks")
+            if (buildKeyFile.exists()) {
+                create("leafide") {
+                    storeFile = buildKeyFile
+                    storePassword = System.getenv("KEYSTORE_PASSWORD")
+                    keyAlias = System.getenv("KEY_ALIAS")
+                    keyPassword = System.getenv("KEY_PASSWORD")
+                    this.enableV1Signing = true
+                    this.enableV2Signing = true
+                    this.enableV3Signing = true
+                }
             }
-            getByName("release") {
-                isMinifyEnabled = false
+        }
+
+        buildTypes {
+            val sign = signingConfigs.findByName("leafide")
+            if (sign != null) {
+                getByName("debug") {
+                    signingConfig = sign
+                    isMinifyEnabled = false
+                }
+                getByName("release") {
+                    signingConfig = sign
+                    isMinifyEnabled = false
+                }
             }
         }
 
