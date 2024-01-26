@@ -2,6 +2,10 @@ name: Android CI
 
 on:
   push:
+    paths-ignore:
+      - '.github/**'
+      - '.idea/**'
+      - '!.github/workflows/**'
     branches: [ "master" ]
 
 jobs:
@@ -10,7 +14,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
       - name: set up JDK 17
         uses: actions/setup-java@v3
         with:
@@ -18,15 +26,45 @@ jobs:
           distribution: 'temurin'
           cache: 'gradle'
 
+      - name: Decrypt keystore
+        run: |
+          openssl aes-256-cbc -K ${{ secrets.ENCRYPTED_KEYSTORE_KEY }} -iv ${{ secrets.ENCRYPTED_KEYSTORE_IV }} -in buildKey.enc -out buildKey.jks -d
+
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Build debug APK
+      - name: Build debug apk
         uses: gradle/gradle-build-action@v2.4.2
         with:
           arguments: assembleDebug
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+
+      - name: Build release apk
+        uses: gradle/gradle-build-action@v2.4.2
+        with:
+          arguments: assembleRelease
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+
+      - name: Print version name
+        run: |
+          APK_NAME="LeafIDE-$(./gradlew -q printVersionName)"
+          echo $APK_NAME
+          echo "APK_NAME=$APK_NAME" >> $GITHUB_ENV
+
       - name: Upload debug apk
         uses: actions/upload-artifact@v3
         with:
-          name: apk-debug
+          name: ${{ env.APK_NAME }}-debug
           path: app/build/outputs/apk/debug/app-debug.apk
+
+      - name: Upload release artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.APK_NAME }}-release
+          path: app/build/outputs/apk/release/app-release.apk
