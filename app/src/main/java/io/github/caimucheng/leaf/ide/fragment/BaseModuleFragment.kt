@@ -9,10 +9,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import io.github.caimucheng.leaf.ide.R
 import io.github.caimucheng.leaf.ide.databinding.FragmentBaseModuleBinding
+import io.github.caimucheng.leaf.ide.enums.ListState
 import io.github.caimucheng.leaf.ide.model.moduleSupport
-import io.github.caimucheng.leaf.ide.viewmodel.AppIntent
 import io.github.caimucheng.leaf.ide.viewmodel.AppViewModel
-import io.github.caimucheng.leaf.ide.viewmodel.ModuleState
 import io.github.caimucheng.leaf.module.action.ActionHolder
 import io.github.caimucheng.leaf.module.creator.FragmentCreator
 import io.github.caimucheng.leaf.module.fragment.ModuleFragment
@@ -36,18 +35,19 @@ abstract class BaseModuleFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupIconButton()
         val moduleSupport =
-            arguments?.getString("moduleSupport") ?: return run { findNavController().popBackStack() }
+            arguments?.getString("moduleSupport")
+                ?: return run { findNavController().popBackStack() }
 
         viewLifecycleOwner.lifecycleScope.launch {
             AppViewModel.state.collectLatest {
                 when (it.moduleState) {
-                    ModuleState.Loading -> {
+                    ListState.Loading -> {
                         viewBinding.content.visibility = View.GONE
                         viewBinding.placeholder.visibility = View.GONE
                         viewBinding.loading.visibility = View.VISIBLE
                     }
 
-                    ModuleState.Done -> {
+                    ListState.Done -> {
                         viewBinding.loading.visibility = View.GONE
                         val module =
                             it.modules.find { module -> module.moduleSupport == moduleSupport }

@@ -3,6 +3,7 @@ package io.github.caimucheng.leaf.ide.viewmodel
 import io.github.caimucheng.leaf.common.mvi.MVIAppViewModel
 import io.github.caimucheng.leaf.common.mvi.UiIntent
 import io.github.caimucheng.leaf.common.mvi.UiState
+import io.github.caimucheng.leaf.ide.enums.ListState
 import io.github.caimucheng.leaf.ide.manager.ModuleManager
 import io.github.caimucheng.leaf.ide.manager.ProjectManager
 import io.github.caimucheng.leaf.ide.model.Module
@@ -10,25 +11,16 @@ import io.github.caimucheng.leaf.ide.model.Project
 import io.github.caimucheng.leaf.ide.model.isEnabled
 import kotlinx.coroutines.launch
 
-enum class ModuleState {
-    Loading, Done
-}
-
-enum class ProjectState {
-    Loading, Done
-}
-
 data class AppState(
-    val moduleState: ModuleState = ModuleState.Done,
+    val moduleState: ListState = ListState.Done,
     val modules: List<Module> = emptyList(),
-    val projectState: ProjectState = ProjectState.Done,
+    val projectState: ListState = ListState.Done,
     val projects: List<Project> = emptyList(),
     val isRefreshed: Boolean = false
 ) : UiState()
 
 sealed class AppIntent : UiIntent() {
     data object Refresh : AppIntent()
-
 }
 
 object AppViewModel : MVIAppViewModel<AppState, AppIntent>() {
@@ -46,17 +38,17 @@ object AppViewModel : MVIAppViewModel<AppState, AppIntent>() {
         viewModelScope.launch {
             setState(
                 state.value.copy(
-                    moduleState = ModuleState.Loading,
-                    projectState = ProjectState.Loading
+                    moduleState = ListState.Loading,
+                    projectState = ListState.Loading
                 )
             )
             val modules = ModuleManager.modules
             val projects = ProjectManager.filterProject(modules.filter { it.isEnabled })
             setState(
                 state.value.copy(
-                    moduleState = ModuleState.Done,
+                    moduleState = ListState.Done,
                     modules = modules,
-                    projectState = ProjectState.Done,
+                    projectState = ListState.Done,
                     projects = projects,
                     isRefreshed = true
                 )

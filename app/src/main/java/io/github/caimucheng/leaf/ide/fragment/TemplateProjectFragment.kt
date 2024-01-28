@@ -14,11 +14,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import io.github.caimucheng.leaf.ide.R
 import io.github.caimucheng.leaf.ide.adapter.TemplateAdapter
 import io.github.caimucheng.leaf.ide.databinding.FragmentTemplateProjectBinding
+import io.github.caimucheng.leaf.ide.enums.ListState
 import io.github.caimucheng.leaf.ide.model.Module
 import io.github.caimucheng.leaf.ide.model.isEnabled
 import io.github.caimucheng.leaf.ide.model.moduleSupport
 import io.github.caimucheng.leaf.ide.viewmodel.AppViewModel
-import io.github.caimucheng.leaf.ide.viewmodel.ModuleState
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -69,13 +69,13 @@ class TemplateProjectFragment : Fragment() {
                     )
                 }.collectLatest {
                     when (it.moduleState) {
-                        ModuleState.Loading -> {
+                        ListState.Loading -> {
                             viewBinding.recyclerView.visibility = View.GONE
                             viewBinding.placeholder.visibility = View.GONE
                             viewBinding.loading.visibility = View.VISIBLE
                         }
 
-                        ModuleState.Done -> {
+                        ListState.Done -> {
                             viewBinding.loading.visibility = View.GONE
                             modules.clear()
                             modules.addAll(it.modules)
