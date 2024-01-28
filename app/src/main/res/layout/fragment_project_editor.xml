@@ -19,6 +19,7 @@
             app:menu="@menu/menu_project_editor"
             app:navigationIconTint="?attr/colorOnSurface" />
 
+        <!-- editor_content -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/editor_content"
             android:layout_width="0dp"
@@ -64,6 +65,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <!-- placeholder -->
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/placeholder"
             android:layout_width="0dp"
@@ -133,6 +135,7 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
+        <!-- loading -->
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/loading"
             android:layout_width="0dp"

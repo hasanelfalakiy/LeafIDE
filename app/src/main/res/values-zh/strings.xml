@@ -79,6 +79,8 @@
     <string name="magnify">放大镜</string>
     <string name="preference_magnify_enable_summary">选择光标的时候将会放大显示光标处的区域</string>
 
+    <string name="open_project_fail">打开工程失败</string>
+    <string name="open_project_fail_message">请检查您的工程配置是否正确，或者是否已安装工程依赖的模块</string>
     <string name="undo">撤回</string>
     <string name="redo">重做</string>
     <string name="save">保存</string>

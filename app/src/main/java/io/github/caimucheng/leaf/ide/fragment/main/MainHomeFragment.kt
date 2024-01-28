@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -15,7 +16,6 @@ import io.github.caimucheng.leaf.ide.adapter.MainHomeAdapter
 import io.github.caimucheng.leaf.ide.databinding.FragmentMainHomeBinding
 import io.github.caimucheng.leaf.ide.enums.ListState
 import io.github.caimucheng.leaf.ide.model.Project
-import io.github.caimucheng.leaf.ide.model.moduleSupport
 import io.github.caimucheng.leaf.ide.util.findGlobalNavController
 import io.github.caimucheng.leaf.ide.viewmodel.AppViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -97,12 +97,9 @@ class MainHomeFragment : Fragment() {
             false
         )
         adapter.setOnItemClickListener { _, position ->
-            val bundle = Bundle()
-            bundle.putString("projectPath", projects[position].projectPath)
-            bundle.putString("moduleSupport", projects[position].moduleSupport)
             findGlobalNavController().navigate(
                 R.id.action_mainFragment_to_projectEditorFragment,
-                bundle
+                bundleOf("projectPath" to projects[position].projectPath)
             )
         }
         adapter.setOnItemLongClickListener { _, _ ->

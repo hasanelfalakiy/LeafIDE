@@ -1,6 +1,6 @@
 package io.github.caimucheng.leaf.ide.util
 
-import io.github.caimucheng.leaf.ide.loader.FileListLoader
+import io.github.caimucheng.leaf.ide.treeview.FileListLoader
 import io.github.dingyi222666.view.treeview.AbstractTree
 import io.github.dingyi222666.view.treeview.Tree
 import io.github.dingyi222666.view.treeview.TreeNode

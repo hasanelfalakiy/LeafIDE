@@ -83,6 +83,8 @@
     <string name="magnify">Magnifier</string>
     <string name="preference_magnify_enable_summary">Magnify the area around cursor when selected</string>
 
+    <string name="open_project_fail">Open Project Fail</string>
+    <string name="open_project_fail_message">Please check if your project configuration is correct or if the modules that the project depends on have been installed</string>
     <string name="undo">Undo</string>
     <string name="redo">Redo</string>
     <string name="save">Save</string>

@@ -3,36 +3,26 @@ package io.github.caimucheng.leaf.ide.fragment
 import android.graphics.Paint
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Checkable
-import android.widget.Space
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
-import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.google.android.material.checkbox.MaterialCheckBox
-import es.dmoral.toasty.Toasty
+import androidx.navigation.fragment.findNavController
 import io.github.caimucheng.leaf.common.util.ViewUtils
+import io.github.caimucheng.leaf.common.util.showDialog
 import io.github.caimucheng.leaf.ide.R
-import io.github.caimucheng.leaf.ide.databinding.FileTreeItemDirBinding
-import io.github.caimucheng.leaf.ide.databinding.FileTreeItemFileBinding
 import io.github.caimucheng.leaf.ide.databinding.FragmentProjectEditorBinding
-import io.github.caimucheng.leaf.ide.loader.FileListLoader
+import io.github.caimucheng.leaf.ide.treeview.FileListLoader
+import io.github.caimucheng.leaf.ide.treeview.FileViewBinder
 import io.github.caimucheng.leaf.ide.util.FileNodeGenerator
-import io.github.caimucheng.leaf.ide.util.findGlobalNavController
 import io.github.caimucheng.leaf.ide.viewmodel.ProjectEditorIntent
 import io.github.caimucheng.leaf.ide.viewmodel.ProjectEditorViewModel
-import io.github.caimucheng.leaf.ide.viewmodel.ProjectStatus
+import io.github.caimucheng.leaf.ide.viewmodel.ProjectState
 import io.github.dingyi222666.view.treeview.Tree
-import io.github.dingyi222666.view.treeview.TreeNode
-import io.github.dingyi222666.view.treeview.TreeNodeEventListener
-import io.github.dingyi222666.view.treeview.TreeView
-import io.github.dingyi222666.view.treeview.TreeViewBinder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -41,13 +31,8 @@ import java.io.File
 
 class ProjectEditorFragment : Fragment() {
     private lateinit var viewBinding: FragmentProjectEditorBinding
-
-    private var undoMenuItem: MenuItem? = null
-    private var redoMenuItem: MenuItem? = null
-    private var saveMenuItem: MenuItem? = null
-    private var searchInsideFileMenuItem: MenuItem? = null
     private var fileListLoader: FileListLoader? = null
-    private var tree: Tree<File>? = null
+    private var fileTree: Tree<File>? = null
 
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
@@ -73,100 +58,58 @@ class ProjectEditorFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val projectPath = requireArguments().getString("projectPath")
-        if (projectPath.isNullOrBlank()) {
-            findGlobalNavController().popBackStack()
-        }
 
         setupToolbar()
         setupPlaceHolder()
-        setupEditor()
         setupFileTreeView()
-        setupFooter()
 
         requireActivity().onBackPressedDispatcher.addCallback(
-            viewLifecycleOwner,
-            onBackPressedCallback
+            owner = viewLifecycleOwner,
+            onBackPressedCallback = onBackPressedCallback
         )
 
         viewLifecycleOwner.lifecycleScope.launch {
-            ProjectEditorViewModel.intent.send(
-                ProjectEditorIntent.OpenProject(
-                    projectPath
-                )
-            )
+            ProjectEditorViewModel.intent.send(ProjectEditorIntent.OpenProject(projectPath))
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
             ProjectEditorViewModel.state.collectLatest {
-                when (it.projectStatus) {
-                    ProjectStatus.CLEAR -> {
-
+                when (it.projectState) {
+                    ProjectState.Exit -> {
+                        findNavController().popBackStack()
                     }
 
-                    ProjectStatus.FREE -> {
-                        ViewUtils.disableMenuItem(
-                            undoMenuItem,
-                            redoMenuItem,
-                            saveMenuItem,
-                            searchInsideFileMenuItem
-                        )
+                    ProjectState.Free -> {
                         ViewUtils.goneView(
+                            viewBinding.editorContent,
                             viewBinding.loading,
-                            viewBinding.placeholder,
-                            viewBinding.editor
+                            viewBinding.placeholder
                         )
                     }
 
-                    ProjectStatus.LOADING -> {
-                        ViewUtils.disableMenuItem(
-                            undoMenuItem,
-                            redoMenuItem,
-                            saveMenuItem,
-                            searchInsideFileMenuItem
-                        )
-                        ViewUtils.visibilityView(viewBinding.loading)
-                        ViewUtils.goneView(
-                            viewBinding.placeholder,
-                            viewBinding.editor
+                    ProjectState.Loading -> {
+                        ViewUtils.visibilityView(
+                            viewBinding.loading
                         )
                     }
 
-                    ProjectStatus.ERROR -> {
-                        Toasty.error(requireContext(), R.string.error_opening_project, Toasty.LENGTH_LONG)
-                            .show()
-                        findGlobalNavController().popBackStack()
+                    ProjectState.Error -> {
+                        requireContext().showDialog(
+                            cancelable = false,
+                            titleResId = R.string.open_project_fail,
+                            messageResId = R.string.open_project_fail_message,
+                            positiveTextResId = R.string.close_project,
+                            positiveEvent = { _, _ -> findNavController().popBackStack() }
+                        )
                     }
 
-                    ProjectStatus.DONE -> {
+                    ProjectState.Loaded -> {
+                        ViewUtils.goneView(viewBinding.loading)
                         ViewUtils.visibilityView(viewBinding.placeholder)
-                        ViewUtils.goneView(
-                            viewBinding.loading,
-                            viewBinding.editor
-                        )
-                        if (it.project != null) {
-                            viewBinding.toolbar.title = it.project.name
+                        it.project?.let { project ->
+                            viewBinding.toolbar.title = project.name
+                            refreshTreeView(project.projectPath)
                         }
-                        if (it.editorCurrentContent != null) {
-                            ViewUtils.enableMenuItem(
-                                undoMenuItem,
-                                redoMenuItem,
-                                saveMenuItem,
-                                searchInsideFileMenuItem
-                            )
-                        } else {
-                            ViewUtils.disableMenuItem(
-                                undoMenuItem,
-                                redoMenuItem,
-                                saveMenuItem,
-                                searchInsideFileMenuItem
-                            )
-                        }
-                        refreshTreeView(it.project?.projectPath)
-                    }
-
-                    ProjectStatus.CLOSE -> {
-                        ProjectEditorViewModel.intent.send(ProjectEditorIntent.Clear)
-                        findGlobalNavController().popBackStack()
                     }
                 }
             }
@@ -186,11 +129,6 @@ class ProjectEditorFragment : Fragment() {
         drawerLayout.addDrawerListener(drawerToggle)
         drawerToggle.syncState()
 
-        undoMenuItem = toolbar.menu.findItem(R.id.undo)
-        redoMenuItem = toolbar.menu.findItem(R.id.redo)
-        saveMenuItem = toolbar.menu.findItem(R.id.save)
-        searchInsideFileMenuItem = toolbar.menu.findItem(R.id.search_inside_file)
-
         toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.close_project -> {
@@ -208,63 +146,52 @@ class ProjectEditorFragment : Fragment() {
     }
 
     private fun setupPlaceHolder() {
-        viewBinding.openFileList.paintFlags = Paint.UNDERLINE_TEXT_FLAG
-        viewBinding.openFileList.paint.isAntiAlias = true
-
-        viewBinding.openOptionsMenu.paintFlags = Paint.UNDERLINE_TEXT_FLAG
-        viewBinding.openOptionsMenu.paint.isAntiAlias = true
-
-        viewBinding.openFileList.setOnClickListener {
-            viewBinding.drawerLayout.openDrawer(GravityCompat.START)
+        viewBinding.openFileList.let {
+            it.paintFlags = Paint.UNDERLINE_TEXT_FLAG
+            it.paint.isAntiAlias = true
+            it.setOnClickListener {
+                viewBinding.drawerLayout.openDrawer(GravityCompat.START)
+            }
         }
 
-        viewBinding.openOptionsMenu.setOnClickListener {
-            viewBinding.toolbar.showOverflowMenu()
+        viewBinding.openOptionsMenu.let {
+            it.paintFlags = Paint.UNDERLINE_TEXT_FLAG
+            it.paint.isAntiAlias = true
+            it.setOnClickListener {
+                viewBinding.toolbar.showOverflowMenu()
+            }
         }
-    }
-
-    private fun setupEditor() {
-
     }
 
     private fun setupFileTreeView() {
         val treeView = viewBinding.treeView
+        val binder = FileViewBinder()
+
+        binder.setOnItemClickListener { file ->
+            file?.let {
+                Toast.makeText(
+                    requireContext(),
+                    "click ${file.name}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+
+        binder.setOnLongItemClickListener { file ->
+            file?.let {
+                Toast.makeText(
+                    requireContext(),
+                    "long click ${file.name}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            true
+        }
+
         treeView.bindCoroutineScope(lifecycleScope)
-        treeView.binder = FileViewBinder()
+        treeView.binder = binder
         treeView.nodeEventListener = treeView.binder as FileViewBinder
         fileListLoader = FileListLoader()
-    }
-
-    private fun setupFooter() {
-        val symbolInputView = viewBinding.symbolInputView
-        symbolInputView.addSymbols(
-            arrayOf(
-                "Tab", "{", "}", "(", ")", ",", ".", ";", "\"", "?",
-                "+", "-", "*", "/", "<", ">", "[", "]", ":"
-            ),
-            arrayOf(
-                "\t", "{}", "}", "(", ")", ",", ".", ";", "\"", "?",
-                "+", "-", "*", "/", "<", ">", "[", "]", ":"
-            )
-        )
-        symbolInputView.bindEditor(viewBinding.editor)
-    }
-
-    private fun refreshTreeView(projectPath: String?) {
-        if (projectPath.isNullOrBlank()) return
-        lifecycleScope.launch {
-            tree = withContext(Dispatchers.Default) {
-                fileListLoader!!.loadFileList(projectPath)
-                createTree(projectPath)
-            }
-            viewBinding.treeView.tree = tree!!
-            viewBinding.treeView.refresh()
-        }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        onBackPressedCallback.remove()
     }
 
     private fun createTree(rootPath: String): Tree<File> {
@@ -279,88 +206,20 @@ class ProjectEditorFragment : Fragment() {
         return tree
     }
 
-    inner class FileViewBinder : TreeViewBinder<File>(), TreeNodeEventListener<File> {
-        override fun createView(parent: ViewGroup, viewType: Int): View {
-            val layoutInflater = LayoutInflater.from(parent.context)
-            return if (viewType == 1) {
-                FileTreeItemDirBinding.inflate(layoutInflater, parent, false).root
-            } else {
-                FileTreeItemFileBinding.inflate(layoutInflater, parent, false).root
+    private fun refreshTreeView(projectPath: String?) {
+        if (projectPath.isNullOrBlank()) return
+        lifecycleScope.launch {
+            fileTree = withContext(Dispatchers.Default) {
+                fileListLoader!!.loadFileList(projectPath)
+                createTree(projectPath)
             }
+            viewBinding.treeView.tree = fileTree!!
+            viewBinding.treeView.refresh()
         }
+    }
 
-        override fun getItemViewType(node: TreeNode<File>): Int {
-            return if (node.isChild) 1 else 0
-        }
-
-        override fun bindView(
-            holder: TreeView.ViewHolder,
-            node: TreeNode<File>,
-            listener: TreeNodeEventListener<File>
-        ) {
-            if (node.isChild) {
-                applyDir(holder, node)
-            } else {
-                applyFile(holder, node)
-            }
-
-            val itemView = holder.itemView.findViewById<Space>(R.id.space)
-
-            itemView.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                width = node.depth * 22
-            }
-
-            (getCheckableView(node, holder) as MaterialCheckBox).apply {
-                visibility = if (node.selected) View.VISIBLE else View.GONE
-                isSelected = node.selected
-            }
-        }
-
-        private fun applyFile(holder: TreeView.ViewHolder, node: TreeNode<File>) {
-            val binding = FileTreeItemFileBinding.bind(holder.itemView)
-            binding.tvName.text = node.name.toString()
-        }
-
-        private fun applyDir(holder: TreeView.ViewHolder, node: TreeNode<File>) {
-            val binding = FileTreeItemDirBinding.bind(holder.itemView)
-            binding.tvName.text = node.name.toString()
-            binding
-                .ivArrow
-                .animate()
-                .rotation(if (node.expand) 90f else 0f)
-                .setDuration(200)
-                .start()
-        }
-
-        override fun getCheckableView(
-            node: TreeNode<File>,
-            holder: TreeView.ViewHolder
-        ): Checkable {
-            return if (node.isChild) {
-                FileTreeItemDirBinding.bind(holder.itemView).checkbox
-            } else {
-                FileTreeItemFileBinding.bind(holder.itemView).checkbox
-            }
-        }
-
-        override fun onClick(node: TreeNode<File>, holder: TreeView.ViewHolder) {
-            if (node.isChild) {
-                applyDir(holder, node)
-            } else {
-                Toast.makeText(
-                    holder.itemView.context,
-                    "Clicked ${node.name}",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-        }
-
-        override fun onToggle(
-            node: TreeNode<File>,
-            isExpand: Boolean,
-            holder: TreeView.ViewHolder
-        ) {
-            applyDir(holder, node)
-        }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        onBackPressedCallback.remove()
     }
 }

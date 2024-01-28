@@ -29,34 +29,44 @@ object ProjectManager {
         return list.toList()
     }
 
-    fun refreshProjects() {
+    fun filterProject(projectPath: String?, refresh: Boolean = true): Project? {
+        if (refresh) refreshProjects()
+        if (projectPath.isNullOrBlank()) return null
+        val filter = projects.filter { it.projectPath == projectPath }
+        return filter.firstOrNull()
+    }
+
+    private fun refreshProjects() {
         projects = mutableListOf()
         val children = LeafIDEProjectPath.listFiles() ?: emptyArray()
         for (child in children) {
-            runCatching {
-                if (child.isFile) return@runCatching
-                val configurationDir = File(child, ".LeafIDE")
-                if (configurationDir.isFile || !configurationDir.exists()) return@runCatching
-                val workspaceFile = File(configurationDir, "workspace.json")
-                if (!workspaceFile.exists() || workspaceFile.isDirectory) return@runCatching
-                val workspace = JSONObject(workspaceFile.bufferedReader().use { it.readText() })
-                val projectName = workspace.optString(NAME_KEY)
-                val projectDescription = workspace.optString(DESCRIPTION_KEY)
-                val moduleSupport = workspace.optString(MODULE_SUPPORT_KEY)
-                val modules = ModuleManager.modules
-                val module = modules.find {
-                    it.moduleSupport == moduleSupport
-                } ?: return@runCatching
-                projects.add(
-                    Project(
-                        child.absolutePath,
-                        projectName,
-                        projectDescription,
-                        module,
-                        workspace
-                    )
-                )
-            }
+            val project = parseProjectDir(child)
+            project?.let { projects.add(it) }
         }
+    }
+
+    private fun parseProjectDir(projectFile: File): Project? {
+        return runCatching {
+            if (projectFile.isFile) return@runCatching null
+            val configurationDir = File(projectFile, ".LeafIDE")
+            if (configurationDir.isFile || !configurationDir.exists()) return@runCatching null
+            val workspaceFile = File(configurationDir, "workspace.json")
+            if (!workspaceFile.exists() || workspaceFile.isDirectory) return@runCatching null
+            val workspace = JSONObject(workspaceFile.bufferedReader().use { it.readText() })
+            val projectName = workspace.optString(NAME_KEY)
+            val projectDescription = workspace.optString(DESCRIPTION_KEY)
+            val moduleSupport = workspace.optString(MODULE_SUPPORT_KEY)
+            val modules = ModuleManager.modules
+            val module = modules.find {
+                it.moduleSupport == moduleSupport
+            } ?: return@runCatching null
+            Project(
+                projectPath = projectFile.absolutePath,
+                name = projectName,
+                description = projectDescription,
+                module = module,
+                workspace = workspace
+            )
+        }.getOrNull()
     }
 }

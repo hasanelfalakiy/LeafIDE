@@ -1,4 +1,4 @@
-package io.github.caimucheng.leaf.ide.loader
+package io.github.caimucheng.leaf.ide.treeview
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
