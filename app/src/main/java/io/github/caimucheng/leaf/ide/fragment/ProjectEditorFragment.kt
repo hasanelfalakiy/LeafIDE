@@ -68,6 +68,7 @@ class ProjectEditorFragment : Fragment() {
             onBackPressedCallback = onBackPressedCallback
         )
 
+        // open project
         viewLifecycleOwner.lifecycleScope.launch {
             ProjectEditorViewModel.intent.send(ProjectEditorIntent.OpenProject(projectPath))
         }
@@ -174,6 +175,11 @@ class ProjectEditorFragment : Fragment() {
                     "click ${file.name}",
                     Toast.LENGTH_SHORT
                 ).show()
+                if (file.isFile) {
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        ProjectEditorViewModel.intent.send(ProjectEditorIntent.OpenFile(file))
+                    }
+                }
             }
         }
 

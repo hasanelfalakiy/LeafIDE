@@ -5,6 +5,7 @@ import io.github.caimucheng.leaf.common.mvi.UiIntent
 import io.github.caimucheng.leaf.common.mvi.UiState
 import io.github.caimucheng.leaf.ide.manager.ProjectManager
 import io.github.caimucheng.leaf.ide.model.Project
+import java.io.File
 
 enum class ProjectState {
     Exit, Free, Loading, Error, Loaded
@@ -12,7 +13,9 @@ enum class ProjectState {
 
 data class ProjectEditorState(
     val projectState: ProjectState = ProjectState.Free,
-    val project: Project? = null
+    val project: Project? = null,
+    val fileTabList: MutableList<File> = mutableListOf(),
+    val fileTabIndex: Int = -1
 ) : UiState()
 
 sealed class ProjectEditorIntent : UiIntent() {
@@ -21,6 +24,8 @@ sealed class ProjectEditorIntent : UiIntent() {
     ) : ProjectEditorIntent()
 
     data object CloseProject : ProjectEditorIntent()
+
+    data class OpenFile(val file: File) : ProjectEditorIntent()
 }
 
 object ProjectEditorViewModel : MVIAppViewModel<ProjectEditorState, ProjectEditorIntent>() {
@@ -67,6 +72,8 @@ object ProjectEditorViewModel : MVIAppViewModel<ProjectEditorState, ProjectEdito
                     )
                 )
             }
+
+            is ProjectEditorIntent.OpenFile -> {}
         }
     }
 }
