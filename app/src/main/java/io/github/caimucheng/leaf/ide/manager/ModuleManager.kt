@@ -10,7 +10,7 @@ import io.github.caimucheng.leaf.module.path.Paths
 import leaf.nodejs.module.NodeJSModuleAPP
 import leaf.nodejs.module.creator.NodeJSFragmentCreator
 
-class ModuleManager {
+object ModuleManager {
     var modules: MutableList<Module> = mutableListOf()
 
     init {
@@ -32,21 +32,5 @@ class ModuleManager {
                 fragmentCreator = NodeJSFragmentCreator
             )
         )
-    }
-
-    companion object {
-        @Volatile
-        private var instance: ModuleManager? = null
-
-        fun getInstance(): ModuleManager {
-            if (instance == null) {
-                synchronized(this) {
-                    if (instance == null) {
-                        instance = ModuleManager()
-                    }
-                }
-            }
-            return instance!!
-        }
     }
 }

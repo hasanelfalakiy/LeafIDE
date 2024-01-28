@@ -50,9 +50,8 @@ object AppViewModel : MVIAppViewModel<AppState, AppIntent>() {
                     projectState = ProjectState.Loading
                 )
             )
-            val modules = ModuleManager.getInstance().modules
-            val projects = ProjectManager.getInstance()
-                .refreshAndFilterProject(modules.filter { it.isEnabled })
+            val modules = ModuleManager.modules
+            val projects = ProjectManager.filterProject(modules.filter { it.isEnabled })
             setState(
                 state.value.copy(
                     moduleState = ModuleState.Done,

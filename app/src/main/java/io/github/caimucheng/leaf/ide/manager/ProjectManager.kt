@@ -7,7 +7,11 @@ import io.github.caimucheng.leaf.ide.util.LeafIDEProjectPath
 import org.json.JSONObject
 import java.io.File
 
-class ProjectManager {
+object ProjectManager {
+    private const val MODULE_SUPPORT_KEY = "moduleSupport"
+    private const val DESCRIPTION_KEY = "description"
+    private const val NAME_KEY = "name"
+
     // All legal projects
     private var projects: MutableList<Project> = mutableListOf()
 
@@ -15,17 +19,8 @@ class ProjectManager {
         refreshProjects()
     }
 
-    fun filterProject(modules: List<Module>): List<Project> {
-        val list = mutableListOf<Project>()
-        projects.forEach { project ->
-            val module = modules.find { it.moduleSupport == project.moduleSupport }
-            if (module != null) list.add(project)
-        }
-        return list.toList()
-    }
-
-    fun refreshAndFilterProject(modules: List<Module>): List<Project> {
-        refreshProjects()
+    fun filterProject(modules: List<Module>, refresh: Boolean = true): List<Project> {
+        if (refresh) refreshProjects()
         val list = mutableListOf<Project>()
         projects.forEach { project ->
             val module = modules.find { it.moduleSupport == project.moduleSupport }
@@ -48,7 +43,7 @@ class ProjectManager {
                 val projectName = workspace.optString(NAME_KEY)
                 val projectDescription = workspace.optString(DESCRIPTION_KEY)
                 val moduleSupport = workspace.optString(MODULE_SUPPORT_KEY)
-                val modules = ModuleManager.getInstance().modules
+                val modules = ModuleManager.modules
                 val module = modules.find {
                     it.moduleSupport == moduleSupport
                 } ?: return@runCatching
@@ -62,26 +57,6 @@ class ProjectManager {
                     )
                 )
             }
-        }
-    }
-
-    companion object {
-        @Volatile
-        private var instance: ProjectManager? = null
-
-        const val MODULE_SUPPORT_KEY = "moduleSupport"
-        const val DESCRIPTION_KEY = "description"
-        const val NAME_KEY = "name"
-
-        fun getInstance(): ProjectManager {
-            if (instance == null) {
-                synchronized(this) {
-                    if (instance == null) {
-                        instance = ProjectManager()
-                    }
-                }
-            }
-            return instance!!
         }
     }
 }
